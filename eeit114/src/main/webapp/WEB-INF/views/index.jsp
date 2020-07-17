@@ -210,8 +210,9 @@ width: 100%;
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
 						role="button" data-toggle="dropdown" data-hover="dropdown">餐飲商品</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
-							<a href="#" class="dropdown-item">餐飲</a> <a href="#"
-								class="dropdown-item">周邊商品</a>
+							<a href="#" class="dropdown-item">餐飲</a> 
+							<a href="#" class="dropdown-item">周邊商品</a>
+							<a href="#" class="dropdown-item">商品後台</a>
 							<!-- <a href="#" class="dropdown-item">Service3</a> -->
 						</div>
 					<li class="nav-item dropdown"><a
@@ -250,22 +251,23 @@ width: 100%;
 								<%-- 								</c:if> --%>
 
 								<c:if test="${ ! empty loginMember }">
-									<a href="<c:url value='member//crm/showAllMembers'/>"
-										class="dropdown-item">會員資料</a>
+								<a	href="<c:url value='member//crm/showAllMembers'/>"
+									class="dropdown-item">後台會員資料</a> 
+									</c:if>
+									<c:if test="${ ! empty loginMember }">
+								<a	href="<c:url value='member/crm/memb'/>"
+									class="dropdown-item">會員資料</a> 	
 								</c:if>
+									
+              <!-- 									//後台 -->
+<!-- 							    <a	href='member/adm/ad' class="dropdown-item"> 新增管理員</a>  -->
 
-								<%-- 								<a	href="<c:url value='member/crm/member?id=${member.memberId}'/>" --%>
-								<!-- 									class="dropdown-item">會員資料1</a> 	 -->
-
-
-								<!-- 									//後台 -->
-								<!-- 							    <a	href='member/adm/ad' class="dropdown-item"> 新增管理員</a>  -->
-
-								<!-- 							    <a	href='adm/' class="dropdown-item"> 管理員登入</a>  -->
-								<!-- 							    <a	href='adm/' class="dropdown-item"> 管理員登出</a>  -->
-								<!-- 							    <a	href='administrators' class="dropdown-item"> 管理員資料</a>  -->
-
+<!-- 							    <a	href='adm/' class="dropdown-item"> 管理員登入</a>  -->
+<!-- 							    <a	href='adm/' class="dropdown-item"> 管理員登出</a>  -->
+<!-- 							    <a	href='administrators' class="dropdown-item"> 管理員資料</a>  -->
+						  
 							</div></li>
+							
 
 					</div>
 					<li class="nav-item active"><a href="#" class="nav-link"><i
