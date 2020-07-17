@@ -1,0 +1,4 @@
+情報|data/image_artType/artType1.png|artType1.png
+發問|data/image_artType/artType2.png|artType2.png
+心得|data/image_artType/artType3.png|artType3.png
+其他|data/image_artType/artType4.png|artType4.png

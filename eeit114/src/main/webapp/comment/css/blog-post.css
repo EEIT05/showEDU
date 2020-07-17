@@ -1,0 +1,61 @@
+/*!
+ * Start Bootstrap - Blog Post (https://startbootstrap.com/templates/blog-post)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-blog-post/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+/* 類型圖樣式 */
+.img1 {
+  width: 200px;
+  height: 200px;
+}
+.img2 {
+  width: 120px;
+  height: 120px;
+}
+/* 文章內容樣式 */
+.div1 {
+  width: 315px;
+  height: 200px;
+  float: left; 
+  padding: 5px; 
+  margin: 5px;
+  /* border: 2px solid black; */
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box; 
+  -webkit-box-orient:vertical; 
+  -webkit-line-clamp:8;
+}
+.div2 {
+  width: 190px;
+  height: 50px;
+  float: left; 
+  padding: 5px; 
+  margin: 5px;
+  /* border: 2px solid black; */
+  overflow:hidden;
+  text-overflow: ellipsis;
+  /* white-space:; */
+  display: -webkit-box;
+  -webkit-box-orient:vertical; 
+  -webkit-line-clamp: 2;
+  
+}
+
+.myMOUSE{ cursor: pointer; }
+
+.a1 {
+  color: black;
+}
+.a1:visited {
+  color: dimgrey;
+}
+.a1:hover {
+  color: black;
+}
+.a1:active {
+  color: darkgray;
+}

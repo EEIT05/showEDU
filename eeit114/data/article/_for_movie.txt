@@ -1,0 +1,6 @@
+復仇者聯盟4-復仇之戰|data/image_movie/Movie1_avenger.jpg|Movie1_avenger.jpg
+航海王：奪寶爭霸戰|data/image_movie/Moive2_onePiece.jpg|Moive2_onePiece.jpg
+牠2|data/image_movie/Movie3_It.jpg|Movie3_It.jpg
+哥吉拉II怪獸之王|data/image_movie/Movie4_godzilla.png|Movie4_godzilla.png
+水行俠|data/image_movie/Movie5_aquaman.jpg|Movie5_aquaman.jpg
+STAR WARS|data/image_movie/Movie6_starwars.jpg|Movie6_starwars.jpg
