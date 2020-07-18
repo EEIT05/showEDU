@@ -64,11 +64,12 @@ public class MemberController {
 	
 	
 	// 顯示本會員資料
-	@GetMapping("/member")
-	public String listMem(Integer memberId,Model model) {
-//		model.addAttribute("member", memberService.getMemberById(memberId));
+	@GetMapping("/memb")
+	public String listMem(Model model) {
+	
 		return "member/crm/memb";
 	}
+
 
 
 	// 本方法於新增時，送出空白的表單讓使用者輸入資料
@@ -207,6 +208,7 @@ public class MemberController {
 	@DeleteMapping("/mem/{memberId}")
 	public String delete(@PathVariable("memberId") Integer memberId) {
 		memberService.deleteMember(memberId);
+		System.out.println("已刪除會員");
 		return "redirect:/member/crm/showAllMembers";
 	}
 
