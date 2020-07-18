@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,9 +65,9 @@ public class MemberController {
 	
 	// 顯示本會員資料
 	@GetMapping("/member")
-	public String listMem(@RequestParam Integer memberId,Model model) {
-		model.addAttribute("member", memberService.getMemberById(memberId));
-		return "member/crm/member";
+	public String listMem(Integer memberId,Model model) {
+//		model.addAttribute("member", memberService.getMemberById(memberId));
+		return "member/crm/memb";
 	}
 
 

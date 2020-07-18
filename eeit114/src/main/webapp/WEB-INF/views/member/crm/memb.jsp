@@ -19,7 +19,11 @@ body, html {
 	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
 		rgb(25, 0, 71));
 	padding:5px;
+
+
 }
+
+
 /* .container{ */
 /* margin:100px; */
 /* color:white;  
@@ -71,12 +75,13 @@ used to vertically center elements, may need modification if you're not using de
 .panel-table .panel-footer .col{
  line-height: 34px;
  height: 34px;
+ 
 }
 
 .panel-table .panel-heading .col h3{
  line-height: 50px;
  height: 50px;
-
+ 
 }
 
 .panel-table .panel-body .table-bordered > tbody > tr > td{
@@ -113,7 +118,7 @@ used to vertically center elements, may need modification if you're not using de
 		</form>
 
 		<c:choose>
-			<c:when test="${empty member}">
+			<c:when test="${empty loginMember}">
 	    沒有任何會員資料<br>
 			</c:when>
 			<c:otherwise>
@@ -122,35 +127,31 @@ used to vertically center elements, may need modification if you're not using de
                   <thead>
                     <tr >
 
-						<th >編號</th>
+<!-- 						<th >編號</th> -->
 						<th >姓名</th>
 						<th >電話</th>
 						<th>地址</th>
 						<th >帳號</th>
-						<th >密碼</th>
 						<th >照片</th>
 						<th ><em class="fa fa-cog"></em>&nbsp;資料修改</th>
-						<th >資料刪除</th>
+						
 					</tr>
 					</thead>
                   <tbody>
 
 			
 						<tr >
-							<td >${member.memberId}</td>
-							<td>${member.name}</td>
-							<td>${member.phone}</td>
-							<td>${member.address}</td>
-							<td>${member.account}</td>
-							<td>${member.pswd}</td>
+<%-- 							<td >${loginMember.memberId}</td> --%>
+							<td>${loginMember.name}</td>
+							<td>${loginMember.phone}</td>
+							<td>${loginMember.address}</td>
+							<td>${loginMember.account}</td>
+							
 							<td><img width='60' height='72'
-								src='picture/${member.memberId}' /></td>
+								src='picture/${loginMember.memberId}' /></td>
 								
 							<td ><a class="btn btn-success" 
-								href="${pageContext.request.contextPath}/member/crm/mem/${member.memberId}"><em class="fa fa-pencil"></em>&nbsp;編輯</a></td>
-							
-							<td ><a class="btn btn-danger"  
-								href="${pageContext.request.contextPath}/member/crm/mem/${member.memberId}" ><em class="fa fa-trash"></em>&nbsp;刪除</a></td>
+								href="${pageContext.request.contextPath}/member/crm/mem/${loginMember.memberId}"><em class="fa fa-pencil"></em>&nbsp;編輯</a></td>
 						
 						
 						</tr>
@@ -162,22 +163,8 @@ used to vertically center elements, may need modification if you're not using de
 		<hr>
 		<a href='mem'>新增會員資料</a> &nbsp;&nbsp;&nbsp;
 		<a href="<c:url value='/'/> ">首頁</a>
-	</div>
+	</div></div>
 
 
-	<script type='text/javascript'>
-		$(document).ready(function() {
-			$('.btn-danger').click(function() {
-				if (confirm('確定刪除此筆紀錄? ')) {
-					var href = $(this).attr('href');
-					$('form').attr('action', href).submit();
-				}
-				return false;
-
-			});
-		})
-		
-		
-	</script>
 </body>
 </html>
