@@ -30,6 +30,7 @@ public class MemberValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "電話欄不能空白(MemberValidator)");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "", "地址欄不能空白(MemberValidator)");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pswd2", "", "密碼欄不能空白(MemberValidator)");
+		
 	
 		if (member.getAccount().length()<5) {
 			errors.rejectValue("account","", "帳號欄不能小於五個字元");

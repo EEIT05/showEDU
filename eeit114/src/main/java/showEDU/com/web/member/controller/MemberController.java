@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -35,23 +38,25 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import showEDU.com.web.member.model.LoginMember;
 import showEDU.com.web.member.model.MemberBean;
 import showEDU.com.web.member.service.AdministratorService;
 import showEDU.com.web.member.service.MemberService;
+import showEDU.com.web.member.validators.LoginMemberValidator;
 import showEDU.com.web.member.validators.MemberValidator;
 
 @Controller
 @RequestMapping("/member/crm")
-@SessionAttributes({"loginMember"})
+@SessionAttributes({ "loginMember" })
 public class MemberController {
 	String noImage = "/images/NoImage.png";
 
 	@Autowired
 	MemberService memberService;
-	
+
 	@Autowired
 	AdministratorService administratorService;
-	
+
 	@Autowired
 	ServletContext context;
 
@@ -61,33 +66,28 @@ public class MemberController {
 		model.addAttribute("members", memberService.getAllMembers());
 		return "member/crm/members";
 	}
-	
-	
+
 	// 顯示本會員資料
 	@GetMapping("/memb")
 	public String listMem(Model model) {
-	
+
 		return "member/crm/memb";
 	}
-
-
 
 	// 本方法於新增時，送出空白的表單讓使用者輸入資料
 	@GetMapping(value = "/mem")
 	public String showEmptyForm(Model model) {
 		MemberBean member = new MemberBean();
 //      下列敘述簡化測試時的資料輸入		
-		
+
 		return "member/crm/insertMember";
 	}
 
 	// 當使用者填妥資料按下Submit按鈕後，本方法接收將瀏覽器送來的會員資料，新進行資料的檢查，
 	// 若資料有誤，轉向寫入錯誤訊息的網頁，若資料無誤，則呼叫Service元件寫入資料庫
-	@PostMapping(value = ""+ "/mem")
+	@PostMapping(value = "" + "/mem")
 	// BindingResult 參數必須與@ModelAttribute修飾的參數連續編寫，中間不能夾其他參數
-	public String add(
-			@ModelAttribute("member") /* @Valid */ MemberBean member, 
-			BindingResult result, Model model,
+	public String add(@ModelAttribute("member") /* @Valid */ MemberBean member, BindingResult result, Model model,
 			HttpServletRequest request) {
 		MemberValidator validator = new MemberValidator();
 		// 呼叫Validate進行資料檢查
@@ -119,11 +119,10 @@ public class MemberController {
 //時間戳記
 		Timestamp registerTime = new Timestamp(System.currentTimeMillis());
 		member.setRegisterTime(registerTime);
-		
+
 		member.setUnpaidAmount(0.0);
 		member.setUserType("M");
-		
-		
+
 ////		// 檢查 memberId是否重複
 //		if (memberService.idExists(member.getMemberId())) {
 //			result.rejectValue("memberId", "", "帳號已存在，請重新輸入");
@@ -140,7 +139,7 @@ public class MemberController {
 			result.rejectValue("account", "", "請通知系統人員...");
 			return "member/crm/insertMember";
 		}
-		
+
 		return "redirect:/member/crm/showAllMembers";
 	}
 
@@ -152,17 +151,13 @@ public class MemberController {
 		model.addAttribute(member);
 		return "member/crm/updateMember";
 	}
-	
+
 	// 當將瀏覽器送來修改過的會員資料時，由本方法負責檢核，若無誤則寫入資料庫
 	@PostMapping("/mem/{memberId}")
 	// BindingResult 參數必須與@ModelAttribute修飾的參數連續編寫，中間不能夾其他參數
-	// 
-	public String modify(
-			@ModelAttribute("member") MemberBean member, 
-			BindingResult result, 
-			Model model,
-			@PathVariable Integer memberId, 
-			HttpServletRequest request) {
+	//
+	public String modify(@ModelAttribute("member") MemberBean member, BindingResult result, Model model,
+			@PathVariable Integer memberId, HttpServletRequest request) {
 		MemberValidator validator = new MemberValidator();
 		validator.validate(member, result);
 		if (result.hasErrors()) {
@@ -201,7 +196,6 @@ public class MemberController {
 		memberService.updateMember(member);
 		return "redirect:/member/crm/showAllMembers";
 	}
-
 
 	// 刪除一筆紀錄
 	// 由這個方法刪除記錄...
@@ -246,9 +240,8 @@ public class MemberController {
 		return re;
 	}
 
-
 	@ModelAttribute
-	public void getMember(@PathVariable(value="memberId", required = false ) Integer memberId, Model model) {
+	public void getMember(@PathVariable(value = "memberId", required = false) Integer memberId, Model model) {
 		System.out.println("@ModelAttribute.getMember()...");
 		if (memberId != null) {
 			MemberBean member = memberService.getMemberById(memberId);
@@ -258,9 +251,8 @@ public class MemberController {
 			member.setLogin("false");
 			model.addAttribute("member", member);
 		}
-		
+
 	}
-	
 
 	// 本方法可對WebDataBinder進行組態設定。除了表單資料外，絕大多數可以傳入控制器方法的
 	// 參數都可以傳入以@InitBinder修飾的方法。本方法最常使用的參數為WebDataBinder。
@@ -306,46 +298,78 @@ public class MemberController {
 		}
 		return result;
 	}
-	
-	
 
-	
 ///////登入
 	@GetMapping("/login")
-	public String LoginContext(Model model, HttpServletRequest request) {
+	public String LoginContext(Model model, HttpServletRequest request
+			
+//			,@CookieValue(value = "user", required = false) String user,
+//			@CookieValue(value = "password", required = false) String password,
+//			@CookieValue(value = "rm", required = false) Boolean rm
+			) 
+			{
+		
+//		if (user == null)
+//			user = "";
+//		if (password == null) {
+//			password = "";
+//		}
+//		
+//
+//		if (rm != null) {
+//			rm = Boolean.valueOf(rm);
+//		} else {
+//			rm = false;
+//		}
+		
 		System.out.println("======================================A");
+		
+	
 		MemberBean member = new MemberBean();
 //		model.getAttribute("memberBean");
 		model.addAttribute("memberBeans", member);
 		return "member/crm/login";
 	}
-	///////登入
+
+	/////// 登入
 	@PostMapping("/login")
-	public String LoginContextCheck(@ModelAttribute("memberBeans") MemberBean member,Model model) {	
-		MemberBean meb = memberService.login(member.getAccount(), member.getPswd());
-	
-		System.out.println("==================="+meb);
+	public String LoginContextCheck(@ModelAttribute("memberBeans") MemberBean member, 
+			Model model,
+			BindingResult result,LoginMember loginMember,
+			HttpServletRequest request, HttpServletResponse response) {
+//		LoginMemberValidator validator = new LoginMemberValidator();
+//		validator.validate(loginMember, result);
+//		if (result.hasErrors()) {
+//			return "member/crm/login";
+//		}
 		
-		//身分為管理員A
-		if(meb != null){
+		MemberBean meb = memberService.login(member.getAccount(), member.getPswd());
+
+		System.out.println("===================" + meb);
+
+		// 身分為管理員A
+		if (meb != null) {
 
 			model.addAttribute("loginMember", meb);
-			System.out.println("將會員" + meb.getName() + "加入session內"+meb.getUserType());
+			System.out.println("將會員" + meb.getName() + "加入session內" + meb.getUserType());
 			System.out.println(meb.getUserType());
-					
-		}else {
+
+		} else {
 			return "member/crm/login";
 		}
-		
+
 		String type = meb.getUserType();
-		
-		if(type.equals("M")) {
+
+		if (type.equals("M")) {
 			return "redirect:/";
-		}else {
+		} else {
 			return "member/adm/administrators";
 		}
+		
+		
 	}
-	///登出
+
+	/// 登出
 	@RequestMapping("/loginout")
 	public String getLogOut(SessionStatus status) {
 		System.out.println("執行session,setComplete();");
