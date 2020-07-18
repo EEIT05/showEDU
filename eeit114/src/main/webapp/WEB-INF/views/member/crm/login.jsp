@@ -241,26 +241,28 @@ body, html {
 			</form:form>
 			<div class="forgot-password">
 			<br>
-           <a href="#" > 忘記密碼?
+           <a href="#" > 忘記密碼?</a>
                
-            </a><br>
+            <br>
+            <a href='mem'>註冊會員</a>
+       <br> 
 			<a href="<c:url value='/'/> ">回首頁</a>
-		</div></div>
-	</div>
+			
+		</div></div></div>
 	
-<!-- 		<script type='text/javascript'> -->
-// // 		$(document).ready(function() {
-// // 			$('.checkbox1').click(function() {
-// // 				if (confirm('確定刪除此筆紀錄? ')) {
-// // 					var href = $(this).attr('href');
-// // 					$('form').attr('action', href).submit();
-// // 				}
-// // 				return false;
+ 		<script type='text/javascript'> 
+//  		$(document).ready(function() {
+//  			$('.checkbox1').click(function() {
+//  				if (confirm('確定刪除此筆紀錄? ')) {
+// 					var href = $(this).attr('href');
+// 					$('form').attr('action', href).submit();
+//  				}
+// 				return false;
 
-// // 			});
-// // 		})
+//  			});
+// 		})
 		
-		
-<!-- <!-- 	</script> --> -->
+ 	</script> 
+ 	
 </body>
 </html>
