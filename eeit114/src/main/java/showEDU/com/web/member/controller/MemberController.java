@@ -324,7 +324,6 @@ public class MemberController {
 		
 		System.out.println("======================================A");
 		
-	
 		MemberBean member = new MemberBean();
 //		model.getAttribute("memberBean");
 		model.addAttribute("memberBeans", member);
@@ -347,7 +346,7 @@ public class MemberController {
 
 		System.out.println("===================" + meb);
 
-		// 身分為管理員A
+		// 身分為空
 		if (meb != null) {
 
 			model.addAttribute("loginMember", meb);
@@ -359,9 +358,12 @@ public class MemberController {
 		}
 
 		String type = meb.getUserType();
-
+		
+		// 身分為會員M
 		if (type.equals("M")) {
 			return "redirect:/";
+			
+	    // 身分為管理員A
 		} else {
 			return "member/adm/administrators";
 		}
@@ -377,6 +379,7 @@ public class MemberController {
 		status.setComplete();
 		return "redirect:/";
 	}
+	
 //	@ModelAttribute
 //	public LoginMember getLoginMember(Model model){
 //		
