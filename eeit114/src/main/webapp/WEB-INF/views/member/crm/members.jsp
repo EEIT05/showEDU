@@ -111,6 +111,10 @@ used to vertically center elements, may need modification if you're not using de
                 </div>
               </div>
 
+<form method='POST'>
+ <input type='hidden' name='_method' value='DELETE'>
+</form>
+
 		<c:choose>
 			<c:when test="${empty members}">
 	    沒有任何會員資料<br>
