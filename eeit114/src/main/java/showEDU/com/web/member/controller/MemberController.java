@@ -140,7 +140,7 @@ public class MemberController {
 			return "member/crm/insertMember";
 		}
 
-		return "redirect:/member/crm/showAllMembers";
+		return "redirect:/";
 	}
 
 	// 當使用者需要修改時，本方法送回含有會員資料的表單，讓使用者進行修改

@@ -279,9 +279,15 @@ width: 100%;
 					</div>
 					<li class="nav-item active"><a href="#" class="nav-link"><i
 							class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
-					<li><c:if test="${ ! empty loginMember }">
-							<img width='60' height='60'
+					
+					<c:if test="${ ! empty loginMember }">
+					     <li><img width='60' height='60'
 								src='member/crm/picture/${loginMember.memberId}' class='mmimg' /></li>
+					</c:if>
+					
+					<c:if test="${ empty loginMember }">
+					    <li class="nav-item active"><a href="member/crm/login" class="nav-link"><i
+							class="fa fa-user fa-lg" aria-hidden="true"></i></a></li>
 					</c:if>
 				</ul>
 			</div>
