@@ -11,7 +11,6 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,6 @@ import showEDU.com.web.member.model.LoginMember;
 import showEDU.com.web.member.model.MemberBean;
 import showEDU.com.web.member.service.AdministratorService;
 import showEDU.com.web.member.service.MemberService;
-import showEDU.com.web.member.validators.LoginMemberValidator;
 import showEDU.com.web.member.validators.MemberValidator;
 
 @Controller
@@ -50,7 +48,9 @@ import showEDU.com.web.member.validators.MemberValidator;
 @SessionAttributes({ "loginMember" })
 public class MemberController {
 	String noImage = "/images/NoImage.png";
-
+	String NOPIC = "/images/NOPIC.jpg";
+	
+	
 	@Autowired
 	MemberService memberService;
 
@@ -231,8 +231,8 @@ public class MemberController {
 		if (blob != null) {
 			body = blobToByteArray(blob);
 		} else {
-			String path = null;
-
+			String path = NOPIC;
+			
 			body = fileToByteArray(path);
 		}
 		re = new ResponseEntity<byte[]>(body, headers, HttpStatus.OK);
