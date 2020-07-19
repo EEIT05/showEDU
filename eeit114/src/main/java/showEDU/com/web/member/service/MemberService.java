@@ -21,6 +21,8 @@ public interface MemberService {
 
 	MemberBean login(String account, String pswd);
 
+	boolean idExists(String account);
+
 	
 	
 }

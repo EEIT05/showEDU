@@ -19,4 +19,6 @@ public interface MemberRepository {
 	List<MemberBean> getAllMembers();
 
 	MemberBean login(String account, String pswd);
+
+	boolean idExists(String account);
 }

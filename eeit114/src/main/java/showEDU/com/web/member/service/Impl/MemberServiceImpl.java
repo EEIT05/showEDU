@@ -58,6 +58,13 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.login(account, pswd);
 	}
 
+	@Override
+	public boolean idExists(String account) {
+		boolean exist = false;
+		exist = memberDao.idExists(account);
+		return exist;
+	}
+
 
 	
 

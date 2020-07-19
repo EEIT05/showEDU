@@ -124,16 +124,16 @@ public class MemberController {
 		member.setUserType("M");
 
 ////		// 檢查 memberId是否重複
-//		if (memberService.idExists(member.getMemberId())) {
-//			result.rejectValue("memberId", "", "帳號已存在，請重新輸入");
-//			return "member/crm/insertMember";
-//		}
-//		
+		if (memberService.idExists(member.getAccount())) {
+			result.rejectValue("Account", "", "帳號已存在，請重新輸入");
+			return "member/crm/insertMember";
+		}
+		
 		try {
 			memberService.save(member);
 		} catch (org.hibernate.exception.ConstraintViolationException e) {
 			result.rejectValue("account", "", "帳號已存在，請重新輸入");
-			return "crm/insertMember";
+			return "member/crm/insertMember";
 		} catch (Exception ex) {
 			System.out.println(ex.getClass().getName() + ", ex.getMessage()=" + ex.getMessage());
 			result.rejectValue("account", "", "請通知系統人員...");
@@ -301,29 +301,24 @@ public class MemberController {
 
 ///////登入
 	@GetMapping("/login")
-	public String LoginContext(Model model, HttpServletRequest request
-			
-//			,@CookieValue(value = "user", required = false) String user,
-//			@CookieValue(value = "password", required = false) String password,
-//			@CookieValue(value = "rm", required = false) Boolean rm
-			) 
-			{
-		
-//		if (user == null)
-//			user = "";
-//		if (password == null) {
-//			password = "";
-//		}
-//		
-//
-//		if (rm != null) {
-//			rm = Boolean.valueOf(rm);
-//		} else {
-//			rm = false;
-//		}
-		
+	public String LoginContext(Model model, HttpServletRequest request,
+			@CookieValue(value = "user", required = false) String user,
+			@CookieValue(value = "password", required = false) String password,
+			@CookieValue(value = "rm", required = false) Boolean rm) {
+
+		if (user == null)
+			user = "";
+		if (password == null) {
+			password = "";
+		}
+		if (rm != null) {
+			rm = Boolean.valueOf(rm);
+		} else {
+			rm = false;
+		}
+
 		System.out.println("======================================A");
-		
+
 		MemberBean member = new MemberBean();
 //		model.getAttribute("memberBean");
 		model.addAttribute("memberBeans", member);
@@ -332,16 +327,14 @@ public class MemberController {
 
 	/////// 登入
 	@PostMapping("/login")
-	public String LoginContextCheck(@ModelAttribute("memberBeans") MemberBean member, 
-			Model model,
-			BindingResult result,LoginMember loginMember,
-			HttpServletRequest request, HttpServletResponse response) {
+	public String LoginContextCheck(@ModelAttribute("memberBeans") MemberBean member, Model model, BindingResult result,
+			LoginMember loginMember, HttpServletRequest request, HttpServletResponse response) {
 //		LoginMemberValidator validator = new LoginMemberValidator();
 //		validator.validate(loginMember, result);
 //		if (result.hasErrors()) {
 //			return "member/crm/login";
 //		}
-		
+
 		MemberBean meb = memberService.login(member.getAccount(), member.getPswd());
 
 		System.out.println("===================" + meb);
@@ -358,17 +351,16 @@ public class MemberController {
 		}
 
 		String type = meb.getUserType();
-		
+
 		// 身分為會員M
 		if (type.equals("M")) {
 			return "redirect:/";
-			
-	    // 身分為管理員A
+
+			// 身分為管理員A
 		} else {
 			return "member/adm/administrators";
 		}
-		
-		
+
 	}
 
 	/// 登出
@@ -379,7 +371,7 @@ public class MemberController {
 		status.setComplete();
 		return "redirect:/";
 	}
-	
+
 //	@ModelAttribute
 //	public LoginMember getLoginMember(Model model){
 //		

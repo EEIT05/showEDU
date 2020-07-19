@@ -79,4 +79,21 @@ public class MemberRepositoryImpl implements MemberRepository {
 		System.out.println(member);
 		return member;
 		}
+
+	@Override
+	public boolean idExists(String account) {
+		Session session = factory.getCurrentSession();
+		boolean exist = false;
+		String hql = "FROM MemberBean m WHERE m.account = :acc";
+		@SuppressWarnings("unchecked")
+		List<MemberBean> list = session.createQuery(hql)
+				                       .setParameter("acc",account)
+										.getResultList();
+		
+		if (list.size() > 0) {
+			exist = true;
+		}
+		return exist;
+		
+	}
 }
