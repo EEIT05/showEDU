@@ -43,7 +43,7 @@
 		<mapping class="showEDU.com.web.ticket.model.SeatsBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.TheaterBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.DiscountBean"></mapping>
-		<mapping class="showEDU.com.web.ticket.model.FoodCategoryBean"></mapping>
+      <mapping class="showEDU.com.web.store.model.FoodProductBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.MovieOrderDetailBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.MovieOrdersBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.MovieShowtimeBean"></mapping>

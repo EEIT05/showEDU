@@ -148,19 +148,10 @@ used to vertically center elements, may need modification if you're not using de
 							<td>${loginMember.account}</td>
 							
 <!-- 		              會員圖片 -->
-<%-- 						<c:if test="${ !empty loginMember && !empty loginMember.image}"> --%>
-							
+
 					  	<td><img width='60' height='72'
 								src='picture/${loginMember.memberId}' /></td>
-<%-- 							</c:if> --%>
-							
-							
-<%-- 							<c:if test="${ empty loginMember.fileName}"> --%>
-							
-<!-- 					  	<td><img width='60' height='72' -->
-<!-- 								src='images/NOPIC.jpg' /></td> -->
-<%-- 							</c:if> --%>
-							
+					
 								
 							<td ><a class="btn btn-success" 
 								href="${pageContext.request.contextPath}/member/crm/mem/${loginMember.memberId}"><em class="fa fa-pencil"></em>&nbsp;編輯</a></td>
@@ -173,7 +164,7 @@ used to vertically center elements, may need modification if you're not using de
 			</c:otherwise>
 		</c:choose>
 		<hr>
-		<a href='mem'>新增會員資料</a> &nbsp;&nbsp;&nbsp;
+<!-- 		<a href='mem'>新增會員資料</a> &nbsp;&nbsp;&nbsp; -->
 		<a href="<c:url value='/'/> ">首頁</a>
 	</div></div>
 

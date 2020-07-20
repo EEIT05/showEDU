@@ -15,7 +15,7 @@
 <style>
 
 body, html {
-	height: 100%;
+	height: 130%;
 	background-repeat: no-repeat;
 	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
 		rgb(25, 0, 71));

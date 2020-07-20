@@ -187,8 +187,9 @@ width: 100%;
 		<nav class="navbar  navbar-expand-lg navbar-dark fixed-top">
 			<img class="logo" src=images/LOGO.jpg width="100" height="100">
 			<a href="<c:url value='/'/> " class="navbar-brand">
-			<h4>SHOW EDU</h4></a>
-					
+				<h4>SHOW EDU</h4>
+			</a>
+
 			<button class="navbar-toggler" type="button"
 				data-target="#navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -207,14 +208,12 @@ width: 100%;
 							<a href="#" class="dropdown-item">訂票</a> <a href="#"
 								class="dropdown-item">票種</a> <a href="#" class="dropdown-item"></a>
 						</div>
-						
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
 						role="button" data-toggle="dropdown" data-hover="dropdown">餐飲商品</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
-							<a href="#" class="dropdown-item">餐飲</a> 
-							<a href="#" class="dropdown-item">周邊商品</a>
-							<a href="#" class="dropdown-item">商品後台</a>
+							<a href="#" class="dropdown-item">餐飲</a> <a href="#"
+								class="dropdown-item">周邊商品</a> <a href="#" class="dropdown-item">商品後台</a>
 							<!-- <a href="#" class="dropdown-item">Service3</a> -->
 						</div>
 					<li class="nav-item dropdown"><a
@@ -234,14 +233,14 @@ width: 100%;
 							<a href="<c:url value='/activities/add'/>" class="dropdown-item">新增活動</a>
 							<a href="#" class="dropdown-item"></a>
 						</div></li>
-						
+
 					<li class="nav-item"><a href="<c:url value='boards' />"
 						class="nav-link">討論區</a></li>
-						
+
 					<div>
-					
-						<li class="nav-item dropdown">
-						<a	class="nav-link dropdown-toggle" id="navdrop" role="button"
+
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" id="navdrop" role="button"
 							data-toggle="dropdown" data-hover="dropdown">會員系統</a>
 							<div class="dropdown-menu" aria-labelledby="navdrop">
 
@@ -251,43 +250,45 @@ width: 100%;
 									<a href='member/crm/loginout' class="dropdown-item">會員登出</a>
 								</c:if>
 
-								<%-- 		<c:if test="${  empty loginMember }"> --%>
-								<a href='member/crm/mem' class="dropdown-item"> 會員註冊</a>
-								<%-- 								</c:if> --%>
-
-<%-- 								<c:if test="${ ! empty loginMember}"> --%>
-								<c:if test="${loginMember.userType eq 'A'}">
-								<a	href="<c:url value='member//crm/showAllMembers'/>"
-									class="dropdown-item">後台會員資料</a> 
-									</c:if>
-									
-								<c:if test="${ ! empty loginMember}">
-								<a	href="<c:url value='member/crm/memb'/>"
-									class="dropdown-item">會員資料</a> 	
+								<c:if test="${  empty loginMember }">
+									<a href='member/crm/mem' class="dropdown-item"> 會員註冊</a>
 								</c:if>
-									
-              <!-- 									//後台 -->
-<!-- 							    <a	href='member/adm/ad' class="dropdown-item"> 新增管理員</a>  -->
 
-<!-- 							    <a	href='adm/' class="dropdown-item"> 管理員登入</a>  -->
-<!-- 							    <a	href='adm/' class="dropdown-item"> 管理員登出</a>  -->
-<!-- 							    <a	href='administrators' class="dropdown-item"> 管理員資料</a>  -->
-						  
+								<c:if test="${ ! empty loginMember}">
+									<a href="<c:url value='member/crm/memb'/>"
+										class="dropdown-item">會員資料</a>
+								</c:if>
+
+								<c:if test="${loginMember.userType eq 'A'}">
+									<a href="#" target="_blank"
+										class="dropdown-item">後台管理</a>
+								</c:if>
+
+								<c:if test="${loginMember.userType eq 'A'}">
+									<a href="<c:url value='member//crm/showAllMembers'/>"
+										class="dropdown-item">後台會員資料</a>
+								</c:if>
+
+
+
+
+
 							</div></li>
-							
+
 
 					</div>
 					<li class="nav-item active"><a href="#" class="nav-link"><i
 							class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
-					
+
 					<c:if test="${ ! empty loginMember }">
-					     <li><img width='60' height='60'
-								src='member/crm/picture/${loginMember.memberId}' class='mmimg' /></li>
+						<li><img width='60' height='60'
+							src='member/crm/picture/${loginMember.memberId}' class='mmimg' /></li>
 					</c:if>
-					
+
 					<c:if test="${ empty loginMember }">
-					    <li class="nav-item active"><a href="member/crm/login" class="nav-link"><i
-							class="fa fa-user fa-lg" aria-hidden="true"></i></a></li>
+						<li class="nav-item active"><a href="member/crm/login"
+							class="nav-link"><i class="fa fa-user fa-lg"
+								aria-hidden="true"></i></a></li>
 					</c:if>
 				</ul>
 			</div>
