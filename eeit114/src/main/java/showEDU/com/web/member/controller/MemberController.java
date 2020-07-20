@@ -20,6 +20,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,6 +39,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import showEDU.com.web.application.model.ApplicationBean;
 import showEDU.com.web.member.model.LoginMember;
 import showEDU.com.web.member.model.MemberBean;
 import showEDU.com.web.member.service.AdministratorService;
@@ -59,6 +62,9 @@ public class MemberController {
 
 	@Autowired
 	ServletContext context;
+	
+	@Autowired
+	JavaMailSender javaMailSender;
 
 	// 顯示所有會員資料
 	@GetMapping("/showAllMembers")
@@ -371,7 +377,69 @@ public class MemberController {
 		status.setComplete();
 		return "redirect:/";
 	}
+	
 
+//@Override
+//	public void changeAplcBeanStatusById(int aplcId, int status) {
+//	public void changeAplcBeanStatusById(MemberBean memberBean) {
+//		
+//		aplcDao.changeAplcBeanStatusById(aplcId, status);
+//		ApplicationBean applicationBean = aplcDao.getMemberById(aplcId);
+//		LoginMember loginMember=
+//		SimpleMailMessage message = new SimpleMailMessage();
+//		message.setFrom("eeit114showedu@gmail.com");
+//		message.setTo(applicationBean.getMemberBean().getAccount());
+//		message.setSubject("showEDU 場地租借申請審核通知");
+//	
+//		javaMailSender.send(message);
+//		
+//		
+//	}
+//	String pass = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。"
+//			+ "\n您的申請已通過，請在7天內完成繳費"
+//			+"\nshowEDU";
+//	String fail = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。"
+//			+ "\n很抱歉由於本館的安排當日無法利用租借服務"
+//			+ "\n期待您的再次利用"
+//			+"\nshowEDU";
+//	String cancle = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。"
+//			+ "\n您已取消預約"
+//			+ "\n期待您的再次利用"
+//			+"\nshowEDU";
+//	
+//	
+//
+//}
+	
+	
+	
+	
+//	@GetMapping("/forgetpwd")
+//	public  String forgetpwd(Model model,HttpServletRequest request) {
+//		ForgetBean fgb = new ForgetBean();
+//		model.addAttribute("forgot",fgb);
+//		return "forget";
+//	}
+//	@PostMapping("/forgetpwd")
+//	public String forgotpwds(@ModelAttribute("forgot") ForgetBean fgb, Model model, BindingResult result
+//			,HttpServletRequest request,HttpServletResponse response) {
+//		List<String> list = service.seachMemberaccount();
+//		ForgetPasswd validator = new ForgetPasswd();
+//		validator.validate(mb, result);
+//
+//		if (list.contains(mb.getMemberEmail())) {
+//			System.out.println("有");
+//			Gmailsend(mb.getMemberEmail());
+//			service.updatePasswd(mb.getMemberEmail());
+//			return "redirect:/login";
+//		}
+//		else {
+//			result.rejectValue("invalidCredentials","","該帳號不存在");
+//			return "forget";
+//		}
+//	
+	
+	
 //	@ModelAttribute
 //	public LoginMember getLoginMember(Model model){
 //		
