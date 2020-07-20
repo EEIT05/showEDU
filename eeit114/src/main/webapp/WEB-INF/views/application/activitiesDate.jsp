@@ -12,24 +12,31 @@
 <script>
 	window.onload = function() {
 		var btn = document.getElementById("findByDate");
+		
 		btn.onclick = function() {
 			var selectDate = document.getElementById("mydate").value;
 			console.log(selectDate);
 			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "<c:url value='/activitiesByDate' />"+"?date=" + selectDate, true);
+			xhr.open("GET", "<c:url value='/activitiesByDate' />" + "?date="
+					+ selectDate, true);
 			xhr.send();
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4 && xhr.status == 200) {
-					
+
 					var content = "<table border='1'>";
 					content += "<tr><th>編號</th><th>活動名稱</th><th>開始日期</th><th>截止日期</th><th>上傳日期";
 					var activities = JSON.parse(xhr.responseText);
-					for(var i=0; i < activities.length; i++){
-						content += "<tr><td align='center'>" + activities[i].actId + "</td>" + 
-					               "<td>" + activities[i].actTitle + "</td>" +
-					               "<td>" + activities[i].startDate + "</td>" +
-					               "<td>" + activities[i].endDate + "</td>" +
-					               "<td align='right'>" + activities[i].postDate + "</td>" 
+					for (var i = 0; i < activities.length; i++) {
+						content += "<tr><td align='center'>"
+								+ activities[i].actId + "</td>" + "<td>"
+								+ "<a href='activity?id=" + activities[i].actId
+								+ "'>" + activities[i].actTitle + "</a></td>"
+								+ "<td>"
+								// 								+ activities[i].actTitle + "</td>" + "<td>"
+								+ activities[i].startDate + "</td>" + "<td>"
+								+ activities[i].endDate + "</td>"
+								+ "<td align='right'>" + activities[i].postDate
+								+ "</td>"
 					}
 					content += "</table>";
 					var divs = document.getElementById("container");
@@ -49,40 +56,33 @@
 		</div>
 	</section>
 	<section>
-	<div>
-	
-			<input type='date' name='date' id = 'mydate'>
+		<div>
+
+			<input type='date' name='date' id='mydate'>
 			<button id='findByDate'>查詢</button>
-		
-	</div>
+
+		</div>
 	</section>
 	<hr
 		style="height: 1px; border: none; color: #333; background-color: #333;">
-	<section class="container" id = "container">
-		<div class="row">
-			<c:forEach var='activity' items='${activities}'>
-				<div class="col-sm-6 col-md-3" style="width: 360px; height: 360px">
-					<div class="thumbnail" style="width: 320px; height: 340px">
-					<img width='100' height='200' 
-						src="<c:url value='/getPicture/${activity.actId}'/>"/>
-						<div class="caption">
-							<p>
-								<b style='font-size: 16px;'>${activity.actTitle}</b>
-							</p>
-							<p>開始日期${activity.startDate}</p>
-							<p>截止日期${activity.endDate}</p>
-
-							<p>
-								<a href="<spring:url value='/activity?id=${activity.actId}' />"
-									class="btn btn-primary"> <span
-									class="glyphicon-info-sigh glyphicon"></span>詳細資料
-								</a>
-							</p>
-						</div>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
+	<section class="container" id="container">
+		<table border='1'>
+			<tr>
+				<th>編號</th>
+				<th>活動名稱</th>
+				<th>開始日期</th>
+				<th>截止日期</th>
+				<th>上傳日期</th>
+				<c:forEach var='activity' items='${activities}'>
+					<tr>
+						<td align='center'>${activity.actId}</td>
+						<td><a href="activity?id=${activity.actId}">${activity.actTitle}</a></td>
+						<td>${activity.startDate}</td>
+						<td>${activity.endDate}</td>
+						<td align='right'>${activity.postDate}</td>
+					</tr>
+				</c:forEach>
+		</table>
 	</section>
 
 </body>

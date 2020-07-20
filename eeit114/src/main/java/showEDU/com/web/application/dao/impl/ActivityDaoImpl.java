@@ -70,5 +70,31 @@ public class ActivityDaoImpl implements ActivityDao {
 		session.save(activity);
 
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ActivityBean> getAllActivitiesPerPage(int pageNo) {
+		String hql = "from ActivityBean";
+		Session session = factory.getCurrentSession();
+		int startRecordNo = (pageNo - 1) * 10;
+		return session.createQuery(hql).setFirstResult(startRecordNo)
+				.setMaxResults(10)
+				.getResultList();
+	}
+	
+	
+	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ActivityBean> getAllActivitiesByDatePerPage(Date date, int pageNo) {
+		String hql = "from ActivityBean ab where ab.startDate <= :date and ab.endDate >= :date";
+		Session session = factory.getCurrentSession();
+		int startRecordNo = (pageNo - 1) * 10;
+		return session.createQuery(hql).setParameter("date", date)
+										.setFirstResult(startRecordNo)
+										.setMaxResults(10)
+										.getResultList();
+		
+	}
 
 }

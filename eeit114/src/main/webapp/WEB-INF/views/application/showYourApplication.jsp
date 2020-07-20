@@ -123,12 +123,13 @@ used to vertically center elements, may need modification if you're not using de
 									<th>類別</th>
 									<th>日期</th>
 									<th>時段</th>
-									<th>價格</th>
+									<th>金額</th>
 									<th>申請日期</th>
 									<th>狀態</th>
 									<th>付款狀態</th>
 									<th></th>
 									<th></th>
+									
 								</tr>
 							</thead>
 							<tbody>
@@ -165,7 +166,7 @@ used to vertically center elements, may need modification if you're not using de
 										</td>
 
 										<td><a class="btn btn-danger"
-											href="${pageContext.request.contextPath}/passApplication/${application.aplcId}"><em
+											href="${pageContext.request.contextPath}/cancleApplication/${application.aplcId}"><em
 												class="fa fa-trash"></em>&nbsp;刪除</a></td>
 									</tr>
 								</c:forEach>

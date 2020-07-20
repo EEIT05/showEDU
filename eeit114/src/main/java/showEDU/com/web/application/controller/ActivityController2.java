@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -65,12 +66,30 @@ public class ActivityController2 {
 		return "application/activity";
 	}
 	
+	//依日期條件取得活動頁面(維護端)
+	@GetMapping("/activitiesDate")
+	public String activitiesDate(Model model) {
+		List<ActivityBean> beans = service.getAllActivities();
+		
+		model.addAttribute("activities", beans);
+		return "application/activitiesDate";
+
+	}
+	
 	//依日期條件取得活動，回傳JSON(維護端)
 	@GetMapping("/activitiesByDate")
-	public ResponseEntity<List<ActivityBean>> getAllActivitiesByDate(Model model, @RequestParam("date") Date date) {
+	public ResponseEntity<List<ActivityBean>> getAllActivitiesByDate(Model model, @RequestParam(value = "date",required = false) Date date
+			) {
 		System.out.println(date);
+		//日期上有小bug有時間再修(開始日期抓不到)
 		ResponseEntity<List<ActivityBean>> re =null;
-		List<ActivityBean> bean = service.getAllActivitiesByDate(date);
+		List<ActivityBean> bean = null;
+		if(date == null) {
+			bean = service.getAllActivities();
+		}else {
+			bean = service.getAllActivitiesByDate(date);
+		}
+		
 		re = new ResponseEntity<>(bean, HttpStatus.OK);
 		return re;
 
@@ -90,28 +109,30 @@ public class ActivityController2 {
 		ActivityBean bean = service.getActivityById(actId);
 		ByteArrayOutputStream baos = null;
 		InputStream is = null;
-		try {
-			Blob blob = bean.getActImg();
-			if (blob != null) {
-				is = blob.getBinaryStream();
-			} else {
-				;
+		if(bean.getActImg()!=null) {
+			try {
+				Blob blob = bean.getActImg();
+				if (blob != null) {
+					is = blob.getBinaryStream();
+				} else {
+					;
+				}
+				if (is == null) {
+					is = ctx.getResourceAsStream(noImagePath);
+				}
+				baos = new ByteArrayOutputStream();
+				int len = 0;
+				byte[] b = new byte[819200];
+				while ((len = is.read(b)) != -1) {
+					baos.write(b, 0, len);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			if (is == null) {
-				is = ctx.getResourceAsStream(noImagePath);
-			}
-			baos = new ByteArrayOutputStream();
-			int len = 0;
-			byte[] b = new byte[819200];
-			while ((len = is.read(b)) != -1) {
-				baos.write(b, 0, len);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		byte[] b0 = baos.toByteArray();
-
+		
 		String filename = bean.getFileName();
 		MediaType mediaType = null;
 		if (filename != null) {
@@ -163,18 +184,20 @@ public class ActivityController2 {
 		java.sql.Date postDate = new java.sql.Date(utilDate.getTime());
 		ab.setPostDate(postDate);
 		service.addActivity(ab);
-
-		String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-		String rootDirectory = ctx.getRealPath("/");
-		try {
-			File imageFolder = new File(rootDirectory, "images");
-			if (!imageFolder.exists())
-				imageFolder.mkdirs();
-			File file = new File(imageFolder, ab.getActId() + ext);
-			activityImage.transferTo(file);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
+		
+		if (activityImage != null && !activityImage.isEmpty()) {
+			String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+			String rootDirectory = ctx.getRealPath("/");
+			try {
+				File imageFolder = new File(rootDirectory, "images");
+				if (!imageFolder.exists())
+					imageFolder.mkdirs();
+				File file = new File(imageFolder, ab.getActId() + ext);
+				activityImage.transferTo(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
+			}
 		}
 		return "redirect:/activities";
 	}

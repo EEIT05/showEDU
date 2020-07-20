@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -154,6 +155,41 @@ public class ApplicationController {
 		
 		return "redirect:/allApplication";
 	}
+	
+	@GetMapping("/changePayStatus/{aplcId}")
+	public String changePayStatus(Model model,@PathVariable int aplcId) {
+		
+		aplcService.changeAplcBeanPayStatusById(aplcId, 1);
+		return "redirect:/allApplication";
+	}
+	
+	@GetMapping("/showCalender")
+	public String showCalender() {
+		return "application/calender";
+	}
+	
+	@GetMapping("/showAplcBeanByMonth")
+	public ResponseEntity<List<Map<String, Object>>>showAplcBeanByMonth
+	(Model model,@RequestParam("month")int month){
+		List<ApplicationBean> beans = aplcService.getAplcBeanByMonth(month);
+
+		List<Map<String, Object>> list =new ArrayList<>();
+		System.out.println(beans);
+		for(ApplicationBean bean:beans) {
+			Map<String, Object> Map = new LinkedHashMap<>();
+			Date date = bean.getDate();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int aplcDate = cal.get(Calendar.DAY_OF_MONTH);
+			Map.put("date", aplcDate);
+			Map.put("time", bean.getTime());
+			list.add(Map);
+		}
+
+		ResponseEntity<List<Map<String, Object>>> re = new ResponseEntity<>(list, HttpStatus.OK);
+		return re;
+	}
+	
 	
 	
 	

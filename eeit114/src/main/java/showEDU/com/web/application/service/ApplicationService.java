@@ -19,4 +19,6 @@ public interface ApplicationService {
 	public List<ApplicationBean> getAllAplcBeanById(int memberId);
 	public List<ApplicationBean> getAllAplcBean();
 	public void changeAplcBeanStatusById(int aplcId,int status);
+	public List<ApplicationBean> getAplcBeanByMonth(int month);
+	public void changeAplcBeanPayStatusById(int aplcId,int payStatus);
 }

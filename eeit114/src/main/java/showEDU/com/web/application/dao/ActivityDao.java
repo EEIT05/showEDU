@@ -11,4 +11,6 @@ public interface ActivityDao {
 	ActivityBean getActivityById(int actId);
 	List<ActivityBean> getAllActivitiesByDate(Date date);
 	public void addActivity(ActivityBean activity );
+	public List<ActivityBean> getAllActivitiesPerPage(int pageNo); 
+	public List<ActivityBean> getAllActivitiesByDatePerPage(Date date,int pageNo );
 }

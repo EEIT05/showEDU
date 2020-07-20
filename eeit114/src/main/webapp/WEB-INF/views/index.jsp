@@ -216,7 +216,7 @@ width: 100%;
 								class="dropdown-item">周邊商品</a> <a href="#" class="dropdown-item">商品後台</a>
 							<!-- <a href="#" class="dropdown-item">Service3</a> -->
 						</div>
-					<li class="nav-item dropdown"><a
+<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
 						role="button" data-toggle="dropdown" data-hover="dropdown">包場</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
@@ -224,12 +224,14 @@ width: 100%;
 							<a href="<c:url value='/allApplication'/>" class="dropdown-item">查看訂單</a>
 							<a href="<c:url value='/yourApplication' />"
 								class="dropdown-item">查看個人訂單</a>
+								<a href="<c:url value='/showCalender' />" class="dropdown-item">查看行事曆</a>
 						</div></li>
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
 						role="button" data-toggle="dropdown" data-hover="dropdown">活動</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
 							<a href="<c:url value='/activities'/>" class="dropdown-item">活動公告</a>
+							<a href="<c:url value='/activitiesDate'/>" class="dropdown-item">活動公告查詢</a>
 							<a href="<c:url value='/activities/add'/>" class="dropdown-item">新增活動</a>
 							<a href="#" class="dropdown-item"></a>
 						</div></li>

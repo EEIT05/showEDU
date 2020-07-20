@@ -31,6 +31,7 @@ public interface ApplicationDao {
 	public List<ApplicationBean> getAplcBeanByIdByStatus(int memberId,int statusId);
 	
 	public List<ApplicationBean> getAllAplcBean();
+	public List<ApplicationBean> getAplcBeanByMonth(int month);
 	public List<ApplicationBean> getAllAplcBeanByDate(Date date);
 	public List<ApplicationBean> getAllAplcBeanByStatus(int statusId);
 	public List<ApplicationBean> getAllAplcBeanByPayStatus(int payStatus);

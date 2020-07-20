@@ -2,6 +2,7 @@ package showEDU.com.web.application.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -114,6 +115,17 @@ public class ApplicationServiceImpl implements ApplicationService {
 			+ "\n您已取消預約"
 			+ "\n期待您的再次利用"
 			+"\nshowEDU";
+
+	@Override
+	public List<ApplicationBean> getAplcBeanByMonth(int month) {
+		return aplcDao.getAplcBeanByMonth(month);
+	}
+
+	@Override
+	public void changeAplcBeanPayStatusById(int aplcId,int payStatus) {
+		aplcDao.changeAplcBeanPayStatusById(aplcId, payStatus);
+		
+	}
 	
 	
 
