@@ -241,7 +241,7 @@ body, html {
 			</form:form>
 			<div class="forgot-password">
 			<br>
-           <a href="#" > 忘記密碼?</a>
+           <a href="forgetpwd" > 忘記密碼?</a>
                
             <br>
             <a href='mem'>註冊會員</a>
