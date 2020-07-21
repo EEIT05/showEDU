@@ -184,7 +184,7 @@ used to vertically center elements, may need modification if you're not using de
 														class="fa fa-pencil"></em>&nbsp;已付款</a>
 												</c:when>
 												<c:otherwise>
-
+													
 												</c:otherwise>
 											</c:choose></td>
 									</tr>
@@ -194,8 +194,7 @@ used to vertically center elements, may need modification if you're not using de
 				</c:otherwise>
 			</c:choose>
 			<hr>
-			<a href='mem'>新增會員資料</a> &nbsp;&nbsp;&nbsp; <a
-				href="<c:url value='/'/> ">首頁</a>
+			 <a href="<c:url value='/'/> ">首頁</a>
 		</div>
 </body>
 

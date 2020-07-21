@@ -9,7 +9,7 @@ import showEDU.com.web.application.model.StatusBean;
 
 
 public interface ApplicationService {
-	void addApplication(ApplicationBean aplcBean,Date selectDate,String selectTime);
+	public void addApplication(int memberId,ApplicationBean aplcBean,Date selectDate,String selectTime)throws Exception;
 	public ActClassBean getActClassById(int actClassId);
 	public StatusBean getStatusById(int statusId);
 	public List<ActClassBean> getAllActClass();
@@ -21,4 +21,5 @@ public interface ApplicationService {
 	public void changeAplcBeanStatusById(int aplcId,int status);
 	public List<ApplicationBean> getAplcBeanByMonth(int month);
 	public void changeAplcBeanPayStatusById(int aplcId,int payStatus);
+	public List<ApplicationBean> getAllAplcBeanByStatus(int statusId);
 }

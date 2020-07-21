@@ -10,41 +10,7 @@
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 <title>Activities</title>
 <script>
-	window.onload = function() {
-		var btn = document.getElementById("findByDate");
-		
-		btn.onclick = function() {
-			var selectDate = document.getElementById("mydate").value;
-			console.log(selectDate);
-			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "<c:url value='/activitiesByDate' />" + "?date="
-					+ selectDate, true);
-			xhr.send();
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
 
-					var content = "<table border='1'>";
-					content += "<tr><th>編號</th><th>活動名稱</th><th>開始日期</th><th>截止日期</th><th>上傳日期";
-					var activities = JSON.parse(xhr.responseText);
-					for (var i = 0; i < activities.length; i++) {
-						content += "<tr><td align='center'>"
-								+ activities[i].actId + "</td>" + "<td>"
-								+ "<a href='activity?id=" + activities[i].actId
-								+ "'>" + activities[i].actTitle + "</a></td>"
-								+ "<td>"
-								// 								+ activities[i].actTitle + "</td>" + "<td>"
-								+ activities[i].startDate + "</td>" + "<td>"
-								+ activities[i].endDate + "</td>"
-								+ "<td align='right'>" + activities[i].postDate
-								+ "</td>"
-					}
-					content += "</table>";
-					var divs = document.getElementById("container");
-					divs.innerHTML = content;
-				}
-			}
-		}
-	}
 </script>
 </head>
 <body>
@@ -57,10 +23,10 @@
 	</section>
 	<section>
 		<div>
-
-			<input type='date' name='date' id='mydate'>
-			<button id='findByDate'>查詢</button>
-
+			<form action='activitiesByDatePerPage' method='GET'>
+			<input type='date' name='date' id='mydate' value='${selectDate}'>
+			<button type='submit'>查詢</button>
+			</form>
 		</div>
 	</section>
 	<hr
@@ -84,6 +50,27 @@
 				</c:forEach>
 		</table>
 	</section>
-
+	<div id="pagebtns">
+	<c:choose>
+		<c:when test= "${empty selectDate}">
+			<c:forEach var = 'totalPageNo' begin = '1' end='${totalPage}'>
+				<a id="page${totalPageNo}" href="activitiesDate?pageNo=${totalPageNo}">${totalPageNo}</a>
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<c:forEach var = 'totalPageNo' begin = '1' end='${totalPage}'>
+				<a id="page${totalPageNo}" href="activitiesByDatePerPage?date=${selectDate}&pageNo=${totalPageNo}">${totalPageNo}</a>
+			</c:forEach>
+		</c:otherwise>
+	</c:choose>
+<!-- 		<a id="page1" href='activitiesDate?pageNo=1'>1</a> -->
+<!-- 		<a id="page2" href='activitiesDate?pageNo=2'>2</a> -->
+<!-- 		<a id="page3" href='activitiesDate?pageNo=3'>3</a> -->
+<!-- 		<a id="page4" href='activitiesDate?pageNo=4'>4</a> -->
+	</div>
+	<div>
+		<a href="<c:url value='/'/> ">首頁</a>
+	</div>
 </body>
+
 </html>

@@ -127,7 +127,7 @@ used to vertically center elements, may need modification if you're not using de
 									<th>申請日期</th>
 									<th>狀態</th>
 									<th>付款狀態</th>
-									<th></th>
+<!-- 									<th></th> -->
 									<th></th>
 									
 								</tr>
@@ -153,21 +153,21 @@ used to vertically center elements, may need modification if you're not using de
 										</c:choose>
 										</td>
 
-										<td>
-											<c:choose>
-												<c:when test="${application.statusBean.statusId == 2 && application.payStatus == 0}">
-	   													<a class="btn btn-default" href="#"><em
-													class="fa fa-pencil"></em>&nbsp;付款</a>
-												</c:when>
-												<c:otherwise>
+<!-- 										<td> -->
+<%-- 											<c:choose> --%>
+<%-- 												<c:when test="${application.statusBean.statusId == 2 && application.payStatus == 0}"> --%>
+<!-- 	   													<a class="btn btn-default" href="#"><em -->
+<!-- 													class="fa fa-pencil"></em>&nbsp;付款</a> -->
+<%-- 												</c:when> --%>
+<%-- 												<c:otherwise> --%>
 												
-												</c:otherwise>
-											</c:choose>
-										</td>
+<%-- 												</c:otherwise> --%>
+<%-- 											</c:choose> --%>
+<!-- 										</td> -->
 
 										<td><a class="btn btn-danger"
 											href="${pageContext.request.contextPath}/cancleApplication/${application.aplcId}"><em
-												class="fa fa-trash"></em>&nbsp;刪除</a></td>
+												class="fa fa-trash"></em>&nbsp;取消</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>

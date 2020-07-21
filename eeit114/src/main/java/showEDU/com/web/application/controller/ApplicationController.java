@@ -76,8 +76,15 @@ public class ApplicationController {
 		ab.setAplcTime(aplcTime);
 		ab.setStatusId(1);
 		ab.setPayStatus(0);
-		aplcService.addApplication(ab,ab.getDate(),ab.getTime());
-		return 	"redirect: " + ctx.getContextPath() + "/yourApplication";
+		String re = null;
+		try {
+			aplcService.addApplication(memberId,ab,ab.getDate(),ab.getTime());
+			return 	"redirect: " + ctx.getContextPath() + "/yourApplication";
+		}catch(Exception e) {
+			re = e.getMessage();
+			model.addAttribute("check", re);
+			return "application/failAddApplication";
+		}
 	}
 
 
@@ -163,31 +170,10 @@ public class ApplicationController {
 		return "redirect:/allApplication";
 	}
 	
-	@GetMapping("/showCalender")
-	public String showCalender() {
-		return "application/calender";
-	}
-	
-	@GetMapping("/showAplcBeanByMonth")
-	public ResponseEntity<List<Map<String, Object>>>showAplcBeanByMonth
-	(Model model,@RequestParam("month")int month){
-		List<ApplicationBean> beans = aplcService.getAplcBeanByMonth(month);
-
-		List<Map<String, Object>> list =new ArrayList<>();
-		System.out.println(beans);
-		for(ApplicationBean bean:beans) {
-			Map<String, Object> Map = new LinkedHashMap<>();
-			Date date = bean.getDate();
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			int aplcDate = cal.get(Calendar.DAY_OF_MONTH);
-			Map.put("date", aplcDate);
-			Map.put("time", bean.getTime());
-			list.add(Map);
-		}
-
-		ResponseEntity<List<Map<String, Object>>> re = new ResponseEntity<>(list, HttpStatus.OK);
-		return re;
+	@GetMapping("/allApplicationByStatus")
+	public String getAllApplicationByStatus(Model model,@RequestParam("statusId")Integer statusId){
+		aplcService.getAllAplcBeanByStatus(statusId);
+		return null;
 	}
 	
 	

@@ -27,17 +27,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import showEDU.com.web.application.model.ActivityBean;
 import showEDU.com.web.application.service.ActivityService;
+import showEDU.com.web.member.model.MemberBean;
 
 @Controller
+@SessionAttributes({"loginMember"})
 public class ActivityController2 {
 	@Autowired
 	ActivityService service;
 	@Autowired
 	ServletContext ctx;
+	
+	//算總頁數
+	public Integer getTotalpage(int listLength) {
+		if((listLength % 2) == 0) {
+			return (listLength/2);
+		}else {
+			return (listLength/2)+1;
+		}
+	}
 	
 	public static Date changeStringToDate(String str) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
@@ -62,37 +74,88 @@ public class ActivityController2 {
 	//依PK取得活動，用於取得單個活動(客戶端與維護端)
 	@GetMapping("/activity")
 	public String getActivityById(@RequestParam("id") Integer id, Model model) {
+//		MemberBean memberBean = (MemberBean) model.getAttribute("loginMember");
+//		model.addAttribute("memberBean",memberBean);
+		model.getAttribute("loginMember");
 		model.addAttribute("activity", service.getActivityById(id));
 		return "application/activity";
 	}
 	
 	//依日期條件取得活動頁面(維護端)
 	@GetMapping("/activitiesDate")
-	public String activitiesDate(Model model) {
+	public String activitiesDate(Model model,@RequestParam(value ="pageNo",required = false)Integer pageNo) {
 		List<ActivityBean> beans = service.getAllActivities();
-		
-		model.addAttribute("activities", beans);
+		int totalPage = getTotalpage(beans.size());
+		model.addAttribute("totalPage", totalPage);
+		if(pageNo == null) {
+			pageNo = 1;
+		};
+		int startRecordNo = (pageNo - 1) * 2;
+		int LastRecordNo = pageNo * 2;
+		if(LastRecordNo>beans.size()) {
+			LastRecordNo = beans.size();
+		}
+		List<ActivityBean> beansPerPage = beans.subList(startRecordNo, LastRecordNo); 
+		model.addAttribute("activities", beansPerPage);
 		return "application/activitiesDate";
 
 	}
 	
-	//依日期條件取得活動，回傳JSON(維護端)
-	@GetMapping("/activitiesByDate")
-	public ResponseEntity<List<ActivityBean>> getAllActivitiesByDate(Model model, @RequestParam(value = "date",required = false) Date date
-			) {
+	//依日期條件取得活動，回傳JSON(維護端)，沒有用到
+//	@GetMapping("/activitiesByDate")
+//	public ResponseEntity<List<ActivityBean>> getAllActivitiesByDate(Model model, @RequestParam(value = "date",required = false) Date date
+//			,@RequestParam(value ="pageNo",required = false)Integer pageNo) {
+//		System.out.println(date);
+//		ResponseEntity<List<ActivityBean>> re =null;
+//		List<ActivityBean> bean = null;
+//		if(date == null) {
+//			bean = service.getAllActivities();
+//		}else {
+//			bean = service.getAllActivitiesByDate(date);
+//		}
+//		int totalPage = getTotalpage(bean.size());
+//		model.addAttribute("totalPage", totalPage);
+//		if(pageNo == null) {
+//			pageNo = 1;
+//		};
+//		int startRecordNo = (pageNo - 1) * 2;
+//		int LastRecordNo = pageNo * 2;
+//		if(LastRecordNo>bean.size()) {
+//			LastRecordNo = bean.size();
+//		}
+//		List<ActivityBean> beansPerPage = bean.subList(startRecordNo, LastRecordNo); 
+//		re = new ResponseEntity<>(beansPerPage, HttpStatus.OK);
+//		return re;
+//
+//	}
+	
+	//依日期條件取得活動頁面有做分業頁數(維護端)
+	@GetMapping("/activitiesByDatePerPage")
+	public String getAllActivitiesByDatePerPage(Model model, @RequestParam(value = "date",required = false) Date date
+			,@RequestParam(value ="pageNo",required = false)Integer pageNo) {
 		System.out.println(date);
-		//日期上有小bug有時間再修(開始日期抓不到)
-		ResponseEntity<List<ActivityBean>> re =null;
+		model.addAttribute("selectDate", date);
 		List<ActivityBean> bean = null;
+		
 		if(date == null) {
 			bean = service.getAllActivities();
 		}else {
 			bean = service.getAllActivitiesByDate(date);
 		}
+		int totalPage = getTotalpage(bean.size());
+		model.addAttribute("totalPage", totalPage);
+		if(pageNo == null) {
+			pageNo = 1;
+		};
+		int startRecordNo = (pageNo - 1) * 2;
+		int LastRecordNo = pageNo * 2;
+		if(LastRecordNo>bean.size()) {
+			LastRecordNo = bean.size();
+		}
+		List<ActivityBean> beansPerPage = bean.subList(startRecordNo, LastRecordNo); 
+		model.addAttribute("activities", beansPerPage);
+		return "application/activitiesDate";
 		
-		re = new ResponseEntity<>(bean, HttpStatus.OK);
-		return re;
-
 	}
 	@GetMapping("/activitiesByDateAll")
 	public String actListByDateAll(Model model) {
