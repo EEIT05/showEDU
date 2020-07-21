@@ -216,15 +216,15 @@ width: 100%;
 								class="dropdown-item">周邊商品</a> <a href="#" class="dropdown-item">商品後台</a>
 							<!-- <a href="#" class="dropdown-item">Service3</a> -->
 						</div>
-<li class="nav-item dropdown"><a
+					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
 						role="button" data-toggle="dropdown" data-hover="dropdown">包場</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
 							<a href="<c:url value='/application/add'/>" class="dropdown-item">包場預約</a>
 							<a href="<c:url value='/allApplication'/>" class="dropdown-item">查看訂單</a>
 							<a href="<c:url value='/yourApplication' />"
-								class="dropdown-item">查看個人訂單</a>
-								<a href="<c:url value='/showCalender' />" class="dropdown-item">查看行事曆</a>
+								class="dropdown-item">查看個人訂單</a> <a
+								href="<c:url value='/showCalender' />" class="dropdown-item">查看行事曆</a>
 						</div></li>
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
@@ -261,9 +261,12 @@ width: 100%;
 										class="dropdown-item">會員資料</a>
 								</c:if>
 
+								<c:if test="${loginMember.userType eq 'M'}">
+									<a href="#" class="dropdown-item">我的訂單</a>
+								</c:if>
+
 								<c:if test="${loginMember.userType eq 'A'}">
-									<a href="#" target="_blank"
-										class="dropdown-item">後台管理</a>
+									<a href="#" target="_blank" class="dropdown-item">後台管理</a>
 								</c:if>
 
 								<c:if test="${loginMember.userType eq 'A'}">
