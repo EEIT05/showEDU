@@ -103,13 +103,13 @@ position: fixed;
         <ul class="list-group">
             <!-- Separator with title -->
             <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                <small>管理系統</small>
+                <small>後台管理系統</small>
             </li>
             <!-- /END Separator -->
             <!-- Menu with submenu -->
            
 
-            <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+            <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <span class="fa fa-user fa-fw mr-3"></span>
                     <span class="menu-collapsed">會員管理</span>
@@ -117,37 +117,58 @@ position: fixed;
                 </div>
             </a>
             <!-- Submenu content -->
-            <div id='submenu2' class="collapse sidebar-submenu">
+            <div id='submenu1' class="collapse sidebar-submenu">
                 <a href="member/crm/showAllMembers" class="list-group-item list-group-item-action bg-dark text-white">
-                    <span class="menu-collapsed">會員資料管理</span>
+                    <span class="menu-collapsed">會員資料修改</span>
                 </a>
                 <a href="member/crm/mem" class="list-group-item list-group-item-action bg-dark text-white">
                     <span class="menu-collapsed">新增會員</span>
                 </a>
             </div>
-             <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+            
+
+             <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="fa fa-dashboard fa-fw mr-3"></span>
-                    <span class="menu-collapsed">訂單管理</span>
+                    <span class="fa fa-shopping-cart fa-fw mr-3"></span>
+                    <span class="menu-collapsed">商品管理</span>
                     <span class="submenu-icon ml-auto"></span>
                 </div>
             </a>
-            
                         <!-- Submenu content -->
-            <div id='submenu1' class="collapse sidebar-submenu">
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                    <span class="menu-collapsed">123</span>
+            <div id='submenu2' class="collapse sidebar-submenu">
+                <a href="product/backSelect" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">商品管理</span>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                    <span class="menu-collapsed">Reports</span>
+                <a href="orderList" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">訂單管理</span>
                 </a>
             </div>
-            <a href="#" class="bg-dark list-group-item list-group-item-action">
+            
+            
+             <a href="#submenu3" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="fa fa-tasks fa-fw mr-3"></span>
-                    <span class="menu-collapsed">Tasks</span>
+                    <span class="fa fa-heart fa-fw mr-3"></span>
+                    <span class="menu-collapsed">討論區管理</span>
+                    <span class="submenu-icon ml-auto"></span>
                 </div>
             </a>
+                        <!-- Submenu content -->
+            <div id='submenu3' class="collapse sidebar-submenu">
+                <a href="backstage" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">新增文章</span>
+                </a>
+                <a href="<c:url value='boards' />" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">新增討論版</span>
+                </a>
+            </div>
+            
+            
+<!--             <a href="#" class="bg-dark list-group-item list-group-item-action"> -->
+<!--                 <div class="d-flex w-100 justify-content-start align-items-center"> -->
+<!--                     <span class="fa fa-tasks fa-fw mr-3"></span> -->
+<!--                     <span class="menu-collapsed">Tasks</span> -->
+<!--                 </div> -->
+<!--             </a> -->
             <!-- Separator with title -->
             <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
                 <small>OPTIONS</small>
@@ -195,13 +216,7 @@ position: fixed;
 <!--                 </ul> -->
 <!--             </div> -->
         </div>
-        
-
-        
-        
-        
-
-        
+      
     </div><!-- Main Col END -->
 </div><!-- body-row END -->
 
