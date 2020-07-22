@@ -46,21 +46,23 @@
 			<form action="<c:url value='addCart' />" method="POST">
 				<div class="flex-auto">
 			
-					<h2>${product.name}</h2>
+					<h2 id='name' name='name'>${product.name}</h2>
 				</div>
 				<br>
 				<div>
-					<h2>NT$${product.price}</h2>
+					<h2 id='price' name='price'>NT$${product.price}</h2>
 				</div>
 				<div>
-					<p class="stock-div">庫存剩餘量: ${product.stock}</p>
+					<input type='hidden' id='check' value='${product.stock}'>
+					<p id='stock' class="stock-div">庫存剩餘量: ${product.stock}</p>
 				</div>
 				
 				
 				<div>
 						<label for="buyCount">數量:</label>
 						<br>
-						<select id="buyCount" name='buyCount' style="width: 3cm; height: 1cm;">
+						<select id="buyCount" name='buyCount' style="width: 3cm; height: 1cm;" >
+							<option value="0">0</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
@@ -69,8 +71,10 @@
 						</select>
 				</div>
 				<div>
-					<Input type='hidden' name=productId value='${product.productId}'>
-					<button type='submit' class="btn btn-danger buycar"
+					<Input type='hidden' name='productId' value='${product.productId}'>
+<%-- 					<Input type='hidden' name='name' value='${product.name}'> --%>
+<%-- 					<Input type='hidden' name='price' value='${product.price}'> --%>
+					<button id='send' type='submit' class="btn btn-danger buycar"
 						style="width: 10cm;">
 						<i class="fa fa-shopping-cart" aria-hidden="true"></i> 加入購物車
 					</button>
@@ -87,5 +91,24 @@
 			
 		</div>
 	</div>
+<script>
+
+function checkstock(){
+	var stock = document.getElementById("check").value;
+    var buyCount = document.getElementById("buyCount").value;
+    console.log(buyCount)
+    if (stock < buyCount) {  	
+      alert("庫存量小於購買量");
+      parent.location.reload();
+      //buyCount.fireEvent("onchange");
+    }
+    
+  }
+window.onload = function () {
+    
+    
+    document.getElementById("buyCount").onchange = function(){checkstock();} 
+  }
+</script>
 </body>
 </html>

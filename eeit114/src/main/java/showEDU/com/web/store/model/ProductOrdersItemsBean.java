@@ -2,15 +2,16 @@ package showEDU.com.web.store.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "ProductOrdersItems")
 public class ProductOrdersItemsBean implements Serializable{
@@ -18,8 +19,9 @@ public class ProductOrdersItemsBean implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer productOrdersItemsId;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FK_ProductOrders_formNumber" )
+	@JsonBackReference
 	ProductOrdersBean productOrdersBean;
 	String name;
 	String phone;
@@ -34,28 +36,27 @@ public class ProductOrdersItemsBean implements Serializable{
 //	@JoinColumn
 	//折扣資料表
 	Integer discountId;
-	String payStatus;
-	String sendStatus;
+
 	
 
 
+	
+
 	public ProductOrdersItemsBean(Integer productOrdersItemsId, ProductOrdersBean productOrdersBean, String name,
-			String phone, String address, PeripheralProductBean peripheralProductBean, Integer productId,
-			Integer buyCount, String useDiscount, Integer discountId, String payStatus, String sendStatus) {
-		super();
-		this.productOrdersItemsId = productOrdersItemsId;
-		this.productOrdersBean = productOrdersBean;
-		this.name = name;
-		this.phone = phone;
-		this.address = address;
-		this.peripheralProductBean = peripheralProductBean;
-		this.productId = productId;
-		this.buyCount = buyCount;
-		this.useDiscount = useDiscount;
-		this.discountId = discountId;
-		this.payStatus = payStatus;
-		this.sendStatus = sendStatus;
-	}
+		String phone, String address, PeripheralProductBean peripheralProductBean, Integer productId, Integer buyCount,
+		String useDiscount, Integer discountId) {
+	super();
+	this.productOrdersItemsId = productOrdersItemsId;
+	this.productOrdersBean = productOrdersBean;
+	this.name = name;
+	this.phone = phone;
+	this.address = address;
+	this.peripheralProductBean = peripheralProductBean;
+	this.productId = productId;
+	this.buyCount = buyCount;
+	this.useDiscount = useDiscount;
+	this.discountId = discountId;
+}
 
 	public ProductOrdersItemsBean() {
 		// TODO Auto-generated constructor stub
@@ -133,21 +134,7 @@ public class ProductOrdersItemsBean implements Serializable{
 		this.discountId = discountId;
 	}
 
-	public String getPayStatus() {
-		return payStatus;
-	}
 
-	public void setPayStatus(String payStatus) {
-		this.payStatus = payStatus;
-	}
-
-	public String getSendStatus() {
-		return sendStatus;
-	}
-
-	public void setSendStatus(String sendStatus) {
-		this.sendStatus = sendStatus;
-	}
 
 	public Integer getProductId() {
 		return productId;

@@ -22,6 +22,6 @@ public class RemovesShoppingCartController {
 		System.out.println("removeShoppingCart OK");
 		status.setComplete();
 		webRequest.removeAttribute("ShoppingCart", WebRequest.SCOPE_SESSION);
-		return "redirect: " + context.getContextPath() + "/ThanksForOrdering";
+		return "redirect: " + context.getContextPath() + "/";
 	}
 }

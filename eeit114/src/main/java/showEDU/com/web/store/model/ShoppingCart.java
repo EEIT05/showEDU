@@ -66,7 +66,7 @@ public class ShoppingCart {
 			ProductOrdersItemsBean poib = cart.get(n);
 			double price = poib.getPeripheralProductBean().getPrice();
 			int buyCount = poib.getBuyCount();
-			buyCount += price * buyCount;
+			buyTotal += price * buyCount;
 		}
 		return buyTotal;
 	}

@@ -34,12 +34,12 @@
 	<nav>
 		<div class="wrapper" id="pic">
 			<ul class="slides">
-				<li><img
-					src="${pageContext.request.contextPath}/images/下載.jpg" alt=""></li>
+				<li><img src="${pageContext.request.contextPath}/images/下載.jpg"
+					alt=""></li>
 				<li><img
 					src="${pageContext.request.contextPath}/images/下載2.jpg" alt=""></li>
-				<li><img
-					src="${pageContext.request.contextPath}/images/下載.jpg" alt=""></li>
+				<li><img src="${pageContext.request.contextPath}/images/下載.jpg"
+					alt=""></li>
 			</ul>
 			<ul class="dot">
 				<li id="1"></li>
@@ -59,51 +59,61 @@
 			<aside class="item item1">
 				<div class="accordion" id="sidelist">
 
- 					<ul class="list-group">
- 						<li class="list-group-item" id="00">全部商品</li>
-<!--  						<a class="list-group-item"  href="#" id="0"> -->
-                       	<li class="list-group-item" id="10">海報</li>  
-                          
-                        <li class="list-group-item" id="20">杯子</li>
-                        
-                        <li class="list-group-item" id="30">行李箱</li>
-                        
-                       	<li class="list-group-item" id="40">玩偶</li>
-                        
-                        <li class="list-group-item" id="50">其他</li>
-                        
-                      </ul>
-					</div>
+					<ul class="list-group">
+						<li class="list-group-item" id="00">全部商品</li>
+						<!--  						<a class="list-group-item"  href="#" id="0"> -->
+						<li class="list-group-item" id="10">海報</li>
+
+						<li class="list-group-item" id="20">杯子</li>
+
+						<li class="list-group-item" id="30">行李箱</li>
+
+						<li class="list-group-item" id="40">玩偶</li>
+
+						<li class="list-group-item" id="50">其他</li>
+
+					</ul>
+				</div>
 			</aside>
 			<article class="item item2">
 				<div class="flex-auto">
-				<div id='allproduct'>
-					<c:forEach var='products' items='${products}'>
-						<div class="card product" style="width: 18rem;">
-							<img src="<c:url value='/getProductPicture/${products.productId}'/>"
-								class="card-img-top" alt="...">
-							<div class="card-body">
-								<h5 class="card-title">${products.name}</h5>
-								<p class="card-text">${products.company}</p>
-								<p class="card-text">NT$${products.price}</p>
-								<p>
-									<a href="<spring:url value='/Product?id=${products.productId}' />"
-										class="btn btn-primary"> <span
-										class="glyphicon-info-sigh glyphicon"></span>詳細資料
-									</a>
-								</p>
+
+					<span><input
+						style='width: 5cm; display: inline; margin-left: 20cm' id='select'
+						type="text" name="" class="form-control" placeholder="Search">
+						<button id='send' class="btn btn-md btn-primary ml-2">查詢</button></span>
+
+
+					<div id='allproduct'>
+						<c:forEach var='products' items='${products}'>
+							<div class="card product" style="width: 18rem;">
+								<img
+									src="<c:url value='/getProductPicture/${products.productId}'/>"
+									class="card-img-top" alt="...">
+								<div class="card-body">
+									<h5 class="card-title">${products.name}</h5>
+									<p class="card-text">${products.company}</p>
+									<p class="card-text">NT$${products.price}</p>
+									<p>
+										<a
+											href="<spring:url value='/Product?id=${products.productId}' />"
+											class="btn btn-primary"> <span
+											class="glyphicon-info-sigh glyphicon"></span>詳細資料
+										</a>
+									</p>
+								</div>
 							</div>
-						</div>
-						
-					</c:forEach>
-				</div>
+
+						</c:forEach>
+					</div>
 				</div>
 			</article>
 		</div>
 	</div>
-	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/scripts/Peripheral.js"></script>
-		
+
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/scripts/Peripheral.js"></script>
+
 	<script>
 	
 	window.onload = function() {
@@ -121,7 +131,7 @@
 		
 		var xhr = new XMLHttpRequest;
 		var CategoryId = null;
-		var noProduct = "<h2>無此類別商品</h2>";
+		//var noProduct = "<h2>無此類別商品</h2>";
 		
 		//Ajax全部商品-------------------------------
 		a0.onclick = function(){
@@ -241,10 +251,60 @@
 			productCategory();
 		}
 		
+		
+
+		console.log(select)
+		send.onclick = function(){
+			var select = document.getElementById("select").value;
+			var send = document.getElementById("send");
+			console.log(111)
+		xhr.open("GET", "<c:url value='/selectName?name=" 
+				+ select +"'/>" ,true)
+		xhr.send();
+		console.log(select)
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200){
+				var AllProducts =  JSON.parse(xhr.responseText);
+				//console.log(AllProducts)
+				var allproduct = document.getElementById("allproduct");
+				var context = "";
+				for(var i = 0; i < AllProducts.length; i++){
+					context += "<div class='card product' style='width: 18rem;'>"
+							+"<img src=' <c:url value='/getProductPicture/"
+							+AllProducts[i].productId
+							+"'/>'"
+							+"class='card-img-top' alt='...'>"
+							+"<div class='card-body'>"
+							+"<h5 class='card-title'>"
+							+ AllProducts[i].name
+							+"</h5>"
+							+"<p class='card-text'>"
+	    						+AllProducts[i].company
+							+"</p>"
+							+"<p class='card-text'>"
+							+"NT$"
+							+AllProducts[i].price
+							+"</p>"
+							+"<p><a href='<spring:url value='/Product?id="
+							+AllProducts[i].productId	
+							+"' />'"
+							+"class='btn btn-primary'>"
+							+"<span class='glyphicon-info-sigh glyphicon'></span>詳細資料"
+							+"</a></p>"
+							+"</div></div>"
+							
+				}
+				allproduct.innerHTML = context;
+				if(AllProducts.length === 0){
+					allproduct.innerHTML = "<h2>無此類別商品</h2>";;
+			}
+		}
+			
+		}
 	}
-		
+	}	
 	</script>
-		
-		
+
+
 </body>
 </html>

@@ -149,6 +149,24 @@ public class PeripheralDaoImpl implements PeripheralDao {
 		
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PeripheralProductBean> getProductsByName(String name) {
+		Session session = factory.getCurrentSession();
+		List<PeripheralProductBean> re = null;
+		if( name == null) {
+			
+			String hql1 = "From PeripheralProductBean pp where pp.status = 'A'";
+			re = session.createQuery(hql1).getResultList();
+		}else {
+			String hql = "From PeripheralProductBean pp where pp.name like :name";
+			re =  session.createQuery(hql).setParameter("name", "%"+name+"%").getResultList();
+		}
+		return re;
+		
+		
+	}
+
 
 	
 }

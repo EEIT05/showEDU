@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import showEDU.com.web.store.model.CategoryBean;
@@ -40,7 +41,7 @@ import showEDU.com.web.store.service.PeripheralService;
 import showEDU.com.web.store.validator.ProductValidator;
 
 
-
+@SessionAttributes({"product"})
 @Controller
 public class MovieProductControll {
 	
@@ -56,6 +57,8 @@ public class MovieProductControll {
 		model.addAttribute("products", beans);
 		return "store/PeripheralProduct2";
 	}
+	
+
 	
 	//前台抓取所有商品Ajax
 	@GetMapping("/Peripheralproduct2")
@@ -409,7 +412,7 @@ public class MovieProductControll {
 		return "redirect:/product/backSelect";
 	}
 	
-	@ModelAttribute
+	@ModelAttribute("updateProduct")
 	public void getProduct(@PathVariable(value="id",required = false)Integer productId,Model model) {
 		if (productId != null) {
 			PeripheralProductBean product = peripheralService.getProductById(productId);
@@ -418,6 +421,16 @@ public class MovieProductControll {
 				PeripheralProductBean product = new PeripheralProductBean();
 				model.addAttribute("product",product); 
 			}
+	}
+	
+	//欄位查詢
+	@GetMapping("/selectName")
+	public ResponseEntity<List<PeripheralProductBean>>ajaxGetProductByName(@RequestParam(value = "name")String name){
+		List<PeripheralProductBean> beans = peripheralService.getProductsByName(name);
+		System.out.println(name);
+		ResponseEntity<List<PeripheralProductBean>> re = new ResponseEntity<List<PeripheralProductBean>>(beans,HttpStatus.OK);
+		System.out.println(re.toString());
+		return re;
 	}
 	
 }

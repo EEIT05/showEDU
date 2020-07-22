@@ -36,6 +36,9 @@ public interface PeripheralDao {
 
 	void delete(Integer id);
 
+	List<PeripheralProductBean> getProductsByName(String name);
+
+
 	
 
 	

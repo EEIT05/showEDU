@@ -1,6 +1,7 @@
 package showEDU.com.web.store.controller;
 
 import java.lang.reflect.Member;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ import showEDU.com.web.store.model.ShoppingCart;
 import showEDU.com.web.store.service.PeripheralService;
 
 @Controller
-@SessionAttributes({"loginMember","ShoppingCart"})
+@SessionAttributes({"loginMember","ShoppingCart","product"})
 public class ShoppingCartControll {
 	
 	@Autowired
@@ -54,7 +55,7 @@ public class ShoppingCartControll {
 		
 		String buyCountStr = request.getParameter("buyCount");
 		Integer buyCount = 0;
-		
+//		String productname = request.getParameter("name");
 		PeripheralProductBean bean = peripheralService.getProductById(productId);
 		try {
 			buyCount = Integer.parseInt(buyCountStr.trim());
@@ -65,6 +66,9 @@ public class ShoppingCartControll {
 		ProductOrdersItemsBean poib = new ProductOrdersItemsBean();
 		poib.setBuyCount(buyCount);
 		poib.setProductId(productId);
+//		poib.getPeripheralProductBean().getPrice();
+//		poib.getPeripheralProductBean().getName();
+		poib.setPeripheralProductBean(bean);
 		cart.addToCart(productId, poib);
 		
 		return "redirect:/showproduct";
@@ -85,6 +89,6 @@ public class ShoppingCartControll {
 		if(memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
-		return "OrderConfirm";
+		return "store/OrderConfirm";
 	}
 }

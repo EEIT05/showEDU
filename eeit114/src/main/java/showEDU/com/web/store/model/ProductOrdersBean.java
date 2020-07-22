@@ -7,15 +7,14 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import showEDU.com.web.member.model.MemberBean;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "ProductOrders")
@@ -34,24 +33,46 @@ public class ProductOrdersBean implements Serializable{
 	Double totalAmount;
 	
 	Date ordersDate;
-	
-	@OneToMany(mappedBy="productOrdersBean", cascade=CascadeType.ALL)
+	String payStatus;
+	String sendStatus;
+    @JsonManagedReference
+	@OneToMany(mappedBy="productOrdersBean", cascade=CascadeType.ALL,fetch = FetchType.EAGER)
 	Set<ProductOrdersItemsBean> items = new LinkedHashSet<>();
 	
 	
 
 
 
-
-
 	public ProductOrdersBean(Integer formNumber, Integer memberId, Double totalAmount, Date ordersDate,
-			Set<ProductOrdersItemsBean> items) {
+			String payStatus, String sendStatus, Set<ProductOrdersItemsBean> items) {
 		super();
 		this.formNumber = formNumber;
 		this.memberId = memberId;
 		this.totalAmount = totalAmount;
 		this.ordersDate = ordersDate;
+		this.payStatus = payStatus;
+		this.sendStatus = sendStatus;
 		this.items = items;
+	}
+
+
+	public String getPayStatus() {
+		return payStatus;
+	}
+
+
+	public void setPayStatus(String payStatus) {
+		this.payStatus = payStatus;
+	}
+
+
+	public String getSendStatus() {
+		return sendStatus;
+	}
+
+
+	public void setSendStatus(String sendStatus) {
+		this.sendStatus = sendStatus;
 	}
 
 

@@ -36,5 +36,8 @@ public interface PeripheralService {
 	void updateproduct(PeripheralProductBean product);
 
 	void delete(Integer id);
+	
+	List<PeripheralProductBean> getProductsByName(String name);
+
 
 }

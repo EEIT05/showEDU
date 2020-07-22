@@ -116,5 +116,12 @@ public class PeripheralServiceImpl implements PeripheralService {
 		
 	}
 
+	@Transactional
+	@Override
+	public List<PeripheralProductBean> getProductsByName(String name) {
+		
+		return peripheralDao.getProductsByName(name);
+	}
+
 
 }

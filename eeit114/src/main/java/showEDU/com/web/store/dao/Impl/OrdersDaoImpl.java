@@ -26,10 +26,10 @@ public class OrdersDaoImpl implements OrdersDao {
 	}
 	
 	public ProductOrdersBean getOrder(int formNumber) {
-		ProductOrdersBean pob = null;
+		
 		Session session = factory.getCurrentSession();
-		pob = session.get(ProductOrdersBean.class, formNumber);
-		return  pob;
+		
+		return  session.get(ProductOrdersBean.class, formNumber);
 	}
 	
 	public String getMemberId() {
@@ -54,7 +54,7 @@ public class OrdersDaoImpl implements OrdersDao {
 	public List<ProductOrdersBean>getMemberOrders(Integer memberId ){
 		List<ProductOrdersBean>list = null;
 		Session session = factory.getCurrentSession();
-		String hql = "From ProductOrdersBean pob where pob.MemberBean.memberId =:mid";
+		String hql = "From ProductOrdersBean pob where pob.memberId =:mid";
 		list = session.createQuery(hql).setParameter("mid", memberId).getResultList();
 		return list;
 	}

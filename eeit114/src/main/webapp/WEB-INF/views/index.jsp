@@ -214,8 +214,8 @@ width: 100%;
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
 						role="button" data-toggle="dropdown" data-hover="dropdown">餐飲商品</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
-							<a href="#" class="dropdown-item">餐飲</a> <a href="#"
-								class="dropdown-item">周邊商品</a> <a href="#" class="dropdown-item">商品後台</a>
+							<a href="#" class="dropdown-item">餐飲</a> <a href="showproduct"
+								class="dropdown-item">周邊商品</a> <a href="product/backSelect" class="dropdown-item">商品後台</a>
 							<!-- <a href="#" class="dropdown-item">Service3</a> -->
 						</div>
 					<li class="nav-item dropdown"><a
@@ -264,7 +264,7 @@ width: 100%;
 								</c:if>
 
 								<c:if test="${memberBean.userType eq 'M'}">
-									<a href="#" class="dropdown-item">我的訂單</a>
+									<a href="orderList" class="dropdown-item">我的訂單</a>
 								</c:if>
 
 								<c:if test="${memberBean.userType eq 'A'}">
@@ -284,7 +284,7 @@ width: 100%;
 
 
 					</div>
-					<li class="nav-item active"><a href="#" class="nav-link"><i
+					<li class="nav-item active"><a href="ShowCartContent" class="nav-link"><i
 							class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
 
 					<c:if test="${ ! empty memberBean }">

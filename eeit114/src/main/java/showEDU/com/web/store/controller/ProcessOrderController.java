@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
 
+import ecpay.payment.integration.AllInOne;
+import ecpay.payment.integration.domain.AioCheckOutALL;
+import net.bytebuddy.asm.Advice.AllArguments;
+import net.bytebuddy.dynamic.DynamicType.Builder.MethodDefinition.ParameterDefinition.Initial;
 import showEDU.com.web.member.model.MemberBean;
 import showEDU.com.web.store.model.ProductOrdersBean;
 import showEDU.com.web.store.model.ProductOrdersItemsBean;
@@ -27,15 +31,21 @@ import showEDU.com.web.store.service.ShoppingCartService;
 @Controller
 @SessionAttributes({"loginMember","ShoppingCart"})
 public class ProcessOrderController {
+	
+	public static AllInOne all;
 	@Autowired
 	ServletContext ctx;
 	
 	@Autowired
 	ShoppingCartService cartService;
 	
+	private static void Initial(){
+		all = new AllInOne("");
+	}
+	
 	@PostMapping("ProcessOrder")
 	protected String ProcessOrder(Model model,
-			@RequestParam("ShippingAddress")String address,
+			@RequestParam("ShippingAddress")String address2,
 			@RequestParam("ShippingPhone")String phone,
 			@RequestParam("ShippingName")String name,
 			WebRequest webRequest, SessionStatus status) {
@@ -53,14 +63,26 @@ public class ProcessOrderController {
 		double totalAmount = Math.round(sc.getBuyTotal());// 計算訂單總金額 
 		Date ordersDate = new Date();
 		// 新建訂單物件。OrderBean:封裝一筆訂單資料的容器，包含訂單主檔與訂單明細檔的資料。目前只存放訂單主檔的資料。
-		ProductOrdersBean pob = new ProductOrdersBean(null, memberId, totalAmount, ordersDate, 
-				null);
+//		ProductOrdersBean pob = new ProductOrdersBean(null, memberId, totalAmount, ordersDate, 
+//				null);
+		ProductOrdersBean pob = new ProductOrdersBean();
+		pob.setFormNumber(null);
+		pob.setMemberId(memberId);
+		pob.setOrdersDate(ordersDate);
+		pob.setPayStatus("未付款");
+		pob.setSendStatus("未寄送");
+		pob.setTotalAmount(totalAmount);
+		pob.setItems(null);
 		// 取出存放在購物車內的商品，放入Map型態的變數cart，準備將其內的商品一個一個轉換為OrderItemBean
 		Map<Integer, ProductOrdersItemsBean> content = sc.getContent();
 		Set<ProductOrdersItemsBean>items = new LinkedHashSet<>();
 		Set<Integer> set = content.keySet();
 		for(Integer i : set) {
 			ProductOrdersItemsBean poib = content.get(i);
+			poib.setAddress(address2);
+			poib.setPhone(phone);
+			poib.setName(name);
+			poib.setUseDiscount("N");
 			poib.setProductOrdersBean(pob);
 			items.add(poib);
 		}
@@ -68,7 +90,10 @@ public class ProcessOrderController {
 		pob.setItems(items);
 		try {
 			cartService.persistOrder(pob);
+			
 			System.out.println("Order Process OK");
+			Initial();
+			AioCheckOutALL obj = new AioCheckOutALL();
 			return "forward:" + "removeShoppingCart";
 		} catch (RuntimeException e) {
 			String message = e.getMessage();
