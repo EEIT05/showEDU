@@ -372,7 +372,7 @@ System.out.println("============================================================
 
 			// 身分為管理員A
 		} else {
-	return "member/adm/administrators";
+	return "redirect:/back";
 		}
 	}
 
@@ -415,34 +415,6 @@ System.out.println("============================================================
 		response.addCookie(cookieRememberMe);
 
 	}
-
-//		MemberBean meb = memberService.login(member.getAccount(), member.getPswd());
-//
-//		System.out.println("===================" + meb);
-//
-//		// 身分為空
-//		if (meb != null) {
-//
-//			model.addAttribute("loginMember", meb);
-//			System.out.println("將會員" + meb.getName() + "加入session內" + meb.getUserType());
-//			System.out.println(meb.getUserType());
-//
-//		} else {
-//			return "member/crm/login";
-//		}
-//
-//		String type = meb.getUserType();
-//
-//		// 身分為會員M
-//		if (type.equals("M")) {
-//			return "redirect:/";
-//
-//			// 身分為管理員A
-//		} else {
-//			return "member/adm/administrators";
-//		}
-//
-//	}
 
 	/// 登出
 	@RequestMapping("/loginout")

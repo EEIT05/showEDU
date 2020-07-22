@@ -256,32 +256,30 @@ body, html {
 
 				<div id="remember1" class="checkbox1">
 
-					<form:checkbox path="rememberMe" /> 記住密碼
-					
+					<form:checkbox path="rememberMe" />記住密碼
 				</div>
 				<br>
 
-
+				<!--我不是機器人 -->
+				<div class="g-recaptcha"
+					data-sitekey='6LesdbQZAAAAALBLl5IawsTcfUAxq1oay9feSsQJ'></div>
+				<div id='g-recaptcha-error'></div>
+                <br>
+                
 				<button class="btn btn-lg btn-primary btn-block btn-signin1"
 					type='submit'>登入</button>
 
 				<hr>
 
 				<button class="btn btn-lg btn-primary btn-block btn-signin"
-					type='submit'>使用Gmail登入</button>
-				<br>
-				<!--我不是機器人 -->
-				<div class="g-recaptcha"
-					data-sitekey='6LesdbQZAAAAALBLl5IawsTcfUAxq1oay9feSsQJ'></div>
-				<div id='g-recaptcha-error'></div>
+					type='submit'>使用Gmail登入</button><br>
+				<div>  
+            <input type="button" value="忘記密碼" onclick="location.href='forgetpwd'" style="width:100px;">
+			<input type="button" value="首頁" onclick="location.href='<c:url value='/'/>'" style="width:91px;">
+			<input type="button" value="註冊會員" onclick="location.href='mem'" style="width:100px;">
+			</div>
 			</form:form>
-
-
-
-			<div class="forgot-password">
-				<br> <a href="forgetpwd"> 忘記密碼?</a> <br> <a href='mem'>註冊會員</a>
-				<br> <a href="<c:url value='/'/> ">回首頁</a>
-
+		
 			</div>
 		</div>
 	</div>

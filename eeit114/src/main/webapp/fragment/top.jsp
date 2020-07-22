@@ -137,7 +137,7 @@ width: 100%;
 </head>
 <body>
 
-	<div>
+<!-- 	<div> -->
 
 		<nav class="navbar  navbar-expand-lg navbar-dark fixed-top">
 			<img class="logo" src=images/LOGO.jpg width="100" height="100">

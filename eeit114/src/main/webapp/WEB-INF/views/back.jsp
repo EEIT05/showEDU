@@ -84,6 +84,10 @@ position: fixed;
   text-align: right;
   padding-left: 10px;
 }
+
+.logo{
+
+}
 </style>
 </head>
 <body>
@@ -99,19 +103,13 @@ position: fixed;
         <ul class="list-group">
             <!-- Separator with title -->
             <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                <small>MAIN MENU</small>
+                <small>管理系統</small>
             </li>
             <!-- /END Separator -->
             <!-- Menu with submenu -->
-            <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="fa fa-dashboard fa-fw mr-3"></span>
-                    <span class="menu-collapsed">管理</span>
-                    <span class="submenu-icon ml-auto"></span>
-                </div>
-            </a>
+           
 
-            <a href="member/crm/showAllMembers" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+            <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <span class="fa fa-user fa-fw mr-3"></span>
                     <span class="menu-collapsed">會員管理</span>
@@ -120,24 +118,28 @@ position: fixed;
             </a>
             <!-- Submenu content -->
             <div id='submenu2' class="collapse sidebar-submenu">
-                <a href="member/crm/mem" class="list-group-item list-group-item-action bg-dark text-white">
-                    <span class="menu-collapsed">Settings</span>
+                <a href="member/crm/showAllMembers" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">會員資料管理</span>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                    <span class="menu-collapsed">Password</span>
+                <a href="member/crm/mem" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">新增會員</span>
                 </a>
             </div>
+             <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fa fa-dashboard fa-fw mr-3"></span>
+                    <span class="menu-collapsed">訂單管理</span>
+                    <span class="submenu-icon ml-auto"></span>
+                </div>
+            </a>
             
                         <!-- Submenu content -->
             <div id='submenu1' class="collapse sidebar-submenu">
                 <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                    <span class="menu-collapsed">會員管理</span>
+                    <span class="menu-collapsed">123</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                     <span class="menu-collapsed">Reports</span>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                    <span class="menu-collapsed">Tables</span>
                 </a>
             </div>
             <a href="#" class="bg-dark list-group-item list-group-item-action">
@@ -182,17 +184,21 @@ position: fixed;
     </div><!-- sidebar-container END -->
     <!-- MAIN -->
     <div class="col p-4">
-        <h1 class="display-4">Collapsing Sidebar Menu</h1>
-        <div class="card">
-            <h5 class="card-header font-weight-light">Requirements</h5>
-            <div class="card-body">
-                <ul>
-                    <li>JQuery</li>
-                    <li>Bootstrap 4.3</li>
-                    <li>FontAwesome</li>
-                </ul>
-            </div>
+        <h1 class="display-4">SHOW EDU</h1>
+<!--         <div class="card"> -->
+<!--             <h5 class="card-header font-weight-light">Requirements</h5> -->
+<!--             <div class="card-body"> -->
+<!--                 <ul> -->
+<!--                     <li>JQuery</li> -->
+<!--                     <li>Bootstrap 4.3</li> -->
+<!--                     <li>FontAwesome</li> -->
+<!--                 </ul> -->
+<!--             </div> -->
         </div>
+        
+
+        
+        
         
 
         
