@@ -82,6 +82,40 @@ public class CommentServiceImpl implements CommentService {
 	// ---------------------------------CRUD---------------------------------
 	@Transactional
 	@Override
+	public void deleteCommentBeanByCommentId(int commentId) {
+		commentDao.deleteCommentBeanByCommentId(commentId);
+	}
+	@Transactional
+	@Override
+	public void deleteCommentSecBeanByCommentSecId(int commentSecId) {
+		commentDao.deleteCommentSecBeanByCommentSecId(commentSecId);
+	}
+	
+	@Transactional
+	@Override
+	public void deleteCommentSecBeanByCommentId(int commentId) {
+		commentDao.deleteCommentSecBeanByCommentId(commentId);
+	}
+	@Transactional
+	@Override
+	public void deleteAllThumbsByCommentId(int commentId) {
+		commentDao.deleteAllThumbsByCommentId(commentId);
+	}
+	@Transactional
+	@Override
+	public void deleteAllThumbsByCommentSecId(int commentSecId) {
+		commentDao.deleteAllThumbsByCommentSecId(commentSecId);
+	}
+
+	
+	@Transactional
+	@Override
+	public void addNewComment(int artId, int boardId, int memberId, String content, CommentBean commentBean) {
+		commentDao.addNewComment(artId, boardId, memberId, content, commentBean);
+	}
+	
+	@Transactional
+	@Override
 	public void addNewSecComment(int commentId, int memberId, String content, CommentSecBean commentSecBean) {
 		commentDao.addNewSecComment(commentId, memberId, content, commentSecBean);
 	}
@@ -163,6 +197,17 @@ public class CommentServiceImpl implements CommentService {
 			}
 		}
 	}
+
+	
+
+	
+
+	
+
+	
+
+	
+	
 
 	
 

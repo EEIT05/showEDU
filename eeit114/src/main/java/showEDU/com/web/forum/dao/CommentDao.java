@@ -36,6 +36,19 @@ public interface CommentDao {
 	
 	
 	// -------------------------------CRUD------------------------------
+	void deleteCommentBeanByCommentId(int commentId);
+	
+	void deleteCommentSecBeanByCommentSecId(int commentSecId);
+	
+	void deleteCommentSecBeanByCommentId(int commentId);
+	
+	// 刪除一層留言所有按讚
+	void deleteAllThumbsByCommentId(int commentId);
+	// 刪除二層留言所有按讚
+	void deleteAllThumbsByCommentSecId(int commentSecId);
+	
+	void addNewComment(int artId, int boardId, int memberId, String content, CommentBean commentBean);
+	
 	void addNewSecComment(int commentId, int memberId, String content,CommentSecBean commentSecBean);
 	
 	// 第一層

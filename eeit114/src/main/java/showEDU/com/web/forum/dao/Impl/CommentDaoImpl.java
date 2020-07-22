@@ -3,6 +3,8 @@ package showEDU.com.web.forum.dao.Impl;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import showEDU.com.web.forum.dao.CommentDao;
 import showEDU.com.web.forum.model.ArticleBean;
 import showEDU.com.web.forum.model.CommentBean;
 import showEDU.com.web.forum.model.CommentSecBean;
+import showEDU.com.web.forum.model.DiscussionBoardBean;
 import showEDU.com.web.forum.model.ThumbsUpBean;
 import showEDU.com.web.member.model.MemberBean;
 
@@ -33,14 +36,32 @@ public class CommentDaoImpl implements CommentDao {
 	public Timestamp getMaxTimeRegisterByArtId(int artId) {
 		String hql = "Select Max(c.registerTime) From CommentBean c Where c.articleBean.artId = :aid";
 		Session session = factory.getCurrentSession();
-		return (Timestamp) session.createQuery(hql).setParameter("aid", artId).getSingleResult();
+		Timestamp timestamp = null;
+		try {
+			timestamp = (Timestamp)session.createQuery(hql).setParameter("aid", artId).getSingleResult();
+		} catch (NoResultException e) {
+			;
+		}
+		if (timestamp == null) {
+			timestamp = new Timestamp(System.currentTimeMillis());
+		}
+		return timestamp;
 	}
 
 	@Override
 	public Timestamp getMaxTimeRegisterByBoardId(int boardId) {
 		String hql = "Select Max(c.registerTime) From CommentBean c Where c.boardBean.boardId = :bid";
 		Session session = factory.getCurrentSession();
-		return (Timestamp) session.createQuery(hql).setParameter("bid", boardId).getSingleResult();
+		Timestamp timestamp = null;
+		try {
+			timestamp = (Timestamp)session.createQuery(hql).setParameter("bid", boardId).getSingleResult();
+		} catch (NoResultException e) {
+			;
+		}
+		if (timestamp == null) {
+			timestamp = new Timestamp(System.currentTimeMillis());
+		}
+		return timestamp;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -103,6 +124,55 @@ public class CommentDaoImpl implements CommentDao {
 	}
 
 	// -------------------------------CRUD---------------------------
+	@Override
+	public void deleteCommentBeanByCommentId(int commentId) {
+		String hql = "Delete From CommentBean c Where c.commentId = :cid";
+		Session session = factory.getCurrentSession();
+		session.createQuery(hql).setParameter("cid", commentId).executeUpdate();
+	}
+	
+	@Override
+	public void deleteCommentSecBeanByCommentSecId(int commentSecId) {
+		String hql = "Delete From CommentSecBean c Where c.commentSecId = :cid";
+		Session session = factory.getCurrentSession();
+		session.createQuery(hql).setParameter("cid", commentSecId).executeUpdate();
+	}
+	
+	@Override
+	public void deleteCommentSecBeanByCommentId(int commentId) {
+		String hql = "Delete From CommentSecBean c Where c.commentBean.commentId = :cid";
+		Session session = factory.getCurrentSession();
+		session.createQuery(hql).setParameter("cid", commentId).executeUpdate();
+	}
+	// 刪除一層留言所有按讚
+	@Override
+	public void deleteAllThumbsByCommentId(int commentId) {
+		String hql = "Delete From ThumbsUpBean tb Where tb.commentBean.commentId = :cid";
+		Session session = factory.getCurrentSession();
+		session.createQuery(hql).setParameter("cid", commentId).executeUpdate();
+	}
+	// 刪除二層留言所有按讚
+	@Override
+	public void deleteAllThumbsByCommentSecId(int commentSecId) {
+		String hql = "Delete From ThumbsUpBean tb Where tb.commentSecBean.commentSecId = :cid";
+		Session session = factory.getCurrentSession();
+		session.createQuery(hql).setParameter("cid", commentSecId).executeUpdate();
+	}
+	
+	// 新增第一層回復留言
+	@Override
+	public void addNewComment(int artId, int boardId, int memberId, String content, CommentBean commentBean) {
+		Session session = factory.getCurrentSession();
+		ArticleBean articleBean = session.get(ArticleBean.class, artId);
+		MemberBean memberBean = session.get(MemberBean.class, memberId);
+		DiscussionBoardBean boardBean = session.get(DiscussionBoardBean.class, boardId);
+		commentBean.setArticleBean(articleBean);
+		commentBean.setMemberBean(memberBean);
+		commentBean.setBoardBean(boardBean);
+		commentBean.setContent(content);
+		session.save(commentBean);
+	}
+	
 	// 新增第二層回覆留言
 	@Override
 	public void addNewSecComment(int commentId, int memberId, String content,CommentSecBean commentSecBean) {
@@ -172,6 +242,18 @@ public class CommentDaoImpl implements CommentDao {
 		Session session = factory.getCurrentSession();
 		return (ArticleBean) session.createQuery(hql).setParameter("cid", commentId).getSingleResult();
 	}
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	
 

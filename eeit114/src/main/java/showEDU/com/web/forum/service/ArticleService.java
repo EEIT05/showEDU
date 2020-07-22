@@ -19,8 +19,12 @@ public interface ArticleService {
 
 	List<ArticleBean> getArticleBeansByTypeId(int typeId);
 
-	
+	List<ArtTypeBean> getAllArtTypeBean();
 	
 	public List<ArticleBeanWithImageData> getArtBeansImageDataByTypeId(int typeId);
+	
+	void addArticle(ArticleBean articleBean, int boardId, int memberId);
+	
+	void deleteArticle(int artId);
 
 }

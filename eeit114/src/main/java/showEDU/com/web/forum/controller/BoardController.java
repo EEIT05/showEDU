@@ -31,7 +31,7 @@ import showEDU.com.web.forum.service.ArticleService;
 import showEDU.com.web.forum.service.BoardService;
 import showEDU.com.web.forum.service.CommentService;
 
-@SessionAttributes({"movieList","loginMember"})
+@SessionAttributes({"movieList","memberBean"})
 @Controller
 public class BoardController {
 
@@ -73,6 +73,15 @@ public class BoardController {
 	public ResponseEntity<byte[]> getPicture(HttpServletResponse resp, @PathVariable Integer movieId) {
 		ForumMovieBean moviebean = boardService.getMovieBeanByFKMovieId(movieId);
 		return calculatePicture(moviebean);
+	}
+	
+	@GetMapping("/backstage")
+	public String backstage(Model model) {
+		List<DiscussionBoardBean> allBoards = boardService.getAllBoards();
+		List<ArticleBean> allArticles = articleService.getAllArticle();
+		model.addAttribute("allBoards", allBoards);
+		model.addAttribute("allArticles", allArticles);
+		return "forum/editorForum";
 	}
 
 	
@@ -170,11 +179,19 @@ public class BoardController {
 		}
 		for (DiscussionBoardBean boardBean : boards) {
 			List<ArticleBean> list = articleService.getArticlesByBoardId(boardBean.getBoardId());
-			boardBean.setReplyCounts(list.size());
+			if (list == null) {
+				boardBean.setReplyCounts(0);
+			} else {
+				boardBean.setReplyCounts(list.size());
+			}
 		}
 		for (DiscussionBoardBean boardBean : sortedBoards) {
 			List<ArticleBean> list = articleService.getArticlesByBoardId(boardBean.getBoardId());
-			boardBean.setReplyCounts(list.size());
+			if (list == null) {
+				boardBean.setReplyCounts(0);
+			} else {
+				boardBean.setReplyCounts(list.size());
+			}
 		}
 	}
 

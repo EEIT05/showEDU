@@ -16,6 +16,10 @@ public interface BoardService {
 	
 	ForumMovieBean getMovieBeanByFKMovieId(int movieId);
 	
+	
+	DiscussionBoardBean getBoardBeanByBoardId(int boardId);
+
+	
 	List<ForumMovieBean> getMovieBeanList();
 	
 	List<Integer> getMovieIdsByBoardBean();
@@ -27,7 +31,7 @@ public interface BoardService {
 	
 	//---------------------------------(以下為重構)------------------------------------------------
 
-	Map<Integer, String> getMovieMap(Map<Integer, String> movieMap,List<ForumMovieBean> movieBeanList,List<Integer> movieIdsByBoardBean);
+	Map<Integer, String> getMovieMap(Map<Integer, String> movieMap ,List<ForumMovieBean> movieBeanList,List<Integer> movieIdsByBoardBean);
 	
 	
 	DiscussionBoardBean setviewCount(DiscussionBoardBean db, BindingResult result);

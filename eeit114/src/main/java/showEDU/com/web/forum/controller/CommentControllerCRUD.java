@@ -1,9 +1,12 @@
 package showEDU.com.web.forum.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +23,7 @@ import showEDU.com.web.forum.model.ThumbsUpBean;
 import showEDU.com.web.forum.service.ArticleService;
 import showEDU.com.web.forum.service.CommentService;
 
-@SessionAttributes("loginMember")
+@SessionAttributes("memberBean")
 @Controller
 public class CommentControllerCRUD {
 	@Autowired
@@ -29,7 +32,64 @@ public class CommentControllerCRUD {
 	ArticleService articleService;
 	@Autowired
 	ServletContext ctx;
-
+	// 刪除第一層留言
+	@PostMapping("/deleteComment")
+	public void deleteComment(@RequestParam Integer commentId, HttpServletResponse response) {
+		List<CommentSecBean> commentSecBeans = commentService.getCommentSecBeansByCommentId(commentId);
+		for (CommentSecBean commentSecBean : commentSecBeans) {
+			System.out.println("二層留言Id=====================" + commentSecBean.getCommentSecId());
+			commentService.deleteAllThumbsByCommentSecId(commentSecBean.getCommentSecId());
+		}
+		commentService.deleteCommentSecBeanByCommentId(commentId);
+		commentService.deleteAllThumbsByCommentId(commentId); // 刪掉一層讚
+		commentService.deleteCommentBeanByCommentId(commentId);
+		System.out.println("刪除一則留言------------------------------------");
+		PrintWriter writer;
+		try {
+			response.setContentType("text/html;charset=utf-8");
+			writer = response.getWriter();
+			String msg = "alert('留言删除成功!!!');history.go(-1)"; 
+			writer.print("<script type='text/javascript'>" + msg + "</script>");
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	// 刪除第二層留言
+	@PostMapping("/deleteSecComment")
+	public void deleteSecComment(@RequestParam Integer commentSecId, Integer artId, HttpServletResponse response) {
+		commentService.deleteAllThumbsByCommentSecId(commentSecId);
+		commentService.deleteCommentSecBeanByCommentSecId(commentSecId);
+		PrintWriter writer;
+		try {
+			response.setContentType("text/html;charset=utf-8");
+			writer = response.getWriter();
+			String msg = "alert('回覆删除成功!!!');history.go(-1)"; 
+			writer.print("<script type='text/javascript'>" + msg + "</script>");
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	// 新增第一層留言
+	@PostMapping("/addComment")
+	public String addComment(@RequestParam Integer artId, Integer memberId, String content) {
+		System.out.println("內容為:" + content + "---------------------------------------------");
+		ArticleBean articleBean = articleService.getArticleByArtId(artId);
+		Integer boardId = articleBean.getDiscussionBoardBean().getBoardId();
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		CommentBean commentBean = new CommentBean();
+		commentBean.setRegisterTime(timestamp);
+		commentService.addNewComment(artId, boardId, memberId, content, commentBean);
+		System.out.println("新增一筆Comment資料========================================");
+		return "redirect:/comment/" + artId;
+	}
+	
+	// 新增第二層留言
 	@PostMapping("/addSecComment")
 	public String addSecComment(@RequestParam Integer commentId, Integer memberId, String SecContent) {
 		System.out.println("內容為:" + SecContent + "---------------------------------------------");
@@ -213,45 +273,5 @@ public class CommentControllerCRUD {
 		}
 	}
 
-	// 第一層留言按讚新增Or刪除
-//		@PostMapping("/thumbUpCalculate")
-//		public String updateThumbUp(@RequestParam Integer commentId, Integer memberId, Model model) {
-//				List<ThumbsUpBean> allthumbsByCommentId = commentService.getAllthumbsByCommentId(commentId); 
-//				ArticleBean articleBean = commentService.getArticleBeanByCommentId(commentId);
-//				Integer artId = articleBean.getArtId();
-//				for (ThumbsUpBean thumbsUpBean : allthumbsByCommentId) {
-//					// 如果按讚的會員跟當前按讚的Bean的會員一樣,表示此會員按過讚
-//					if ((thumbsUpBean.getMemberBean().getMemberId() == memberId) && (thumbsUpBean.getCommentBean().getCommentId() == commentId)) {
-//						if (thumbsUpBean.getStatus() == 1) {
-//							commentService.deleteThumbUpByThumbId(commentId, memberId); // 將此筆按讚刪除
-//							return "redirect:/comment/" + artId;
-//						}
-//					}
-//				}
-//				ThumbsUpBean thumbsUpBean2 = new ThumbsUpBean();
-//				thumbsUpBean2.setStatus(1);
-//				commentService.addNewThumbUp(commentId, memberId, thumbsUpBean2);
-//			return "redirect:/comment/" + artId;
-//		}
-	// 第一層留言按爛新增Or刪除
-//		@PostMapping("/thumbDownCalculate")
-//		public String updateThumbDown(@RequestParam Integer commentId, Integer memberId, Model model) {
-//				List<ThumbsUpBean> allthumbsByCommentId = commentService.getAllthumbsByCommentId(commentId); 
-//				ArticleBean articleBean = commentService.getArticleBeanByCommentId(commentId);
-//				Integer artId = articleBean.getArtId();
-//				for (ThumbsUpBean thumbsUpBean : allthumbsByCommentId) {
-//					// 如果按讚的會員跟當前按讚的Bean的會員一樣,表示此會員按過讚
-//					if ((thumbsUpBean.getMemberBean().getMemberId() == memberId) && (thumbsUpBean.getCommentBean().getCommentId() == commentId)) {
-//						if (thumbsUpBean.getStatus() == 0) {
-//							commentService.deleteThumbDownByThumbId(commentId, memberId); // 將此筆按讚刪除
-//							return "redirect:/comment/" + artId;
-//						}
-//					}
-//				}
-//				ThumbsUpBean thumbsUpBean2 = new ThumbsUpBean();
-//				thumbsUpBean2.setStatus(0);
-//				commentService.addNewThumbUp(commentId, memberId, thumbsUpBean2);
-//			return "redirect:/comment/" + artId;
-//		}
 
 }

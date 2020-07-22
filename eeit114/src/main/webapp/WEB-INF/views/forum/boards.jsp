@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -19,6 +20,12 @@
 
 <!-- Custom styles for this template -->
 <link href="css/blog-home.css" rel="stylesheet" />
+
+<style>
+.myMOUSEEE {
+	cursor: pointer;
+}
+</style>
 </head>
 
 <body>
@@ -78,11 +85,7 @@
 								aria-hidden="true">瀏覽數:${board.viewCount}</i> <i
 								class="fa fa-newspaper-o" aria-hidden="true">文章數:${board.replyCounts}</i>
 						</div>
-						<button style="border: 0; background-color: none">
-							<a id='deletelink' class="page-link"
-								href="<c:url value='/boards/delete${board.boardId}' />"
-								style="text-decoration: none; color: black;">刪除討論版</a>
-						</button>
+						
 					</div>
 				</c:forEach>
 
@@ -132,6 +135,8 @@
 									aria-hidden="true">瀏覽數:${sortBoard.viewCount}</i> <i
 									class="fa fa-newspaper-o" aria-hidden="true">文章數:${sortBoard.replyCounts}</i>
 							</div>
+
+
 						</div>
 					</c:forEach>
 					<!-- 						
@@ -143,12 +148,10 @@
 				<div class="card-body">
 					客服專線 <br /> 撥打02-26225656
 				</div>
-				<button style="border: 0; background-color: none">
-					<a class="page-link" href="<c:url value='/boards/add' />"
-						style="text-decoration: none; color: black;">新增討論版</a>
-				</button>
-
-			</div>
+				<button style="margin: 3px; padding: 3px 2px 3px 2px;"
+					class="btn btn-outline-secondary myMOUSEEE" type="button" onclick="addBoard()">新增討論版</button>
+				<button style="margin: 3px; padding: 3px 2px 3px 2px;"
+					class="btn btn-outline-secondary myMOUSEEE" type="button" onclick="backstage()">後台</button>
 		</div>
 		<!-- /.row -->
 
@@ -166,15 +169,15 @@
 		<script src="vendor/jquery/jquery.min.js"></script>
 		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<script type='text/javascript'>
-			$(document).ready(function() {
-				$('#deletelink').click(function() {
-					if (confirm('確定刪除此討論版?')) {
-						var href = $(this).attr('href');
-						$('#deleteform').attr('action', href).submit();
-					}
-					return false;
-				})
-			})
+			
+		function addBoard() {
+			document.location.href="<c:url value='/boards/add' />";
+		}
+		function backstage() {
+			document.location.href="<c:url value='/backstage'/>";
+		}
+
+			
 		</script>
 </body>
 </html>

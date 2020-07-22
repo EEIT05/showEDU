@@ -21,7 +21,11 @@
 
 <!-- Custom styles for this template -->
 <link href="css/blog-home.css" rel="stylesheet">
-
+<style>
+.myMOUSEEE {
+	cursor: pointer;
+}
+</style>
 </head>
 
 <body>
@@ -37,6 +41,7 @@
 			var boardId = ${articleBean.discussionBoardBean.boardId};
 			
 			// 全部文章 ----------------------------------------------------------------(Ajax)
+
 			a0.onclick = function() {
 				xhr.open("GET", "<c:url value='/allArtType' />" , true);
 				xhr.send();
@@ -127,8 +132,11 @@
 				anyType();
 			}
 		}
+		
+		
 	</script>
 	<!-- Navigation -->
+
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="#">SHOW EDU</a>
@@ -160,33 +168,37 @@
 			<div class="col-md-2">
 				<br>
 				<div>
-					<h2 style="font-weight: bold">文章分類</h2>
+					<h3 style="font-weight: bold">&ensp;分類</h3>
 				</div>
 				<table>
 					<tr style="font-size: 26px; border: black 1px solid">
-						<td><a id='a0' class="mh6" href="#"
+						<td><a id='a0' class="mh6 myMOUSEEE"
 							style="text-decoration: none;">&emsp;所有&emsp;</a></td>
 					</tr>
 					<tr style="font-size: 26px; border: black 1px solid">
-						<td><a id='a1' class="mh6" href="#"
+						<td><a id='a1' class="mh6 myMOUSEEE"
 							style="text-decoration: none;">&emsp;情報&emsp;</a></td>
 					</tr>
 					<tr style="font-size: 26px; border: black 1px solid">
-						<td><a id='a2' class="mh6" href="#"
+						<td><a id='a2' class="mh6 myMOUSEEE"
 							style="text-decoration: none;">&emsp;發問&emsp;</a></td>
 					</tr>
 					<tr style="font-size: 26px; border: black 1px solid">
-						<td><a id='a3' class="mh6" href="#"
+						<td><a id='a3' class="mh6 myMOUSEEE"
 							style="text-decoration: none;">&emsp;心得&emsp;</a></td>
 					</tr>
 					<tr style="font-size: 26px; border: black 1px solid">
-						<td><a id='a4' class="mh6" href="#"
+						<td><a id='a4' class="mh6 myMOUSEEE"
 							style="text-decoration: none;">&emsp;其他&emsp;</a></td>
 					</tr>
 
 				</table>
+				<c:if test="${ ! empty memberBean }">
 
-
+					<a
+						href="<c:url value='/addArticle/${boardBean.boardId}/${memberBean.memberId}" ' />"><button
+							type="button" class="btn btn-primary" style="margin-top: 50px">新增文章</button></a>
+				</c:if>
 			</div>
 			<div class="col-md-6">
 				<h3 class="my-3" style="font-weight: bold; text-align: center;">
@@ -210,12 +222,11 @@
 											src="<c:url value='/getPictureType/${article.artTypeBean.typeId}' />"
 											alt="${article.artTypeBean.typeId}" />
 									</div>
-									<div class="div1" style="height: 215px">&emsp;&emsp;${article.content}
-									<p>&emsp;</p>
-									</div>
+									<div class="div1">&emsp;&emsp;${article.content}</div>
 								</div>
 								<div class="card-footer text-muted" style="text-align: right;">
 									<i class="fa fa-user" aria-hidden="true" style="float: left;">&ensp;發文者:${article.memberBean.name}</i>
+									<i class="fa fa-eye" aria-hidden="true">瀏覽數:${article.viewCount}</i>
 									<i class="fa fa-comments" aria-hidden="true">&ensp;回覆數:${article.replyCount}&ensp;</i>
 									<i class="fa fa-clock-o" aria-hidden="true">&ensp;更新時間:${article.registerTime}</i>
 								</div>
@@ -276,9 +287,14 @@
 										<div class="div2">&emsp;${article.content}</div>
 									</div>
 									<div class="card-footer text-muted" style="text-align: right;">
-										<i class="fa fa-user" aria-hidden="true" style="float: left;">&ensp;發文者:${article.memberBean.name}</i>
+										<div>
+										<i class="fa fa-user" aria-hidden="true" style="float: left; font-size: 18px">&ensp;發文者:${article.memberBean.name}</i>
+										<i class="fa fa-eye" aria-hidden="true">&ensp;瀏覽數:${article.viewCount}</i>
 										<i class="fa fa-comments" aria-hidden="true">&ensp;回覆數:${article.replyCount}&ensp;</i>
-										<i class="fa fa-clock-o" aria-hidden="true">&ensp;更新時間:${article.registerTime}</i>
+										</div>
+										<div>
+										<i class="fa fa-clock-o" aria-hidden="true" style="font-size: 18px">&ensp;更新時間:${article.registerTime}</i>
+										</div>
 									</div>
 								</div>
 							</a>
@@ -302,7 +318,10 @@
 				</div>
 				<!-- /.container -->
 			</footer>
-
+			<!-- 發送請求需要用到 -->
+			<form>
+				<input type="hidden" name="a" />
+			</form>
 			<!-- Bootstrap core JavaScript -->
 			<script src="vendor/jquery/jquery.min.js"></script>
 			<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

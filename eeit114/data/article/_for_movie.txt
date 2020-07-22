@@ -4,3 +4,4 @@
 哥吉拉II怪獸之王|data/image_movie/Movie4_godzilla.png|Movie4_godzilla.png
 水行俠|data/image_movie/Movie5_aquaman.jpg|Movie5_aquaman.jpg
 STAR WARS|data/image_movie/Movie6_starwars.jpg|Movie6_starwars.jpg
+屍速列車|data/image_movie/Movie7_speed.jpg|Movie7_speed.jpg

@@ -33,6 +33,12 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional
 	@Override
+	public DiscussionBoardBean getBoardBeanByBoardId(int boardId) {
+		return boardDao.getBoardBeanByBoardId(boardId);
+	}
+	
+	@Transactional
+	@Override
 	public List<ForumMovieBean> getMovieBeanList() {
 		return boardDao.getMovieBeanList();
 	}
@@ -62,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
 	 * 比對後移除重複的movieBean
 	 */
 	@Override
-	public Map<Integer, String> getMovieMap(Map<Integer, String> movieMap, List<ForumMovieBean> movieBeanList, List<Integer> movieIdsByBoardBean) {
+	public Map<Integer, String> getMovieMap(Map<Integer, String> movieMap,List<ForumMovieBean> movieBeanList, List<Integer> movieIdsByBoardBean) {
 		Integer movieId = null;
 		for (Integer boardMovieId : movieIdsByBoardBean) {
 			for (int i = 0; i < movieBeanList.size(); i++) {
@@ -72,8 +78,8 @@ public class BoardServiceImpl implements BoardService {
 				}
 			}
 		}
-		for (ForumMovieBean mBean : movieBeanList) {
-			movieMap.put(mBean.getMovieId(), mBean.getName());
+		for (ForumMovieBean movieBean : movieBeanList) {
+			movieMap.put(movieBean.getMovieId(), movieBean.getName());
 		}
 		return movieMap;
 	}
@@ -91,4 +97,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return db;
 	}
+	
+	
 }

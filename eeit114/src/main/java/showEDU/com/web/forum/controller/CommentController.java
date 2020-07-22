@@ -32,7 +32,7 @@ import showEDU.com.web.forum.service.CommentService;
 import showEDU.com.web.member.model.MemberBean;
 
 @Controller
-@SessionAttributes({"loginMember"}) 
+@SessionAttributes({"memberBean"}) 
 public class CommentController {
 	@Autowired
 	CommentService commentService;
@@ -70,10 +70,8 @@ public class CommentController {
 				System.out.println("留言內容為:" + commentSecBean.getContent() + "時間為:" + commentSecBean.getTime());
 			}
 		}
-		
 		int commentBeanslength = commentBeans.size();
 		model.addAttribute("commentBeanslength", commentBeanslength);
-//		model.addAttribute("commenThumbsUpList", commenThumbsUpList);
 		model.addAttribute("commentSecList", commentSecList); // 一則留言裡的二層留言
 		model.addAttribute("commentBeans", commentBeans);
 		model.addAttribute("articleBean", articleBean);
@@ -90,19 +88,24 @@ public class CommentController {
 	
 	
 	
+	
 	// 取會員圖
 	@GetMapping("/getPictureComment/{memberId}")
-	public ResponseEntity<byte[]> getPicture(HttpServletResponse resp, @PathVariable Integer memberId) {
+	public ResponseEntity<byte[]> getMemberPicture(HttpServletResponse resp, @PathVariable Integer memberId) {
 		MemberBean memberBean = commentService.getMemberBeanByMemberId(memberId);
 		return calculatePicture(memberBean);
+	}
+	
+	// 取文章圖
+	@GetMapping("/getPictureArticle/{artId}")
+	public ResponseEntity<byte[]> getArtPicture(HttpServletResponse resp, @PathVariable Integer artId) {
+		ArticleBean articleBean = articleService.getArticleByArtId(artId);
+		return calculateArtPicture(articleBean);
 	}
 	
 	
 	
 	
-	
-	
-
 	private ResponseEntity<byte[]> calculatePicture(MemberBean memberBean) {
 		String noImagePath = "\\resources\\images\\noImage.gif";
 		ResponseEntity<byte[]> re = null;
@@ -144,7 +147,51 @@ public class CommentController {
 		re = new ResponseEntity<byte[]>(b2, headers, HttpStatus.OK);
 		return re;
 	}
+	// 取得文章圖片
+	private ResponseEntity<byte[]> calculateArtPicture(ArticleBean articleBean) {
+		String noImagePath = "\\resources\\images\\noImage.gif";
+		ResponseEntity<byte[]> re = null;
+		ByteArrayOutputStream baos = null;
+		InputStream is = null;
+		try {
+			Blob blob = articleBean.getArticleImage();
+			if (blob != null) {
+				is = blob.getBinaryStream();
+			} else {
+				;
+			}
+			if (is == null)
+				is = ctx.getResourceAsStream(noImagePath);
+			baos = new ByteArrayOutputStream();
+			int len = 0;
+			byte[] b1 = new byte[819200];
+			while ((len = is.read(b1)) != -1) {
+				baos.write(b1, 0, len);
+			}
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		byte[] b2 = baos.toByteArray();
+		String filename = articleBean.getFileName(); // 取得副檔名
+		String mimeType = null;
+		MediaType mediaType = null;
+		if (filename != null) {
+			mimeType = ctx.getMimeType(filename); // 由Servlet取得圖片的mimeType
+		} else {
+			mimeType = ctx.getMimeType(noImagePath);
+		}
+		mediaType = MediaType.valueOf(mimeType); // 將參數轉成本方法類別的物件 ex: Integer.valueOf('1');
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(mediaType); // setContentType 需要Set一個mediaType型別的物件
+		headers.setCacheControl(CacheControl.noCache().getHeaderValue()); // 不要把圖片塞進Cache裡面(靜態圖片才需要放入快取區)
+		re = new ResponseEntity<byte[]>(b2, headers, HttpStatus.OK);
+		return re;
+	}
+	
+	
+	// 設置留言時間
 	public void calculateTime(CommentBean commentBean) {
 		Timestamp time = commentService.getRegisterTimeByCommentId(commentBean.getCommentId());
 		date = time;
@@ -342,7 +389,7 @@ public class CommentController {
 		}
 	}
 	
-	
+	// 設置第二層留言時間
 	public  void calculateSecTime(CommentSecBean commentSecBean) {
 		Timestamp time = commentService.getRegisterTimeByCommentSecId(commentSecBean.getCommentSecId());
 		date = time;

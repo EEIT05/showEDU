@@ -28,6 +28,13 @@ public class BoardDaoImpl implements BoardDao {
 		Session session = factory.getCurrentSession();
 		return session.get(ForumMovieBean.class, movieId);
 	}
+	
+	
+	@Override
+	public DiscussionBoardBean getBoardBeanByBoardId(int boardId) { // 由boardId得到對應的BoardBean
+		Session session = factory.getCurrentSession();
+		return session.get(DiscussionBoardBean.class, boardId);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -56,72 +63,21 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public void addBoard(DiscussionBoardBean board) { // 新增一個討論版
 		Session session = factory.getCurrentSession();
-		ForumMovieBean mb = getMovieBeanByFKMovieId(board.getMovieId());
-		board.setMovieBean(mb);
+		ForumMovieBean movieBean = session.get(ForumMovieBean.class, board.getMovieId());
+		board.setMovieBean(movieBean);
 		session.save(board);
 	}
 
 	@Override
 	public void deleteBoard(int boardId) {
-//		Session session = factory.getCurrentSession();
-//		DiscussionBoardBean boardeBean = session.get(DiscussionBoardBean.class, boardId);
-//		if (boardeBean != null) {
-//			boardeBean.setArticleBeans(null);
-//		}
-//		session.delete(boardeBean);
-//		String hql1 = "From ArticleBean a Where a.discussionBoardBean.boardId = :bid";
-//		String hql2 = "From CommentBean c Where c.articleBean.artId = :aid";
-//		String hql3 = "From ThumbsUpBean t Where t.commentBean.commentId = :cid";
-//		Session session = factory.getCurrentSession();
-//		DiscussionBoardBean board = session.get(DiscussionBoardBean.class, boardId);
-//		List<ArticleBean> articleList = session.createQuery(hql1).setParameter("bid", boardId).getResultList();
-//		ArrayList<Object> commentLists = new ArrayList<>(articleList.size());
-//		for (ArticleBean articleBean : articleList) {
-//			System.out.println("開始articleList迴圈");
-//			List<CommentBean> commentBeans = session.createQuery(hql2).setParameter("aid", articleBean.getArtId()).getResultList();
-//			System.out.println("結束articleList一次迴圈");
-//			
-//		}
-//		ArrayList<ThumbsUpBean> thumbsUpBeans = null;
-//		for (CommentBean commentBean : commentLists) {
-//				System.out.println("開始commentLists迴圈");
-//				thumbsUpBeans.add((ThumbsUpBean) session.createQuery(hql3).setParameter("cid", commentBean.getCommentId()).getSingleResult());
-//				System.out.println("結束commentLists一次迴圈");
-//		}
-//		for (ThumbsUpBean thumbsUpBean : thumbsUpBeans) {
-//			if(thumbsUpBean != null) {
-//				session.delete(thumbsUpBean);
-//				System.out.println("刪除tumbsUp");
-//			}
-//		}
-//		for(CommentBean commentBean : commentLists ) {
-//				if(commentBean != null) {
-//					commentBean.setArticleBean(null);
-//					System.out.println("setArticleBean為空");
-//					commentBean.setBoardBean(null);
-//					System.out.println("setBoardBean為空");
-//					commentBean.setMemberBean(null);
-//					System.out.println("setMemberBean為空");
-//					session.delete(commentBean);
-//					System.out.println("刪除commentBean");
-//				
-//			}
-//		}
-//		for (ArticleBean articleBean : articleList) {
-//			if (articleBean != null) {
-//				articleBean.setArtTypeBean(null);
-//				System.out.println("setArtTypeBean為空");
-//				articleBean.setDiscussionBoardBean(null);
-//				System.out.println("setDiscussionBoardBean為空");
-//				articleBean.setMemberBean(null);
-//				System.out.println("setMemberBean為空");
-//				session.delete(articleBean);
-//				System.out.println("刪除articleBean");
-//			}
-//		}
-//		board.setArticleBeans(null);
-//		session.delete(board);
+		String hql = "Delete DiscussionBoardBean dcb Where dcb.boardId = :dcbid";
+		Session session = factory.getCurrentSession();
+		session.createQuery(hql).setParameter("dcbid", boardId).executeUpdate();
 	}
+
+	
+
+	
 	
 
 

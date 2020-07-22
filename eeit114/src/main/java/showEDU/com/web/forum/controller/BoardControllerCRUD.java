@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import showEDU.com.web.forum.model.ArticleBean;
+import showEDU.com.web.forum.model.CommentBean;
+import showEDU.com.web.forum.model.CommentSecBean;
 import showEDU.com.web.forum.model.DiscussionBoardBean;
 import showEDU.com.web.forum.model.ForumMovieBean;
 import showEDU.com.web.forum.service.ArticleService;
@@ -38,8 +44,9 @@ public class BoardControllerCRUD {
 		public String getAddNewBoardForm(Model model) {
 			DiscussionBoardBean boardBean = new DiscussionBoardBean();
 			model.addAttribute("boardBean", boardBean);
-			return "addBoard";
+			return "forum/addBoard";
 		}
+		
 
 		@PostMapping("/boards/add")
 		public String processAddNewBoardForm(@ModelAttribute("boardBean") DiscussionBoardBean db, BindingResult result) {
@@ -59,10 +66,24 @@ public class BoardControllerCRUD {
 			List<Integer> movieIdsByBoardBean = boardService.getMovieIdsByBoardBean(); // 得到討論區所有的MovieId
 			return boardService.getMovieMap(movieMap, movieBeanList, movieIdsByBoardBean);// 如果有相同的movieId,將此movieBean從全部的movieBean中去除
 		}
-		
-		@DeleteMapping("/boards/delete{boardId}")
-		public String deleteBoard(@PathVariable("boardId") Integer boardId) {
-			boardService.deleteBoard(boardId);
-			return "redirect:/boards";
+		// 刪除討論版
+		@PostMapping("/deleteBoard")
+		public String deleteBoard(@RequestParam Integer boardId) {
+			List<ArticleBean> articleBeans = articleService.getArticlesByBoardId(boardId); // 得到版內所有文章
+			for (ArticleBean articleBean : articleBeans) {
+				List<CommentBean> commentBeans = commentService.getAllCommentsByArtId(articleBean.getArtId()); // 得到文章內所有留言
+				for (CommentBean commentBean : commentBeans) {
+					List<CommentSecBean> commentSecBeans = commentService.getCommentSecBeansByCommentId(commentBean.getCommentId()); // 得到留言中所有回覆
+					for (CommentSecBean commentSecBean : commentSecBeans) {
+						commentService.deleteAllThumbsByCommentSecId(commentSecBean.getCommentSecId()); // 刪除回覆的所有按讚
+						commentService.deleteCommentSecBeanByCommentSecId(commentSecBean.getCommentSecId()); // 刪除所有回覆
+					}
+					commentService.deleteAllThumbsByCommentId(commentBean.getCommentId()); // 刪除留言的所有按讚
+					commentService.deleteCommentBeanByCommentId(commentBean.getCommentId()); // 刪除所有留言
+				}
+				articleService.deleteArticle(articleBean.getArtId()); // 刪除所有文章
+			}
+			boardService.deleteBoard(boardId); // 刪除此討論版
+			return "redirect:/backstage";
 		}
 }

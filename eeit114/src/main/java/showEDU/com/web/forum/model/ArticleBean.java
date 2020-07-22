@@ -1,5 +1,7 @@
 package showEDU.com.web.forum.model;
 
+import java.sql.Blob;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import showEDU.com.web.member.model.MemberBean;
 
@@ -41,13 +47,23 @@ public class ArticleBean {
 	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
 	@JoinColumn(name = "FK_boardId")
 	DiscussionBoardBean discussionBoardBean;
+	@Column(nullable = true)
+	@JsonIgnore
+	Blob articleImage;
+	@Column(nullable = true)
+	String fileName;
+	@Transient
+	Integer typeId;
+	@Transient
+	MultipartFile image;
 	
 	public ArticleBean() {
 		super();
 	}
 
 	public ArticleBean(Integer artId, String title, String content, String registerTime, Integer replyCount,
-			String viewCount, ArtTypeBean artTypeBean, MemberBean memberBean, DiscussionBoardBean discussionBoardBean) {
+			String viewCount, ArtTypeBean artTypeBean, MemberBean memberBean, DiscussionBoardBean discussionBoardBean,
+			Blob articleImage, String fileName, Integer typeId, MultipartFile image) {
 		super();
 		this.artId = artId;
 		this.title = title;
@@ -58,6 +74,10 @@ public class ArticleBean {
 		this.artTypeBean = artTypeBean;
 		this.memberBean = memberBean;
 		this.discussionBoardBean = discussionBoardBean;
+		this.articleImage = articleImage;
+		this.fileName = fileName;
+		this.typeId = typeId;
+		this.image = image;
 	}
 
 	public Integer getArtId() {
@@ -130,6 +150,38 @@ public class ArticleBean {
 
 	public void setDiscussionBoardBean(DiscussionBoardBean discussionBoardBean) {
 		this.discussionBoardBean = discussionBoardBean;
+	}
+
+	public Blob getArticleImage() {
+		return articleImage;
+	}
+
+	public void setArticleImage(Blob articleImage) {
+		this.articleImage = articleImage;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public Integer getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
+	}
+
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
 	}
 
 	

@@ -49,8 +49,8 @@ public class ForumTableResetHibernate {
 					bean.setName(sa[0]);
 					Blob sb = GlobalService.fileToBlob(sa[1]);
 					bean.setImage(sb);
-					session.save(bean);
 					bean.setFilename(sa[2]);
+					session.save(bean);
 					count++;
 					System.out.println("新增" + count + "筆記錄:" + sa[1]);
 				}
@@ -140,6 +140,15 @@ public class ForumTableResetHibernate {
 					int boardId = Integer.parseInt(sa[5]);
 					DiscussionBoardBean dcb = session.get(DiscussionBoardBean.class, boardId);
 					bean.setDiscussionBoardBean(dcb);
+					if(sa[6].length() > 0) {
+						Blob sb = GlobalService.fileToBlob(sa[6]);
+						bean.setArticleImage(sb);
+						System.out.println("新增文章圖片成功==================================");
+					}
+					if(sa[7].length() > 0) {
+						bean.setFileName(sa[7]);
+					}
+					
 					session.save(bean);
 				}
 				System.out.println("新增article成功");

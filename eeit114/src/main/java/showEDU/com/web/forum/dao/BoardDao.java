@@ -12,6 +12,8 @@ public interface BoardDao {
 	
 	ForumMovieBean getMovieBeanByFKMovieId(int movieId);
 	
+	DiscussionBoardBean getBoardBeanByBoardId(int boardId);
+	
 	List<ForumMovieBean> getMovieBeanList(); 
 	
 	List<Integer> getMovieIdsByBoardBean();

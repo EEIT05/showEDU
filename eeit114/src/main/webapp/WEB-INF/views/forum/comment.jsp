@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +34,13 @@
 </head>
 
 <body>
+	<form>
+		<input type="hidden" name="a" />
+	</form>
 
+	<form id="deleteForm" method='POST'>
+		<input type='hidden' name='_method' value='DELETE'>
+	</form>
 
 
 	<!-- Navigation -->
@@ -87,7 +94,8 @@
 				<hr>
 
 				<!-- Preview Image -->
-				<img class="img-fluid rounded" src="http://placehold.it/900x300"
+				<img class="img-fluid rounded"
+					src="<c:url value='/getPictureArticle/${articleBean.artId}' />"
 					alt="">
 				<hr>
 
@@ -99,12 +107,20 @@
 				<p class="lead" id="p4"></p>
 				<p class="lead" id="p5"></p>
 				<p class="lead" id="p6"></p>
+				<p class="lead" id="p7"></p>
+				<p class="lead" id="p8"></p>
+				<p class="lead" id="p9"></p>
+				<p class="lead" id="p10"></p>
 
 				<!-- Comments Form -->
 				<div class="card my-2">
 					<p class="card-header">
-						<button type="submit" class="btn btn-primary">留言</button>
+						<button id="comment" type="submit" class="btn btn-primary"
+							onclick="Comment(${articleBean.artId} ,${memberBean.memberId})">留言</button>
 						<button type="submit" class="btn btn-primary">收藏</button>
+						<textarea id="inputComment" style="margin-top: 7px; height: 100px"
+							type="text" class="form-control" placeholder=""></textarea>
+
 					</p>
 
 
@@ -120,28 +136,43 @@
 							<h5 class="mt-0" style="float: left">${commentBean.memberBean.name}</h5>
 							<p>&emsp;${commentBean.time}</p>
 							<p>${commentBean.content}</p>
-							<div >
+							<div>
 								<i class="fa fa-thumbs-up myMOUSE" aria-hidden="true"
 									id="ComThumlike${commentBean.commentId}"
-									onclick="thumbUp(${commentBean.commentId}, ${loginMember.memberId})">
-									
+									onclick="thumbUp(${commentBean.commentId}, ${memberBean.memberId})">
+
 									<c:if test="${commentBean.likeCount != 0}">
 									${commentBean.likeCount}
 									</c:if>
 								</i> &emsp; <i class="fa fa-thumbs-down myMOUSE" aria-hidden="true"
 									id="ComThumDislike${commentBean.commentId}"
-									onclick="thumbDown(${commentBean.commentId}, ${loginMember.memberId})">
+									onclick="thumbDown(${commentBean.commentId}, ${memberBean.memberId})">
 									<c:if test="${commentBean.dislikeCount != 0}">
 									${commentBean.dislikeCount}
 									</c:if>
 								</i> &emsp;
-								<button  onclick="SecComment(${commentBean.commentId}, ${loginMember.memberId})"; style="margin: 3px; padding: 3px 2px 3px 2px; " class="btn btn-outline-secondary" type="button">回覆</button>
-								<button  onclick="SecSubmit(${commentBean.commentId}, ${loginMember.memberId})"; style="margin: 3px; padding: 3px 2px 3px 2px; " class="btn btn-outline-secondary" type="button">送出</button>
-								<input id="inputSecComment${commentBean.commentId}" type="text" class="form-control" placeholder=""
-										aria-label="" aria-describedby="basic-addon1"  style="display:none">
-									
+								<button
+									onclick="SecComment(${commentBean.commentId}, ${memberBean.memberId})"
+									style="margin: 3px; padding: 3px 2px 3px 2px;"
+									class="btn btn-outline-secondary" type="button">回覆</button>
+								<button
+									onclick="SecSubmit(${commentBean.commentId}, ${memberBean.memberId})"
+									style="margin: 3px; padding: 3px 2px 3px 2px;"
+									class="btn btn-outline-secondary" type="button">送出</button>
+								<input id="inputSecComment${commentBean.commentId}" type="text"
+									class="form-control" placeholder="" aria-label=""
+									aria-describedby="basic-addon1" style="display: none">
+								<c:if test="${ ! empty memberBean}">
+									<c:if
+										test="${memberBean.memberId == commentBean.memberBean.memberId}">
 
-<!-- 								<a href="#" style="text-decoration: none;">回覆</a> -->
+										<button class="btn btn-danger"
+											onclick="deleteComment(${commentBean.commentId})">
+											刪除</button>
+
+									</c:if>
+								</c:if>
+
 							</div>
 							<c:forEach var='commentSecBean' items='${commentSecList}'>
 								<c:if
@@ -158,18 +189,28 @@
 
 												<i class="fa fa-thumbs-up myMOUSE" aria-hidden="true"
 													id="SecComThumlike${commentSecBean.commentSecId}"
-													onclick="SecThumbUp(${commentSecBean.commentSecId}, ${loginMember.memberId})">
+													onclick="SecThumbUp(${commentSecBean.commentSecId}, ${memberBean.memberId})">
 													<c:if test="${commentSecBean.likeCount != 0}">
 													${commentSecBean.likeCount}
 													</c:if>
 												</i>&emsp; <i class="fa fa-thumbs-down myMOUSE"
 													aria-hidden="true"
 													id="SecComThumDislike${commentSecBean.commentSecId}"
-													onclick="SecThumbDown(${commentSecBean.commentSecId}, ${loginMember.memberId})">
+													onclick="SecThumbDown(${commentSecBean.commentSecId}, ${memberBean.memberId})">
 													<c:if test="${commentSecBean.dislikeCount != 0}">
 													${commentSecBean.dislikeCount}
 													</c:if>
 												</i> &emsp;
+												<c:if test="${ ! empty memberBean}">
+													<c:if
+														test="${memberBean.memberId == commentSecBean.memberBean.memberId}">
+
+														<button class="btn btn-danger"
+															onclick="deleteSecComment(${commentSecBean.commentSecId}, ${articleBean.artId})">
+															刪除</button>
+
+													</c:if>
+												</c:if>
 											</div>
 										</div>
 									</div>
@@ -200,11 +241,11 @@
 									</div>
 
 									<div>
-										<h4 style="align-content: center;">復仇者聯盟復仇之戰&emsp;&emsp;</h4>
+										<h4 style="align-content: center;">標題&emsp;&emsp;</h4>
 									</div>
 
 									<div class="div2">
-										&emsp;上集無線之戰講到薩諾斯消滅了一半的生物，鋼鐵人與薩諾斯的女兒涅布拉在宇宙中漂流，在太空船失去動力與剩餘氧氣不到48小時後，鋼鐵人絕望了，用剩下的一點力氣，留下遺言，給他所愛的小辣椒，然後靜靜睡了等待死亡的到來，但是驚奇隊長來了，並帶他回到地球上，然而回到地球後，美國隊長想要招集人去找薩諾斯復仇，但東尼經過那一戰，已經心灰意冷，絕對退出復仇者，加上他身體已經十分虛弱，昏了過去。
+										&emsp;內容
 									</div>
 								</div>
 								<div class="card-footer text-muted" style="text-align: right;">
@@ -215,7 +256,6 @@
 								</div>
 							</div>
 						</a>
-
 						<!-- Article 2-->
 						<a class="a1" href="#" style="text-decoration: none">
 							<div class="card mb-4">
@@ -304,6 +344,10 @@
           var p4 = document.getElementById("p4");
           var p5 = document.getElementById("p5");
           var p6 = document.getElementById("p6");
+          var p7 = document.getElementById("p7");
+          var p8 = document.getElementById("p8");
+          var p9 = document.getElementById("p9");
+          var p10 = document.getElementById("p10");
           var arr = new Array();
           function calculate(p0) {
                 arr = p0.split("。");
@@ -325,6 +369,14 @@
         		  p5.innerHTML = arr[i]　+ "。";
         	  } else if (p6.innerHTML == "") {
         		  p6.innerHTML = arr[i]　+ "。";
+        	  } else if (p7.innerHTML == "") {
+        		  p7.innerHTML = arr[i]　+ "。";
+        	  } else if (p8.innerHTML == "") {
+        		  p8.innerHTML = arr[i]　+ "。";
+        	  } else if (p9.innerHTML == "") {
+        		  p9.innerHTML = arr[i]　+ "。";
+        	  } else if (p10.innerHTML == "") {
+        		  p10.innerHTML = arr[i]　+ "。";
         	  } 
           }
           
@@ -336,6 +388,48 @@
 		  window.addEventListener('onclick', SecThumbUp, false);
 		  window.addEventListener('onclick', SecComment, false);
 		  window.addEventListener('onclick', SecSubmit, false);
+		  window.addEventListener('onclick', Comment, false);
+		  window.addEventListener('onclick', deleteComment, false);
+		  
+		  // 刪除第一層留言
+		  function deleteComment(commentId) {
+			  if (confirm('確定刪除此留言?')){
+				  document.forms[0].action="<c:url value='/deleteComment?commentId=" + commentId + "' />";
+	     		  document.forms[0].method="POST";
+	     		  document.forms[0].submit();
+			  }
+			  return false;
+		  }
+		  
+		  // 刪除第二層留言
+		  function deleteSecComment(commentSecId,artId) {
+			  if (confirm('確定刪除此留言?')){
+				  document.forms[0].action="<c:url value='/deleteSecComment?commentSecId=" + commentSecId + "&artId="+ artId + "' />";
+	     		  document.forms[0].method="POST";
+	     		  document.forms[0].submit();
+			  }
+		  }
+		  
+		  
+		  // 新增第一層留言
+		  function Comment(artId, memberId) {
+			  if (memberId == null) {
+				  document.location.href="<c:url value='/member/crm/login' />";
+			  } else{
+				  var inputComment = document.getElementById("inputComment");
+				  var content = inputComment.value;
+				  alert(content);
+				  if (content.length == 0) {
+					  alert("留言為空白");
+				  } else {
+					  document.forms[0].action="<c:url value='/addComment?artId=" + artId + "&memberId=" + memberId + "&content=" + content + "' />";
+             		  document.forms[0].method="POST";
+             		  document.forms[0].submit();
+				  }
+				  
+			  }
+		  }
+	      // 將留言的地方顯示出來
           function SecComment(commentId, memberId) {
         	  if (memberId == null) {
         		  document.location.href="<c:url value='/member/crm/login' />";
@@ -346,7 +440,7 @@
          	  } 
         	  
           }
-          // 第一層留言回覆送出
+          // 第二層留言回覆送出
           function SecSubmit(commentId, memberId) {
         	  if (memberId == null) {
         		  return; //請先登入
@@ -355,8 +449,8 @@
         		  var x = "inputSecComment" + commentId;
         		  var input = document.getElementById(x);
         		  var SecContent = input.value;
-        		  alert(SecContent);
-        		  if (SecContent.length < 0) {
+        		  if (SecContent.length == 0) {
+        			  alert("不可送出空白留言");
         			  return; // 輸入不可為空白
         		  } else {
         			  document.forms[0].action="<c:url value='/addSecComment?commentId="+ commentId + "&memberId=" + memberId + "&SecContent=" + SecContent + "' />";
@@ -486,29 +580,8 @@
         	  }
           }
           
-//         	  	else {
-//         		  document.forms[0].action="<c:url value='/thumbUpCalculate?commentId="+ commentId + "&memberId=" + memberId + "' />";
-//         		  document.forms[0].method="POST";
-//         		  document.forms[0].submit();
-//         	  }
-       	  
-//   			console.log("留言Id為:"+ commentId);
-//   			console.log("按讚數為:"+ likeCount);
-  			
-//   		}
-//           function thumbDown(commentId,dislikeCount, memberId) {
-//   	       		if (memberId == null) {
-//   	      		  document.location.href="<c:url value='/login' />";
-//   	       	  } else {
-//   	      		  document.forms[0].action="<c:url value='/thumbDownCalculate?commentId="+ commentId + "&memberId=" + memberId + "' />";
-//   	      		  document.forms[0].method="POST";
-//   	      		  document.forms[0].submit();
-//   	      	  }
-//          }
+
 			</script>
-		<form>
-			<input type="hidden" name="a" />
-		</form>
 </body>
 
 </html>

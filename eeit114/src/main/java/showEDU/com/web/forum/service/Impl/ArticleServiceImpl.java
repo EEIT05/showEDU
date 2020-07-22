@@ -48,8 +48,11 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<ArticleBean> getArticleBeansByTypeId(int typeId) {
 		return articleDao.getArticleBeansByTypeId(typeId);
 	}
-	
-	
+	@Transactional
+	@Override
+	public List<ArtTypeBean> getAllArtTypeBean() {
+		return articleDao.getAllArtTypeBean();
+	}
 	
 	
 	
@@ -58,5 +61,17 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<ArticleBeanWithImageData> getArtBeansImageDataByTypeId(int typeId) {
 		return articleDao.getArtBeansImageDataByTypeId(typeId);
 	}
+	@Transactional
+	@Override
+	public void addArticle(ArticleBean articleBean, int boardId, int memberId) {
+		articleDao.addArticle(articleBean, boardId, memberId);
+	}
+	@Transactional
+	@Override
+	public void deleteArticle(int artId) {
+		articleDao.deleteArticle(artId);
+	}
+	
+	
 	
 }

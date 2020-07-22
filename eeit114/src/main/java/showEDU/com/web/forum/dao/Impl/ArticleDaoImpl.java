@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.servlet.ServletContext;
 
 import org.hibernate.Session;
@@ -16,6 +17,8 @@ import showEDU.com.web.forum.dao.ArticleDao;
 import showEDU.com.web.forum.model.ArtTypeBean;
 import showEDU.com.web.forum.model.ArticleBean;
 import showEDU.com.web.forum.model.ArticleBeanWithImageData;
+import showEDU.com.web.forum.model.DiscussionBoardBean;
+import showEDU.com.web.member.model.MemberBean;
 
 
 @Repository
@@ -39,7 +42,15 @@ public class ArticleDaoImpl implements ArticleDao {
 	public List<ArticleBean> getArticlesByBoardId(int boardId) { // 傳入討論版ID的值   找到對應討論版ID內所有的文章
 		String hql = "From ArticleBean a Where a.discussionBoardBean.boardId = :bid"; 
 		Session session = factory.getCurrentSession();
-		return session.createQuery(hql).setParameter("bid", boardId).getResultList(); 
+		List<ArticleBean> articleBeans = null;
+		try {
+			articleBeans = session.createQuery(hql).setParameter("bid", boardId).getResultList(); 
+		} catch (NoResultException e) {
+			if (articleBeans == null) {
+				;
+			}
+		}
+		return  articleBeans;
 	}
 
 	@Override
@@ -70,8 +81,15 @@ public class ArticleDaoImpl implements ArticleDao {
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql).setParameter("atid", typeId).getResultList();
 	}
-
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ArtTypeBean> getAllArtTypeBean() {
+		String hql = "From ArtTypeBean";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql).getResultList();
+	}
+
 	
 	@Override
 	public List<ArticleBeanWithImageData> getArtBeansImageDataByTypeId(int typeId) { 
@@ -82,6 +100,34 @@ public class ArticleDaoImpl implements ArticleDao {
 		}
 		return listTarget;
 	}
+	
+	
+	@Override
+	public void addArticle(ArticleBean articleBean, int boardId, int memberId) {
+		Session session = factory.getCurrentSession();
+		DiscussionBoardBean boardBean = session.get(DiscussionBoardBean.class, boardId);
+		MemberBean memberBean = session.get(MemberBean.class, memberId);
+		ArtTypeBean artTypeBean = getArtTypeByTypeId(articleBean.getTypeId());
+		articleBean.setDiscussionBoardBean(boardBean);
+		articleBean.setMemberBean(memberBean);
+		articleBean.setArtTypeBean(artTypeBean);
+		session.save(articleBean);
+	}
+	
+	@Override
+	public void deleteArticle(int artId) {
+		String hql = "Delete ArticleBean a Where a.artId = :aid";
+		Session session = factory.getCurrentSession();
+		session.createQuery(hql).setParameter("aid", artId).executeUpdate();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -107,6 +153,14 @@ public class ArticleDaoImpl implements ArticleDao {
 		}
 		return abwid;
 	}
+
+	
+
+	
+
+	
+
+	
 
 
 	

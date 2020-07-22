@@ -38,6 +38,17 @@ public interface CommentService {
 	
 	
 	// -----------------------------CRUD---------------------------------------
+	void deleteCommentBeanByCommentId(int commentId);
+	
+	void deleteCommentSecBeanByCommentSecId(int commentSecId);
+	
+	void deleteCommentSecBeanByCommentId(int commentId);
+	
+	void deleteAllThumbsByCommentId(int commentId);
+	
+	void deleteAllThumbsByCommentSecId(int commentSecId);
+	
+	void addNewComment(int artId, int boardId, int memberId, String content, CommentBean commentBean);
 	
 	void addNewSecComment(int commentId, int memberId, String content,CommentSecBean commentSecBean);
 	
