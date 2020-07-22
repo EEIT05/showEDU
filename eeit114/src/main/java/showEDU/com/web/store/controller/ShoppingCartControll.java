@@ -22,7 +22,7 @@ import showEDU.com.web.store.model.ShoppingCart;
 import showEDU.com.web.store.service.PeripheralService;
 
 @Controller
-@SessionAttributes({"loginMember","ShoppingCart","product"})
+@SessionAttributes({"memberBean","ShoppingCart","product"})
 public class ShoppingCartControll {
 	
 	@Autowired
@@ -34,7 +34,7 @@ public class ShoppingCartControll {
 	//點選加入購物車
 	@PostMapping("/addCart")
 	protected String buyProduct(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		MemberBean memberBean = (MemberBean)model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean)model.getAttribute("memberBean");
 		if(memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
@@ -76,7 +76,7 @@ public class ShoppingCartControll {
 	
 	@GetMapping("ShowCartContent")
 	protected String showCartContent(Model model) {
-		MemberBean memberBean = (MemberBean)model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean)model.getAttribute("memberBean");
 		if(memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
@@ -85,7 +85,7 @@ public class ShoppingCartControll {
 	
 	@GetMapping("checkout")
 	protected String checkout(Model model) {
-		MemberBean memberBean = (MemberBean)model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean)model.getAttribute("memberBean");
 		if(memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}

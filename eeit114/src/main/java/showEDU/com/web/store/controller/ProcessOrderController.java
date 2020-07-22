@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
 
-import ecpay.payment.integration.AllInOne;
-import ecpay.payment.integration.domain.AioCheckOutALL;
-import net.bytebuddy.asm.Advice.AllArguments;
-import net.bytebuddy.dynamic.DynamicType.Builder.MethodDefinition.ParameterDefinition.Initial;
 import showEDU.com.web.member.model.MemberBean;
 import showEDU.com.web.store.model.ProductOrdersBean;
 import showEDU.com.web.store.model.ProductOrdersItemsBean;
@@ -29,19 +25,19 @@ import showEDU.com.web.store.model.ShoppingCart;
 import showEDU.com.web.store.service.ShoppingCartService;
 
 @Controller
-@SessionAttributes({"loginMember","ShoppingCart"})
+@SessionAttributes({"memberBean","ShoppingCart"})
 public class ProcessOrderController {
 	
-	public static AllInOne all;
+//	public static AllInOne all;
 	@Autowired
 	ServletContext ctx;
 	
 	@Autowired
 	ShoppingCartService cartService;
 	
-	private static void Initial(){
-		all = new AllInOne("");
-	}
+//	private static void Initial(){
+//		all = new AllInOne("");
+//	}
 	
 	@PostMapping("ProcessOrder")
 	protected String ProcessOrder(Model model,
@@ -50,7 +46,7 @@ public class ProcessOrderController {
 			@RequestParam("ShippingName")String name,
 			WebRequest webRequest, SessionStatus status) {
 		
-		MemberBean memberBean = (MemberBean)model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean)model.getAttribute("memberBean");
 		if (memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
@@ -92,8 +88,8 @@ public class ProcessOrderController {
 			cartService.persistOrder(pob);
 			
 			System.out.println("Order Process OK");
-			Initial();
-			AioCheckOutALL obj = new AioCheckOutALL();
+//			Initial();
+//			AioCheckOutALL obj = new AioCheckOutALL();
 			return "forward:" + "removeShoppingCart";
 		} catch (RuntimeException e) {
 			String message = e.getMessage();

@@ -20,7 +20,7 @@ import showEDU.com.web.store.model.ProductOrdersItemsBean;
 import showEDU.com.web.store.service.ShoppingCartService;
 
 @Controller
-@SessionAttributes({"loginMember","ShoppingCart"})
+@SessionAttributes({"memberBean","ShoppingCart"})
 public class OrderListController {
 	@Autowired
 	ServletContext ctx;
@@ -30,7 +30,7 @@ public class OrderListController {
 	
 	@GetMapping("orderList")
 	protected String orderList(Model model) {
-		MemberBean memberBean = (MemberBean)model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean)model.getAttribute("memberBean");
 		if (memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
@@ -41,7 +41,7 @@ public class OrderListController {
 	
 	@GetMapping("/orderDetail")
 	protected String orderDetail(@RequestParam("orderNo")Integer no,Model model) {
-		MemberBean memberBean = (MemberBean)model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean)model.getAttribute("memberBean");
 		if (memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
