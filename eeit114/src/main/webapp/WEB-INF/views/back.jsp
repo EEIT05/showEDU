@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
@@ -18,6 +20,8 @@
 <style type="text/css">
 
 #body-row {
+position: fixed;
+ margin-top:100px;
     margin-left:0;
     margin-right:0;
 }
@@ -83,6 +87,9 @@
 </style>
 </head>
 <body>
+
+<jsp:include page="/fragment/top.jsp" />
+
 <!-- Bootstrap row -->
 <div class="row" id="body-row">
     <!-- Sidebar -->
