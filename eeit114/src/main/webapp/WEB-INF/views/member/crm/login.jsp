@@ -32,8 +32,7 @@ span.error {
 }
 
 body, html {
-	background-image:
-		url('https://i.imgur.com/w439mEw.jpg');
+	background-image: url('https://i.imgur.com/w439mEw.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 	width: 100%;
@@ -47,7 +46,7 @@ body, html {
 }
 
 .card-container.card {
-	max-width: 370px;
+	max-width: 382px;
 	padding: 40px 40px;
 }
 
@@ -204,6 +203,7 @@ body, html {
 		document.forms[0].userId.focus(); // 將游標放在userId欄位內
 	}
 </script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 
@@ -231,7 +231,8 @@ body, html {
 				<h3>會員登入</h3>
 			</div>
 
-						<form:form method="POST" modelAttribute="loginBean" >
+			<form:form method="POST" modelAttribute="loginBean"
+				onsubmit="return submitUserForm();">
 
 				<span id="reauth-email" class="reauth-email"></span>
 
@@ -249,18 +250,17 @@ body, html {
 
 				<form:input path="password" placeholder="請輸入密碼" id="inputPassword"
 					class="form-control" />
-                <form:errors path='password' cssClass="error" />
+				<form:errors path='password' cssClass="error" />
 				<br>
 
 
 				<div id="remember1" class="checkbox1">
 
-					 <form:checkbox path="rememberMe" />記住密碼
+					<form:checkbox path="rememberMe" /> 記住密碼
+					
 				</div>
+				<br>
 
-				<div id="remember" class="checkbox">
-					<label><input type='checkbox' />我不是機器人<br> </label>
-				</div>
 
 				<button class="btn btn-lg btn-primary btn-block btn-signin1"
 					type='submit'>登入</button>
@@ -269,8 +269,15 @@ body, html {
 
 				<button class="btn btn-lg btn-primary btn-block btn-signin"
 					type='submit'>使用Gmail登入</button>
-
+				<br>
+				<!--我不是機器人 -->
+				<div class="g-recaptcha"
+					data-sitekey='6LesdbQZAAAAALBLl5IawsTcfUAxq1oay9feSsQJ'></div>
+				<div id='g-recaptcha-error'></div>
 			</form:form>
+
+
+
 			<div class="forgot-password">
 				<br> <a href="forgetpwd"> 忘記密碼?</a> <br> <a href='mem'>註冊會員</a>
 				<br> <a href="<c:url value='/'/> ">回首頁</a>
@@ -278,19 +285,20 @@ body, html {
 			</div>
 		</div>
 	</div>
-
-	<script type='text/javascript'>
-		//  		$(document).ready(function() {
-		//  			$('.checkbox1').click(function() {
-		//  				if (confirm('確定刪除此筆紀錄? ')) {
-		// 					var href = $(this).attr('href');
-		// 					$('form').attr('action', href).submit();
-		//  				}
-		// 				return false;
-
-		//  			});
-		// 		})
+	<script>
+		function submitUserForm() {
+			var response = grecaptcha.getResponse();
+			if (response.length == 0) {
+				document.getElementById('g-recaptcha-error').innerHTML = '<span style="color:red;">請點選我不是機器人</span>';
+				return false;
+			}
+			return true;
+		}
+		function verifyCaptcha() {
+			document.getElementById('g-recaptcha-error').innerHTML = '';
+		}
 	</script>
+
 
 </body>
 </html>

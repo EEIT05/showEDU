@@ -3,16 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
 <meta charset="UTF-8">
 <title>後台管理</title>
 
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<script type='text/javascript'
-	src='${pageContext.request.contextPath}/scripts/jquery-1.9.1.min.js'></script>
+
 <style type="text/css">
 
 #body-row {
@@ -77,46 +79,10 @@
   display: inline;
   text-align: right;
   padding-left: 10px;
-
+}
 </style>
 </head>
 <body>
-
-
-<!-- Bootstrap NavBar -->
-<!-- <nav class="navbar navbar-expand-md navbar-dark bg-primary"> -->
-<!--     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> -->
-<!--         <span class="navbar-toggler-icon"></span> -->
-<!--     </button> -->
-<!--     <a class="navbar-brand" href="#"> -->
-<!--         <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt=""> -->
-<!--         <span class="menu-collapsed">Brand</span> -->
-<!--     </a> -->
-<!--     <div class="collapse navbar-collapse" id="navbarNavDropdown"> -->
-<!--         <ul class="navbar-nav ml-auto"> -->
-<!--             <li class="nav-item active"> -->
-<!--                 <a class="nav-link" href="#top">Home <span class="sr-only">(current)</span></a> -->
-<!--             </li> -->
-<!--             <li class="nav-item"> -->
-<!--                 <a class="nav-link" href="#top">Features</a> -->
-<!--             </li> -->
-<!--             <li class="nav-item"> -->
-<!--                 <a class="nav-link" href="#top">Pricing</a> -->
-<!--             </li> -->
-            <!-- This menu is hidden in bigger devices with d-sm-none. 
-           The sidebar isn't proper for smaller screens imo, so this dropdown menu can keep all the useful sidebar itens exclusively for smaller screens  -->
-            <li class="nav-item dropdown d-sm-block d-md-none">
-                <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Menu </a>
-                <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                    <a class="dropdown-item" href="#top">Dashboard</a>
-                    <a class="dropdown-item" href="#top">會員管理</a>
-                    <a class="dropdown-item" href="#top">Tasks</a>
-                    <a class="dropdown-item" href="#top">Etc ...</a>
-                </div>
-            </li><!-- Smaller devices menu END -->
-        </ul>
-    </div>
-</nav><!-- NavBar END -->
 <!-- Bootstrap row -->
 <div class="row" id="body-row">
     <!-- Sidebar -->
