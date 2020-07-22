@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
@@ -20,7 +21,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,21 +39,20 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import showEDU.com.web.application.model.ApplicationBean;
-import showEDU.com.web.member.model.LoginMember;
+import showEDU.com.web.member.model.LoginBean;
 import showEDU.com.web.member.model.MemberBean;
 import showEDU.com.web.member.service.AdministratorService;
 import showEDU.com.web.member.service.MemberService;
+import showEDU.com.web.member.validators.LoginMemberValidator;
 import showEDU.com.web.member.validators.MemberValidator;
 
 @Controller
 @RequestMapping("/member/crm")
-@SessionAttributes({ "loginMember" })
+@SessionAttributes({ "memberBean" })
 public class MemberController {
 	String noImage = "/images/NoImage.png";
 	String NOPIC = "/images/NOPIC.jpg";
-	
-	
+
 	@Autowired
 	MemberService memberService;
 
@@ -62,7 +61,7 @@ public class MemberController {
 
 	@Autowired
 	ServletContext context;
-	
+
 	@Autowired
 	JavaMailSender javaMailSender;
 
@@ -134,7 +133,7 @@ public class MemberController {
 			result.rejectValue("Account", "", "帳號已存在，請重新輸入");
 			return "member/crm/insertMember";
 		}
-		
+
 		try {
 			memberService.save(member);
 		} catch (org.hibernate.exception.ConstraintViolationException e) {
@@ -238,7 +237,7 @@ public class MemberController {
 			body = blobToByteArray(blob);
 		} else {
 			String path = NOPIC;
-			
+
 			body = fileToByteArray(path);
 		}
 		re = new ResponseEntity<byte[]>(body, headers, HttpStatus.OK);
@@ -325,49 +324,125 @@ public class MemberController {
 
 		System.out.println("======================================A");
 
-		MemberBean member = new MemberBean();
+		LoginBean bean = new LoginBean(user, password, rm);
+		System.out.println(user + "==================");
+		System.out.println(bean.getUserId() + "==================");
+		System.out.println(bean.getPassword() + "==================");
+//		MemberBean member = new MemberBean();
 //		model.getAttribute("memberBean");
-		model.addAttribute("memberBeans", member);
+		model.addAttribute(bean);
 		return "member/crm/login";
 	}
 
 	/////// 登入
 	@PostMapping("/login")
-	public String LoginContextCheck(@ModelAttribute("memberBeans") MemberBean member, Model model, BindingResult result,
-			LoginMember loginMember, HttpServletRequest request, HttpServletResponse response) {
-//		LoginMemberValidator validator = new LoginMemberValidator();
-//		validator.validate(loginMember, result);
-//		if (result.hasErrors()) {
-//			return "member/crm/login";
-//		}
+	public String LoginContextCheck(@ModelAttribute("loginBean") LoginBean bean, Model model, BindingResult result,
+			HttpServletRequest request, HttpServletResponse response) {
 
-		MemberBean meb = memberService.login(member.getAccount(), member.getPswd());
+		LoginMemberValidator validator = new LoginMemberValidator();
+		validator.validate(bean, result);
+		if (result.hasErrors()) {
+			return "member/crm/login";
+		}
 
-		System.out.println("===================" + meb);
+		// 呼叫 loginService物件的 checkIDPassword()，傳入userid與password兩個參數
 
-		// 身分為空
+		MemberBean meb = memberService.checkIdPassword(bean.getUserId(), bean.getPassword());
+		System.out.println(meb);
 		if (meb != null) {
-
-			model.addAttribute("loginMember", meb);
-			System.out.println("將會員" + meb.getName() + "加入session內" + meb.getUserType());
-			System.out.println(meb.getUserType());
+			// 記住我 //登入成功, 將mb物件放入Session範圍內，識別字串
+			model.addAttribute("memberBean", meb);
+			meb = (MemberBean) model.getAttribute("memberBean");
+			processCookies(bean, request, response);
+//				System.out.println("將會員" + meb.getName() + "加入session內" + meb.getUserType());
+//				System.out.println(meb.getUserType());
 
 		} else {
+			result.rejectValue("invalidCredentials", "", "*該帳號不存在或密碼錯誤");
 			return "member/crm/login";
 		}
 
 		String type = meb.getUserType();
-
+System.out.println(type);
+System.out.println("===============================================================");
+		//	
 		// 身分為會員M
 		if (type.equals("M")) {
 			return "redirect:/";
 
 			// 身分為管理員A
 		} else {
-			return "member/adm/administrators";
+	return "member/adm/administrators";
 		}
+	}
+
+	private void processCookies(LoginBean bean, HttpServletRequest request, HttpServletResponse response) {
+		Cookie cookieUser = null;
+		Cookie cookiePassword = null;
+		Cookie cookieRememberMe = null;
+		String userId = bean.getUserId();
+		String password = bean.getPassword();
+		Boolean rm = bean.isRememberMe();
+
+		// rm存放瀏覽器送來之RememberMe的選項，如果使用者對RememberMe打勾，rm就不會是null
+		if (bean.isRememberMe()) {
+			cookieUser = new Cookie("user", userId);
+			cookieUser.setMaxAge(7 * 24 * 60 * 60); // Cookie的存活期: 七天
+			cookieUser.setPath(request.getContextPath());
+
+			cookiePassword = new Cookie("password", password);
+			cookiePassword.setMaxAge(7 * 24 * 60 * 60);
+			cookiePassword.setPath(request.getContextPath());
+
+			cookieRememberMe = new Cookie("rm", "true");
+			cookieRememberMe.setMaxAge(7 * 24 * 60 * 60);
+			cookieRememberMe.setPath(request.getContextPath());
+		} else { // 使用者沒有對 RememberMe 打勾
+			cookieUser = new Cookie("user", userId);
+			cookieUser.setMaxAge(0); // MaxAge==0 表示要請瀏覽器刪除此Cookie
+			cookieUser.setPath(request.getContextPath());
+
+			cookiePassword = new Cookie("password", password);
+			cookiePassword.setMaxAge(0);
+			cookiePassword.setPath(request.getContextPath());
+
+			cookieRememberMe = new Cookie("rm", "true");
+			cookieRememberMe.setMaxAge(0);
+			cookieRememberMe.setPath(request.getContextPath());
+		}
+		response.addCookie(cookieUser);
+		response.addCookie(cookiePassword);
+		response.addCookie(cookieRememberMe);
 
 	}
+
+//		MemberBean meb = memberService.login(member.getAccount(), member.getPswd());
+//
+//		System.out.println("===================" + meb);
+//
+//		// 身分為空
+//		if (meb != null) {
+//
+//			model.addAttribute("loginMember", meb);
+//			System.out.println("將會員" + meb.getName() + "加入session內" + meb.getUserType());
+//			System.out.println(meb.getUserType());
+//
+//		} else {
+//			return "member/crm/login";
+//		}
+//
+//		String type = meb.getUserType();
+//
+//		// 身分為會員M
+//		if (type.equals("M")) {
+//			return "redirect:/";
+//
+//			// 身分為管理員A
+//		} else {
+//			return "member/adm/administrators";
+//		}
+//
+//	}
 
 	/// 登出
 	@RequestMapping("/loginout")
@@ -377,7 +452,6 @@ public class MemberController {
 		status.setComplete();
 		return "redirect:/";
 	}
-	
 
 //@Override
 //	public void changeAplcBeanStatusById(int aplcId, int status) {
@@ -410,10 +484,7 @@ public class MemberController {
 //	
 //
 //}
-	
-	
-	
-	
+
 //	@GetMapping("/forgetpwd")
 //	public  String forgetpwd(Model model,HttpServletRequest request) {
 //		ForgetBean fgb = new ForgetBean();
@@ -438,19 +509,5 @@ public class MemberController {
 //			return "forget";
 //		}
 //	
-	
-	
-//	@ModelAttribute
-//	public LoginMember getLoginMember(Model model){
-//		
-//		LoginMember loginMember = new LoginMember();
-//		return loginMember;
-//	}
-//	@ModelAttribute
-//	public LoginAdministrator getLoginAdministrator(Model model){
-//		
-//		LoginAdministrator loginAdministrator = new LoginAdministrator();
-//		return loginAdministrator;
-//	}
 
 }

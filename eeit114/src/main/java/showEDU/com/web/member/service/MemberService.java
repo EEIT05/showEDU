@@ -23,6 +23,7 @@ public interface MemberService {
 
 	boolean idExists(String account);
 
-	
+	MemberBean queryMember(String account);
+	MemberBean checkIdPassword(String userId, String password) ;
 	
 }

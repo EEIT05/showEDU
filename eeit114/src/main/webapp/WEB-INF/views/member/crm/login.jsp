@@ -18,7 +18,7 @@
 
 <!-- 下面有修改 -->
 <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
-<script  type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
 <script type="text/javascript"></script>
 
 
@@ -32,10 +32,18 @@ span.error {
 }
 
 body, html {
-	height: 102%;
+	background-image:
+		url('https://i.imgur.com/w439mEw.jpg');
 	background-repeat: no-repeat;
-	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
-		rgb(25, 0, 71));
+	background-size: cover;
+	width: 100%;
+	height: 100vh;
+	overflow: auto;
+
+	/* 	height: 110%; */
+	/* 	background-repeat: no-repeat; */
+	/* 	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156), */
+	/* 		rgb(25, 0, 71)); */
 }
 
 .card-container.card {
@@ -150,6 +158,7 @@ body, html {
 	-webkit-transition: all 0.218s;
 	transition: all 0.218s;
 }
+
 .btn.btn-signin1 {
 	/*background-color: #4d90fe; */
 	background-color: rgb(35, 191, 0);
@@ -180,9 +189,6 @@ body, html {
 	{
 	color: rgb(132, 138, 148);
 }
-
-
-
 </style>
 <meta charset="UTF-8">
 <link
@@ -192,8 +198,28 @@ body, html {
 	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
+<script type="text/javascript">
+	//由<body>的onLoad事件處理函數觸發此函數
+	function setFocusToUserId() {
+		document.forms[0].userId.focus(); // 將游標放在userId欄位內
+	}
+</script>
+
 </head>
-<body>
+
+<body onLoad="setFocusToUserId()">
+	<!-- 下列敘述設定變數funcName的值為LOG，top.jsp 會用到此變數 -->
+	<c:set var="funcName" value="LOG" scope="session" />
+	<c:set var="msg" value="登入" />
+	<c:if test="${ ! empty sessionScope.timeOut }">
+		<!-- 表示使用逾時，重新登入 -->
+		<c:set var="msg"
+			value="<font color='red'>${sessionScope.timeOut}</font>" />
+	</c:if>
+
+	<!-- 引入共同的頁首 -->
+	<%-- <jsp:include page="/fragment/topMVC.jsp" /> --%>
+
 	<div class="container">
 		<div class="card card-container">
 			<!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
@@ -204,65 +230,67 @@ body, html {
 			<div align='center'>
 				<h3>會員登入</h3>
 			</div>
-			<form:form method="POST" modelAttribute="member"
-				enctype='multipart/form-data' class="form-signin">
+
+						<form:form method="POST" modelAttribute="loginBean" >
+
 				<span id="reauth-email" class="reauth-email"></span>
 
 
-				<form:input path='account' placeholder="請輸入Email@" id="inputEmail"
+
+
+				<form:input path='userId' placeholder="請輸入Email@" id="inputEmail"
 					class="form-control" />
 
-				<form:errors path="account" cssClass="error" id="inputEmail"
+				<form:errors path="userId" cssClass="error" id="inputEmail"
 					class="form-control" />
 
 				<br>
 
-				<form:input path="pswd" placeholder="請輸入密碼" id="inputPassword"
+
+				<form:input path="password" placeholder="請輸入密碼" id="inputPassword"
 					class="form-control" />
+                <form:errors path='password' cssClass="error" />
 				<br>
-				<form:errors path='pswd' cssClass="error" />
+
 
 				<div id="remember1" class="checkbox1">
-					<label> <input type='checkbox' />記住我<br> </label></div>
-					
-					<div id="remember" class="checkbox">
-					<label><input type='checkbox' />我不是機器人<br>
-					</label>
+
+					 <form:checkbox path="rememberMe" />記住密碼
 				</div>
 
-<button class="btn btn-lg btn-primary btn-block btn-signin1" type='submit'>登入
-				</button>
-			
-             <hr>
+				<div id="remember" class="checkbox">
+					<label><input type='checkbox' />我不是機器人<br> </label>
+				</div>
 
-				<button class="btn btn-lg btn-primary btn-block btn-signin" type='submit'>使用Gmail登入
-				</button>
+				<button class="btn btn-lg btn-primary btn-block btn-signin1"
+					type='submit'>登入</button>
+
+				<hr>
+
+				<button class="btn btn-lg btn-primary btn-block btn-signin"
+					type='submit'>使用Gmail登入</button>
 
 			</form:form>
 			<div class="forgot-password">
-			<br>
-           <a href="forgetpwd" > 忘記密碼?</a>
-               
-            <br>
-            <a href='mem'>註冊會員</a>
-       <br> 
-			<a href="<c:url value='/'/> ">回首頁</a>
-			
-		</div></div></div>
-	
- 		<script type='text/javascript'> 
-//  		$(document).ready(function() {
-//  			$('.checkbox1').click(function() {
-//  				if (confirm('確定刪除此筆紀錄? ')) {
-// 					var href = $(this).attr('href');
-// 					$('form').attr('action', href).submit();
-//  				}
-// 				return false;
+				<br> <a href="forgetpwd"> 忘記密碼?</a> <br> <a href='mem'>註冊會員</a>
+				<br> <a href="<c:url value='/'/> ">回首頁</a>
 
-//  			});
-// 		})
-		
- 	</script> 
- 	
+			</div>
+		</div>
+	</div>
+
+	<script type='text/javascript'>
+		//  		$(document).ready(function() {
+		//  			$('.checkbox1').click(function() {
+		//  				if (confirm('確定刪除此筆紀錄? ')) {
+		// 					var href = $(this).attr('href');
+		// 					$('form').attr('action', href).submit();
+		//  				}
+		// 				return false;
+
+		//  			});
+		// 		})
+	</script>
+
 </body>
 </html>

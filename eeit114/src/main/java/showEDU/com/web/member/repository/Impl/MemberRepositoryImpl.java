@@ -1,8 +1,10 @@
 package showEDU.com.web.member.repository.Impl;
 
+import java.sql.Connection;
 import java.util.List;
 
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -95,5 +97,35 @@ public class MemberRepositoryImpl implements MemberRepository {
 		}
 		return exist;
 		
+	}
+
+	@Override
+	public MemberBean checkIdPassword(String userId, String password) {
+		MemberBean member = null;
+		String hql = "From MemberBean m WHERE m.account = :acc and m.pswd = :pwd";
+		Session session = factory.getCurrentSession();
+		try {
+			member = (MemberBean)session.createQuery(hql)
+								.setParameter("acc", userId)
+								.setParameter("pwd", password)
+								.getSingleResult();
+		} catch(NoResultException ex) {
+			;
+		} catch(NonUniqueResultException ex) {
+			;
+		} 	
+		return member;
+	}
+
+	@Override
+	public void setConnection(Connection con) {
+		throw new RuntimeException("本類別為提供此功能");
+		
+	}
+
+	@Override
+	public MemberBean queryMember(String memberId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

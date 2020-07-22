@@ -54,8 +54,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberBean login(String account, String pswd) {
-		return memberDao.login(account, pswd);
+	public MemberBean login(String userId, String password) {
+		return memberDao.login(userId, password);
 	}
 
 	@Override
@@ -63,6 +63,20 @@ public class MemberServiceImpl implements MemberService {
 		boolean exist = false;
 		exist = memberDao.idExists(account);
 		return exist;
+	}
+
+	@Override
+	public MemberBean queryMember(String account) {
+		MemberBean member = null;
+		member = memberDao.queryMember(account);
+		return member;
+	}
+
+	@Override
+	public MemberBean checkIdPassword(String userId, String password) {
+		MemberBean member = null;
+		member = memberDao.checkIdPassword(userId, password);
+		return member;
 	}
 
 

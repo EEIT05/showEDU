@@ -118,7 +118,7 @@ used to vertically center elements, may need modification if you're not using de
 		</form>
 
 		<c:choose>
-			<c:when test="${empty loginMember}">
+			<c:when test="${empty memberBean}">
 	    沒有任何會員資料<br>
 			</c:when>
 			<c:otherwise>
@@ -142,19 +142,19 @@ used to vertically center elements, may need modification if you're not using de
 			
 						<tr >
 <%-- 							<td >${loginMember.memberId}</td> --%>
-							<td>${loginMember.name}</td>
-							<td>${loginMember.phone}</td>
-							<td>${loginMember.address}</td>
-							<td>${loginMember.account}</td>
+							<td>${memberBean.name}</td>
+							<td>${memberBean.phone}</td>
+							<td>${memberBean.address}</td>
+							<td>${memberBean.account}</td>
 							
 <!-- 		              會員圖片 -->
 
 					  	<td><img width='60' height='72'
-								src='picture/${loginMember.memberId}' /></td>
+								src='picture/${memberBean.memberId}' /></td>
 					
 								
 							<td ><a class="btn btn-success" 
-								href="${pageContext.request.contextPath}/member/crm/mem/${loginMember.memberId}"><em class="fa fa-pencil"></em>&nbsp;編輯</a></td>
+								href="${pageContext.request.contextPath}/member/crm/mem/${memberBean.memberId}"><em class="fa fa-pencil"></em>&nbsp;編輯</a></td>
 						
 						
 						</tr>

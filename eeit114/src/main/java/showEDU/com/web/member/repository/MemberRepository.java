@@ -1,5 +1,6 @@
 package showEDU.com.web.member.repository;
 
+import java.sql.Connection;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,9 @@ public interface MemberRepository {
 
 	MemberBean login(String account, String pswd);
 
-	boolean idExists(String account);
+	
+boolean idExists(String account);
+  public MemberBean checkIdPassword(String userId, String password);
+	public void setConnection(Connection con);
+	public MemberBean queryMember(String memberId);
 }

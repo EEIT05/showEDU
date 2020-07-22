@@ -83,7 +83,7 @@ width: 100%;
 } */
 .carousel-item {
 	/* 	height: 75vh; */
-	height: 395px;
+	height:75vh;
 	background: no-repeat center center scroll;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -94,7 +94,7 @@ width: 100%;
 
 .text-box {
 	position: absolute;
-	top: 50%;
+	top: 40%;
 	left: 15%;
 	right: 15%;
 	color: #000;
@@ -102,8 +102,9 @@ width: 100%;
 }
 
 .pp {
-	color: #271a59;
-	margin-left: 5%;
+	color: #ffffff;
+	margin-left: 50%;
+
 }
 
 .p2 {
@@ -119,13 +120,14 @@ width: 100%;
 
 /* 公告 */
 .list-unstyled {
-	width: 50%;
+	width: 58.3%;
 	background-color: #271a59;
 	color: rgb(226, 222, 222);
-	padding: 20px;
+	padding: 7px;
 	border: solid 3px rgba(250, 163, 1, 0.767);
 	border-radius: 15px;
-	margin-left: 50%;
+	margin-left: 41.7%;
+	margin-top: -23.9%;
 	/* border:solid 2px darkgrey; */
 }
 
@@ -142,8 +144,8 @@ width: 100%;
 /* 卡片 */
 .card-group {
 	background-color: #271a59;
-	margin-top: -16px;
-	padding: 20px;
+	margin-top: -21px;
+	padding: 40px;
 }
 
 .card {
@@ -248,28 +250,28 @@ width: 100%;
 
 								<a href='member/crm/login' class="dropdown-item">會員登入</a>
 
-								<c:if test="${ ! empty loginMember }">
+								<c:if test="${ ! empty memberBean }">
 									<a href='member/crm/loginout' class="dropdown-item">會員登出</a>
 								</c:if>
 
-								<c:if test="${  empty loginMember }">
+								<c:if test="${  empty memberBean }">
 									<a href='member/crm/mem' class="dropdown-item"> 會員註冊</a>
 								</c:if>
 
-								<c:if test="${ ! empty loginMember}">
+								<c:if test="${ ! empty memberBean}">
 									<a href="<c:url value='member/crm/memb'/>"
 										class="dropdown-item">會員資料</a>
 								</c:if>
 
-								<c:if test="${loginMember.userType eq 'M'}">
+								<c:if test="${memberBean.userType eq 'M'}">
 									<a href="#" class="dropdown-item">我的訂單</a>
 								</c:if>
 
-								<c:if test="${loginMember.userType eq 'A'}">
+								<c:if test="${memberBean.userType eq 'A'}">
 									<a href="#" target="_blank" class="dropdown-item">後台管理</a>
 								</c:if>
 
-								<c:if test="${loginMember.userType eq 'A'}">
+								<c:if test="${memberBean.userType eq 'A'}">
 									<a href="<c:url value='member//crm/showAllMembers'/>"
 										class="dropdown-item">後台會員資料</a>
 								</c:if>
@@ -285,12 +287,12 @@ width: 100%;
 					<li class="nav-item active"><a href="#" class="nav-link"><i
 							class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
 
-					<c:if test="${ ! empty loginMember }">
+					<c:if test="${ ! empty memberBean }">
 						<li><img width='60' height='60'
-							src='member/crm/picture/${loginMember.memberId}' class='mmimg' /></li>
+							src='member/crm/picture/${memberBean.memberId}' class='mmimg' /></li>
 					</c:if>
 
-					<c:if test="${ empty loginMember }">
+					<c:if test="${ empty memberBean }">
 						<li class="nav-item active"><a href="member/crm/login"
 							class="nav-link"><i class="fa fa-user fa-lg"
 								aria-hidden="true"></i></a></li>
@@ -312,31 +314,30 @@ width: 100%;
 
 		<div class="carousel-inner" role="listbox">
 			<div class="text-box"></div>
-			<div class="carousel-item active"
-				style="background-image: url('https://i.imgur.com/NnzxG4S.jpg')">
+			<div class="carousel-item active" 
+				style="background-image: url('https://www.kukatko.cz/wp-content/uploads/2017/07/JL2.jpg')">
 				<div class="pp">
 					<br>
-					<h3 class="wow slideInRight" data-wow-duration="2s">Ocean</h3>
-					<p class="wow slideInLeft" data-wow-duration="2s">The most
-						beautiful scenery.</p>
+					<h3 class="wow slideInRight" data-wow-duration="2s"></h3>
+					<p class="wow slideInLeft" data-wow-duration="2s"></p>
 				</div>
 			</div>
 			<div class="carousel-item "
-				style="background-image: url('https://i.imgur.com/w439mEw.jpg')">
+				style="background-image: url('https://img.linetv.tw/large/drama/10441-p.jpg')">
 				<div class="p2">
 					<br>
-					<h3 class="wow slideInRight" data-wow-duration="2s">Starry
-						night</h3>
-					<p class="wow slideInLeft" data-wow-duration="2s">The most
-						beautiful Starry night.</p>
+					<h3 class="wow slideInRight" data-wow-duration="2s">
+						</h3>
+					<p class="wow slideInLeft" data-wow-duration="2s">
+						</p>
 				</div>
 			</div>
 			<div class="carousel-item "
-				style="background-image: url('https://share99.com/wp-content/uploads/2018/04/Griffith-Observatory-2.jpg')">
+				style="background-image: url('https://i.ytimg.com/vi/E9Cx_B1kOK0/maxresdefault.jpg')">
 
 			</div>
 			<div class="carousel-item "
-				style="background-image: url('https://content.shopback.com/tw/wp-content/uploads/2018/02/09190340/%E8%B2%B4%E8%88%B9%E7%A5%9E%E7%A4%BE-1200x675.jpg')">
+				style="background-image: url('https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/02/02/ChMkJlbKxgqIc2QIAAd2hfADVfMAALHfQDYbgAAB3ad736.jpg')">
 
 			</div>
 		</div>
@@ -350,9 +351,14 @@ width: 100%;
 			class="sr-only">Next</span>
 		</a>
 	</div>
-
+<!-- <iframe width="727" height="409" src="https://www.youtube.com/embed/SIFPsjcWC6g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
 	<div>
-
+	
+    <iframe src="https://www.youtube.com/embed/SIFPsjcWC6g?autoplay=1&mute=1" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe></div>             
+<!--                  <iframe width="864" height="516" src="https://www.youtube.com/embed/cRxeLrV475w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+	
+	
+	<div>
 		<ul class="list-unstyled">
 			<div class="vv">
 				<h4>最新公告</h4>
