@@ -57,9 +57,6 @@ public class MemberController {
 	MemberService memberService;
 
 	@Autowired
-	AdministratorService administratorService;
-
-	@Autowired
 	ServletContext context;
 
 	@Autowired
@@ -425,7 +422,9 @@ System.out.println("============================================================
 		return "redirect:/";
 	}
 
-//@Override
+
+	
+	
 //	public void changeAplcBeanStatusById(int aplcId, int status) {
 //	public void changeAplcBeanStatusById(MemberBean memberBean) {
 //		
@@ -441,21 +440,7 @@ System.out.println("============================================================
 //		
 //		
 //	}
-//	String pass = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。"
-//			+ "\n您的申請已通過，請在7天內完成繳費"
-//			+"\nshowEDU";
-//	String fail = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。"
-//			+ "\n很抱歉由於本館的安排當日無法利用租借服務"
-//			+ "\n期待您的再次利用"
-//			+"\nshowEDU";
-//	String cancle = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。"
-//			+ "\n您已取消預約"
-//			+ "\n期待您的再次利用"
-//			+"\nshowEDU";
-//	
-//	
-//
-//}
+
 
 //	@GetMapping("/forgetpwd")
 //	public  String forgetpwd(Model model,HttpServletRequest request) {
