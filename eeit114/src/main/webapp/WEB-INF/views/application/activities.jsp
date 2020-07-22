@@ -46,6 +46,9 @@
 				</div>
 			</c:forEach>
 		</div>
+		<div>
+			 <a href="<c:url value='/'/> ">首頁</a>
+	</div>
 	</section>
 
 </body>

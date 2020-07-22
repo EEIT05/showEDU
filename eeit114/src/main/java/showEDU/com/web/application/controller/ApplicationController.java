@@ -36,18 +36,28 @@ import showEDU.com.web.member.model.MemberBean;
 
 
 @Controller
-@SessionAttributes({"loginMember"})
+@SessionAttributes({"memberBean"})
 public class ApplicationController {
 	@Autowired
 	ApplicationService aplcService;
 	@Autowired
 	ServletContext ctx;
 	
+	//算總頁數
+		public Integer getTotalpage(int listLength) {
+			if((listLength % 2) == 0) {
+				return (listLength/2);
+			}else {
+				return (listLength/2)+1;
+			}
+		}
+	
+	
 	@GetMapping("/application/add")
 	public String getAddNewApplicationForm(Model model) {
 		ApplicationBean aplcBean =new ApplicationBean();
 		model.addAttribute("aplcBean", aplcBean);
-		MemberBean memberBean = (MemberBean) model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean) model.getAttribute("memberBean");
 		if (memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
@@ -66,7 +76,7 @@ public class ApplicationController {
 	@PostMapping("/application/add")
 	public String processAddNewApplicationForm(Model model,@ModelAttribute("aplcBean") ApplicationBean ab, 
 		   BindingResult result	) {
-		MemberBean memberBean = (MemberBean) model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean) model.getAttribute("memberBean");
 		int memberId = memberBean.getMemberId();
 		ab.setMemberId(memberId);
 		ab.setTheaterId(3);
@@ -122,7 +132,7 @@ public class ApplicationController {
 	
 	@GetMapping("/yourApplication")
 	public String getYourApplication(Model model){
-		MemberBean memberBean = (MemberBean) model.getAttribute("loginMember");
+		MemberBean memberBean = (MemberBean) model.getAttribute("memberBean");
 		if (memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
@@ -133,14 +143,25 @@ public class ApplicationController {
 	}
 	
 	@GetMapping("/allApplication")
-	public String getAllApplication(Model model){
-		MemberBean memberBean = (MemberBean) model.getAttribute("loginMember");
+	public String getAllApplication(Model model,
+			@RequestParam(value ="pageNo",required = false)Integer pageNo){
+		MemberBean memberBean = (MemberBean) model.getAttribute("memberBean");
 		if (memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
-		
 		List<ApplicationBean> beans = aplcService.getAllAplcBean();
-		model.addAttribute("allApplication", beans);
+		int totalPage = getTotalpage(beans.size());
+		model.addAttribute("totalPage", totalPage);
+		if(pageNo == null) {
+			pageNo = 1;
+		};
+		int startRecordNo = (pageNo - 1) * 2;
+		int LastRecordNo = pageNo * 2;
+		if(LastRecordNo>beans.size()) {
+			LastRecordNo = beans.size();
+		}
+		List<ApplicationBean> beansPerPage = beans.subList(startRecordNo, LastRecordNo); 
+		model.addAttribute("allApplication", beansPerPage);
 		return "application/showAllApplication";
 	}
 	
@@ -171,9 +192,34 @@ public class ApplicationController {
 	}
 	
 	@GetMapping("/allApplicationByStatus")
-	public String getAllApplicationByStatus(Model model,@RequestParam("statusId")Integer statusId){
-		aplcService.getAllAplcBeanByStatus(statusId);
-		return null;
+	public ResponseEntity<Map<String,Object>> getAllApplicationByStatus(Model model,@RequestParam(value = "statusId" ,required = false)Integer statusId
+			,@RequestParam(value ="pageNo",required = false)Integer pageNo){
+		
+		List<ApplicationBean> beans = null;
+		if(statusId == 0) {
+			beans = aplcService.getAllAplcBean();
+		}else{
+			beans = aplcService.getAllAplcBeanByStatus(statusId);
+			System.out.println(beans);
+		}
+		System.out.println(beans);
+		int totalPage = getTotalpage(beans.size());
+		if(pageNo == null) {
+			pageNo = 1;
+		};
+		int startRecordNo = (pageNo - 1) * 2;
+		int LastRecordNo = pageNo * 2;
+		if(LastRecordNo>beans.size()) {
+			LastRecordNo = beans.size();
+		}
+		List<ApplicationBean> beansPerPage = beans.subList(startRecordNo, LastRecordNo); 
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("selectedStatus",statusId);
+		map.put("application",  beansPerPage);
+		map.put("totalPage",totalPage);
+		map.put("pageNo",pageNo);
+		ResponseEntity<Map<String,Object>> re = new ResponseEntity<>(map,HttpStatus.OK);
+		return re;
 	}
 	
 	

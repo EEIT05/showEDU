@@ -170,7 +170,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 	@Override
 	public List<ApplicationBean> getAllAplcBeanByStatus(int statusId) {
 		Session session = factory.getCurrentSession();
-		String hql = "from ApplicationBean ab where ab.statusId = :s";
+		String hql = "from ApplicationBean ab where ab.statusBean.statusId = :s";
 		return session.createQuery(hql).setParameter("s", statusId).getResultList();
 
 	}

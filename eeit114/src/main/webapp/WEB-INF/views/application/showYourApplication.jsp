@@ -11,11 +11,9 @@
 <%-- <link rel='stylesheet' href='${pageContext.request.contextPath}/css/style.css'  type="text/css" /> --%>
 
 <style>
-body, html {
+html {
 	height: 100%;
-	background-repeat: no-repeat;
-	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
-		rgb(25, 0, 71));
+	background-color: #271a59;
 	padding: 5px;
 }
 /* .container{ */

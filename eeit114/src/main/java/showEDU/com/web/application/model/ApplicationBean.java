@@ -10,6 +10,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import showEDU.com.web.member.model.MemberBean;
 import showEDU.com.web.ticket.model.TheaterBean;
@@ -42,17 +45,19 @@ public class ApplicationBean implements Serializable{
 	@Transient
 	Integer actClassId;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="theaterId_fk")
 	TheaterBean theaterBean;
 	@Transient
 	Integer theaterId;
 	
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT 8")
 	Date date;
 	String time;
 	@Column(length = 1000 )
 	String intro;
     Integer totalAmount;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss ",timezone="GMT 8")
 	Timestamp aplcTime;
 	
 	@ManyToOne

@@ -11,11 +11,9 @@
 <%-- <link rel='stylesheet' href='${pageContext.request.contextPath}/css/style.css'  type="text/css" /> --%>
 
 <style>
-body, html {
+html {
 	height: 100%;
-	background-repeat: no-repeat;
-	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
-		rgb(25, 0, 71));
+	background-color: #271a59;
 	padding: 5px;
 }
 /* .container{ */
@@ -81,7 +79,189 @@ used to vertically center elements, may need modification if you're not using de
 }
 </style>
 
+<script>
+window.onload = function() {
+	var selectId = null;
+	var a0 = document.getElementById("all");
+	var a1 = document.getElementById("waitForPass");
+	var a2 = document.getElementById("pass");
+	var a3 = document.getElementById("fail");
+	var a4 = document.getElementById("cancle");
+	
+	var allform = document.getElementById("applications")
+	var pagebtns = document.getElementById("pagebtns");
+	function selectStatus() {
+		allform.innerHTML=''
+		pagebtns.innerHTML=''
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "<c:url value='/allApplicationByStatus' />" + "?statusId="
+				+ statusId, true);
+		xhr.send();
+		xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					console.log(JSON.parse(xhr.responseText));
+					var re = JSON.parse(xhr.responseText);
+					var content='';
+					var pages='';
+					for (var i = 0; i < re.application.length; i++) {
+						var payStatus
+						var passBtn
+						var failBtn
+						var payBtn
+						
+						if(re.application[i].payStatus == 0){
+							payStatus = "未付款";
+ 						}else{
+ 							payStatus = "已付款";
+ 						}
+						
+						if(re.application[i].statusBean.statusId == 1){
+							passBtn="<a class='btn btn-default'"+
+							"href='passApplication/"+re.application[i].aplcId+"'>"+
+							"<em class='fa fa-pencil'></em>&nbsp;審核</a>";
+						}else{
+							passBtn="";
+						}
+						
+						if(re.application[i].statusBean.statusId == 1){
+							failBtn="<a class='btn btn-default'"+
+								"href='failApplication/"+re.application[i].aplcId+"'>"+
+								"<em class='fa fa-trash'></em>&nbsp;拒絕</a>";
+						}else{
+							failBtn="";
+						}
+						
+						if(re.application[i].statusBean.statusId == 2  ){
+							payBtn="<a class='btn btn-default'"+
+							"href='changePayStatus/"+re.application[i].aplcId+"'>"+
+							"<em class='fa fa-default'></em>&nbsp;已付款</a>";
+								
+						}else{
+							payBtn="";
+						}
+						
+						content += "<tr>"+
+						"<td><a href='applicationDetail/"+re.application[i].aplcId+"'>"+re.application[i].aplcId+"</a></td>"+
+						"<td>"+re.application[i].actClassBean.name+"</td>"+
+						"<td>"+re.application[i].date+"</td>"+
+						"<td>"+re.application[i].time+"</td>"+
+						"<td>"+re.application[i].totalAmount+"</td>"+
+						"<td>"+re.application[i].aplcTime+"</td>"+
+						"<td>"+re.application[i].aplcTime+"</td>"+
+						"<td>"+re.application[i].statusBean.descr+"</td>"+
+						"<td>"+passBtn+"</td>"+
+						"<td>"+failBtn+"</td>"+
+						"<td>"+payBtn+"</td>"+
+						"</tr>";
+						allform.innerHTML = content;
+					
+					}
+					console.log(re.totalPage)
+					for(j=1;j<=re.totalPage;j++){
+						pages+="<a id='page"+j+"' onclick ='getpage("+re.selectedStatus+","+j+")'>"+j+"</a>";
+						console.log(pages)
+						pagebtns.innerHTML=pages;
+					}
+				}
+			}
+		}
+// 	window.addEventListener('onclick', getpage, false);
+	
+// 	function getpage(statusId,pageNo) {
+// 		allform.innerHTML=''
+// 		var xhr = new XMLHttpRequest();
+// 		xhr.open("GET", "<c:url value='/allApplicationByStatus' />" + "?statusId="
+// 				+ statusId +"&pageNo="+pageNo, true);
+// 		xhr.send();
+// 		xhr.onreadystatechange = function() {
+// 				if (xhr.readyState == 4 && xhr.status == 200) {
+// 					console.log(JSON.parse(xhr.responseText));
+// 					var re = JSON.parse(xhr.responseText);
+// 					var content='';
+// 					for (var i = 0; i < re.application.length; i++) {
+// 						var payStatus
+// 						var passBtn
+// 						var failBtn
+// 						var payBtn
+						
+// 						if(re.application[i].payStatus == 0){
+// 							payStatus = "未付款";
+//  						}else{
+//  							payStatus = "已付款";
+//  						}
+						
+// 						if(re.application[i].statusBean.statusId == 1){
+// 							passBtn="<a class='btn btn-default'"+
+// 							"href='passApplication/"+re.application[i].aplcId+"'>"+
+// 							"<em class='fa fa-pencil'></em>&nbsp;審核</a>";
+// 						}else{
+// 							passBtn="";
+// 						}
+						
+// 						if(re.application[i].statusBean.statusId == 1){
+// 							failBtn="<a class='btn btn-default'"+
+// 								"href='failApplication/"+re.application[i].aplcId+"'>"+
+// 								"<em class='fa fa-trash'></em>&nbsp;拒絕</a>";
+// 						}else{
+// 							failBtn="";
+// 						}
+						
+// 						if(re.application[i].statusBean.statusId == 2  ){
+// 							payBtn="<a class='btn btn-default'"+
+// 							"href='changePayStatus/"+re.application[i].aplcId+"'>"+
+// 							"<em class='fa fa-default'></em>&nbsp;已付款</a>";
+								
+// 						}else{
+// 							payBtn="";
+// 						}
+						
+// 						content += "<tr>"+
+// 						"<td><a href='applicationDetail/"+re.application[i].aplcId+"'>"+re.application[i].aplcId+"</a></td>"+
+// 						"<td>"+re.application[i].actClassBean.name+"</td>"+
+// 						"<td>"+re.application[i].date+"</td>"+
+// 						"<td>"+re.application[i].time+"</td>"+
+// 						"<td>"+re.application[i].totalAmount+"</td>"+
+// 						"<td>"+re.application[i].aplcTime+"</td>"+
+// 						"<td>"+re.application[i].aplcTime+"</td>"+
+// 						"<td>"+re.application[i].statusBean.descr+"</td>"+
+// 						"<td>"+passBtn+"</td>"+
+// 						"<td>"+failBtn+"</td>"+
+// 						"<td>"+payBtn+"</td>"+
+// 						"</tr>";
+// 						allform.innerHTML = content;
+					
+// 					}
+// 					for(j=1;j<=re.totalPage;j++){
+// 						pages+="<a id='page"+j+"' onclick ='getpage("+re.selectedStatus+","+j+")'>"+j+"</a>";
+// 						pagebtns.innerHTML=pages
+// 					}
+// 				}
+// 			}
+// 		}
 
+//分類按鈕事件===============================================================================
+	a0.onclick = function() {
+		statusId = 0;
+		selectStatus();
+	}
+	a1.onclick = function() {
+		statusId = 1;
+		selectStatus();
+	}
+	a2.onclick = function() {
+		statusId = 2;
+		selectStatus();
+	}
+	a3.onclick = function() {
+		statusId = 3;
+		selectStatus();
+	}
+	a4.onclick = function() {
+		statusId = 4;
+		selectStatus();
+	}
+}
+</script>
 
 </head>
 <body>
@@ -104,7 +284,16 @@ used to vertically center elements, may need modification if you're not using de
 					<div class="col col-xs-6">
 						<h2 class="panel-title">預約清單</h2>
 					</div>
-
+					<div>
+						<ul class="nav nav-tabs">
+							<li><button id = 'all'>全部</button></li>
+							<li><button id = 'waitForPass'>未審核</button></li>
+							<li><button id = 'pass'>通過</button></li>
+							<li><button id = 'fail'>未通過</button></li>
+							<li><button id = 'cancle'>取消</button></li>
+							
+						</ul>
+					</div>
 				</div>
 			</div>
 			<!-- 		<form method='POST'> -->
@@ -126,25 +315,25 @@ used to vertically center elements, may need modification if you're not using de
 									<th>日期</th>
 									<th>時段</th>
 									<th>金額</th>
-									<th>申請日期</th>
+									<th width=220px>申請時間</th>
 									<th>狀態</th>
 									<th>付款狀態</th>
-									<th></th>
-									<th></th>
-									<th></th>
+									<th width=132px></th>
+									<th width=132px></th>
+									<th width=132px></th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id = 'applications'>
 								<c:forEach var='application' items='${allApplication}'>
 									<tr>
-										<td>${application.aplcId}</td>
-										<td>${application.actClassBean.name}</td>
-										<td>${application.date}</td>
-										<td>${application.time}</td>
-										<td>${application.totalAmount}</td>
-										<td>${application.aplcTime}</td>
-										<td>${application.statusBean.descr}</td>
-										<td>
+										<td><a href='applicationDetail/${application.aplcId}'>${application.aplcId}</a></td>
+										<td >${application.actClassBean.name}</td>
+										<td >${application.date}</td>
+										<td >${application.time}</td>
+										<td >${application.totalAmount}</td>
+										<td >${application.aplcTime}</td>
+										<td >${application.statusBean.descr}</td>
+										<td >
 											<c:choose>
 												<c:when test="${application.payStatus == 1}">
 	   													已付款
@@ -156,20 +345,20 @@ used to vertically center elements, may need modification if you're not using de
 										</td>
 
 
-										<td><c:choose>
+										<td ><c:choose>
 												<c:when test="${application.statusBean.statusId == 1 }">
 													<a class="btn btn-default"
-														href="${pageContext.request.contextPath}/passApplication/${application.aplcId}"><em
+														href="passApplication/${application.aplcId}"><em
 														class="fa fa-pencil"></em>&nbsp;審核</a>
 												</c:when>
 												<c:otherwise>
 
 												</c:otherwise>
 											</c:choose></td>
-										<td><c:choose>
+										<td ><c:choose>
 												<c:when test="${application.statusBean.statusId == 1 }">
 													<a class="btn btn-danger"
-														href="${pageContext.request.contextPath}/failApplication/${application.aplcId}"><em
+														href="failApplication/${application.aplcId}"><em
 														class="fa fa-trash"></em>&nbsp;拒絕</a>
 												</c:when>
 												<c:otherwise>
@@ -180,7 +369,7 @@ used to vertically center elements, may need modification if you're not using de
 												<c:when
 													test="${application.statusBean.statusId == 2 }">
 													<a id = "changePay" class="btn btn-default "
-														href="${pageContext.request.contextPath}/changePayStatus/${application.aplcId}"><em
+														href="changePayStatus/${application.aplcId}"><em
 														class="fa fa-pencil"></em>&nbsp;已付款</a>
 												</c:when>
 												<c:otherwise>
@@ -194,8 +383,106 @@ used to vertically center elements, may need modification if you're not using de
 				</c:otherwise>
 			</c:choose>
 			<hr>
+	<div id="pagebtns">
+		<c:choose>
+			<c:when test= "${empty selectDate}">
+				<c:forEach var = 'totalPageNo' begin = '1' end='${totalPage}'>
+					<a id="page${totalPageNo}" href="allApplication?pageNo=${totalPageNo}">${totalPageNo}</a>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+				
+			</c:otherwise>
+		</c:choose>
+	</div>
 			 <a href="<c:url value='/'/> ">首頁</a>
 		</div>
 </body>
+<script>
+//查詢後分頁
+window.addEventListener('onclick', getpage, false);
+var selectId = null;
+var a0 = document.getElementById("all");
+var a1 = document.getElementById("waitForPass");
+var a2 = document.getElementById("pass");
+var a3 = document.getElementById("fail");
+var a4 = document.getElementById("cancle");
 
+var allform = document.getElementById("applications")
+var pagebtns = document.getElementById("pagebtns");
+function getpage(statusId,pageNo) {
+	allform.innerHTML=''
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "<c:url value='/allApplicationByStatus' />" + "?statusId="
+			+ statusId +"&pageNo="+pageNo, true);
+	xhr.send();
+	xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				console.log(JSON.parse(xhr.responseText));
+				var re = JSON.parse(xhr.responseText);
+				var content='';
+				var pages='';
+				for (var i = 0; i < re.application.length; i++) {
+					var payStatus
+					var passBtn
+					var failBtn
+					var payBtn
+					
+					if(re.application[i].payStatus == 0){
+						payStatus = "未付款";
+						}else{
+							payStatus = "已付款";
+						}
+					
+					if(re.application[i].statusBean.statusId == 1){
+						passBtn="<a class='btn btn-default'"+
+						"href='passApplication/"+re.application[i].aplcId+"'>"+
+						"<em class='fa fa-pencil'></em>&nbsp;審核</a>";
+					}else{
+						passBtn="";
+					}
+					
+					if(re.application[i].statusBean.statusId == 1){
+						failBtn="<a class='btn btn-default'"+
+							"href='failApplication/"+re.application[i].aplcId+"'>"+
+							"<em class='fa fa-trash'></em>&nbsp;拒絕</a>";
+					}else{
+						failBtn="";
+					}
+					
+					if(re.application[i].statusBean.statusId == 2  ){
+						payBtn="<a class='btn btn-default'"+
+						"href='changePayStatus/"+re.application[i].aplcId+"'>"+
+						"<em class='fa fa-default'></em>&nbsp;已付款</a>";
+							
+					}else{
+						payBtn="";
+					}
+					
+					content += "<tr>"+
+					"<td><a href='applicationDetail/"+re.application[i].aplcId+"'>"+re.application[i].aplcId+"</a></td>"+
+					"<td>"+re.application[i].actClassBean.name+"</td>"+
+					"<td>"+re.application[i].date+"</td>"+
+					"<td>"+re.application[i].time+"</td>"+
+					"<td>"+re.application[i].totalAmount+"</td>"+
+					"<td>"+re.application[i].aplcTime+"</td>"+
+					"<td>"+re.application[i].aplcTime+"</td>"+
+					"<td>"+re.application[i].statusBean.descr+"</td>"+
+					"<td>"+passBtn+"</td>"+
+					"<td>"+failBtn+"</td>"+
+					"<td>"+payBtn+"</td>"+
+					"</tr>";
+					allform.innerHTML = content;
+				
+				}
+				//頁數按鈕
+				for(j=1;j<=re.totalPage;j++){
+					pages+="<a id='page"+j+"' onclick ='getpage("+re.selectedStatus+","+j+")'>"+j+"</a>";
+					pagebtns.innerHTML=pages
+				}
+			}
+		}
+	}
+
+</script>
 </html>

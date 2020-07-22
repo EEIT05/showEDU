@@ -11,15 +11,11 @@
 <%-- <link rel='stylesheet' href='${pageContext.request.contextPath}/css/style.css'  type="text/css" /> --%>
 
 <style>
-div{
 
-}
-html, body {
-	height: 100%;
-	background-repeat: no-repeat;
-	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
-		rgb(25, 0, 71));
+html {
+	background-color: #271a59;
 	padding: 5px;
+	height:100vh;
 }
 .dateForm td{
 	width: 156px;
@@ -164,6 +160,7 @@ used to vertically center elements, may need modification if you're not using de
 </body>
 
 <script>
+	//日期表格
 	var selectElement = document.getElementById("SelectDate");
 	selectElement.addEventListener('change', function() {
 		var t = document.getElementById("table1");
@@ -271,7 +268,7 @@ used to vertically center elements, may need modification if you're not using de
 		console.log(document.getElementById("noon23").innerText);
 
 	})
-
+//======================================塞入申請項目============================================
 	selectElement.addEventListener('change', function() {
 		var t = document.getElementById("table1");
 		var selectMonth = selectElement.options[selectElement.selectedIndex].value;

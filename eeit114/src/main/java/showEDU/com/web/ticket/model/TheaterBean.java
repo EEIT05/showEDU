@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class TheaterBean implements Serializable {
 	String  	name;
 	Integer  	totalSeats;
 	
-	@OneToMany(mappedBy = "theaterBean")
+	@OneToMany(mappedBy = "theaterBean",fetch=FetchType.EAGER)
 	 Set<MovieOrderDetailBean> movieOrderDetail = new HashSet<>();
 	
 

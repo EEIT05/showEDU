@@ -36,7 +36,7 @@ import showEDU.com.web.member.model.MemberBean;
 
 
 @Controller
-@SessionAttributes({"loginMember"})
+@SessionAttributes({"memberBean"})
 public class CalenderController {
 	@Autowired
 	ApplicationService aplcService;

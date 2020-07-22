@@ -35,7 +35,7 @@ import showEDU.com.web.application.service.ActivityService;
 import showEDU.com.web.member.model.MemberBean;
 
 @Controller
-@SessionAttributes({"loginMember"})
+@SessionAttributes({"memberBean"})
 public class ActivityController2 {
 	@Autowired
 	ActivityService service;
@@ -76,7 +76,7 @@ public class ActivityController2 {
 	public String getActivityById(@RequestParam("id") Integer id, Model model) {
 //		MemberBean memberBean = (MemberBean) model.getAttribute("loginMember");
 //		model.addAttribute("memberBean",memberBean);
-		model.getAttribute("loginMember");
+		model.getAttribute("memberBean");
 		model.addAttribute("activity", service.getActivityById(id));
 		return "application/activity";
 	}

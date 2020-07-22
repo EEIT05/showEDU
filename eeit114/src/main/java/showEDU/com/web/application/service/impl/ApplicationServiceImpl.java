@@ -132,8 +132,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	public List<ApplicationBean> getAllAplcBeanByStatus(int statusId) {
-		aplcDao.getAllAplcBeanByStatus(statusId);
-		return null;
+		return aplcDao.getAllAplcBeanByStatus(statusId);
+		
 	}
 
 }
