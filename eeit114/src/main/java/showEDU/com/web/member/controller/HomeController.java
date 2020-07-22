@@ -11,4 +11,9 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping("/back")
+	public String back() {
+		return "back";
+	}
+	
 }

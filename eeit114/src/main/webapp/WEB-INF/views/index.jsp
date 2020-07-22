@@ -268,11 +268,11 @@ width: 100%;
 								</c:if>
 
 								<c:if test="${memberBean.userType eq 'A'}">
-									<a href="#" target="_blank" class="dropdown-item">後台管理</a>
+									<a href="back" target="_blank" class="dropdown-item">後台管理</a>
 								</c:if>
 
 								<c:if test="${memberBean.userType eq 'A'}">
-									<a href="<c:url value='member//crm/showAllMembers'/>"
+									<a href="<c:url value='member/crm/showAllMembers'/>"
 										class="dropdown-item">後台會員資料</a>
 								</c:if>
 
