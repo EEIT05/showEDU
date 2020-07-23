@@ -38,7 +38,7 @@
 			href="<spring:url value='/product/add'/>"> <i class="fa fa-plus"
 			style="margin-right: 5px"></i>新增
 		</a>
-
+		<input type="button" value="首頁" onclick="location.href='<c:url value='/back'/>'" style="width:91px;">
 		<button id='clickmeS'>click me</button>
 
 		<div id="table" class="row">

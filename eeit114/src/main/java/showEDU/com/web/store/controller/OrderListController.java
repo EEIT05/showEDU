@@ -57,14 +57,10 @@ public class OrderListController {
 	
 	@GetMapping("/ajaxOrderDetail")
 	public ResponseEntity<List<ProductOrdersBean>>ajaxOrderDetail(@RequestParam(value = "orderNo")Integer no){
-		System.out.println(no);
 		ProductOrdersBean p = cartService.getOrder(no);
 		List<ProductOrdersBean> listp = new ArrayList<ProductOrdersBean>();
 		listp.add(p);
 		
-		//		System.out.println(p.toString());
-		System.out.println(p.getFormNumber()+p.getSendStatus());
-		System.out.println(p.getItems());
 		ResponseEntity<List<ProductOrdersBean>> re = new ResponseEntity<List<ProductOrdersBean>>(listp,HttpStatus.OK);
 		return re;
 	}

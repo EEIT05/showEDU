@@ -85,7 +85,7 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="firstName">訂購人</label>
-            <input type="text" class="form-control" id="firstName" value="${loginMember.name}" required disabled>
+            <input type="text" class="form-control" id="firstName" value="${memberBean.name}" required disabled>
             <div class="invalid-feedback">
               Valid first name is required.
             </div>
@@ -93,14 +93,14 @@
         </div>
         <div class="mb-3">
           <label for="email">訂購人信箱 <span class="text-muted"></span></label>
-          <input type="email" class="form-control" id="email" value="${loginMember.account}" >
+          <input type="email" class="form-control" id="email" value="${memberBean.account}" >
           <div class="invalid-feedback">
             Please enter a valid email address for shipping updates.
           </div>
         </div>
         <div class="mb-3">
           <label for="address">訂購人地址</label>
-          <input type="text" class="form-control" id="address" value="${loginMember.address}" >
+          <input type="text" class="form-control" id="address" value="${memberBean.address}" >
         </div>
         
         <div class="mb-3">

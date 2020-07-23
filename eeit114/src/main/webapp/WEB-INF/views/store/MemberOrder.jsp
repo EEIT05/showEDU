@@ -204,19 +204,7 @@ h6, .h6 {
 			</div>
 		</div>
 	</div>
-	<script>
-//  window.onload = function() {
-// 	 var number =  document.getElementById("number").value;
-// 	 var number1 =  document.getElementById("number")
-// 	 var list =  document.getElementById(number.value);
-	 
-// 	 var z = 'a'+number;
-// 	 var q = document.getElementById(z)
-// 	 console.log(list)
-// 	 console.log(z)
-// 	 console.log(number)
-	 
-	 
+	<script> 
 	 function showList(formNumber){
 		 var xhr = new XMLHttpRequest;
 		 var x = "a"+formNumber;
@@ -259,15 +247,12 @@ h6, .h6 {
 					 		console.log(context);
 						 d.innerHTML = context;
 					 }
-					 	 
-					 
+					 	 					 
 				 }
-				 
-				 	 	 		 
+				 				 	 	 		 
 			 }
  		 }
   	 }
-//  	}
 </script>
 
 

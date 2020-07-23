@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <title>周邊商品首頁</title>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/scripts/jquery-3.5.1.min.js"></script>
@@ -28,9 +29,11 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/PeripheralProduct.css">
 
+
 </head>
 <body>
-	<header></header>
+<a href="/eeit114">回首頁</a>
+<%-- 	<header><jsp:include page="/fragment/top.jsp" /></header> --%>
 	<nav>
 		<div class="wrapper" id="pic">
 			<ul class="slides">
@@ -87,10 +90,11 @@
 					<div id='allproduct'>
 						<c:forEach var='products' items='${products}'>
 							<div class="card product" style="width: 18rem;">
+							<div class="card-body">
 								<img
 									src="<c:url value='/getProductPicture/${products.productId}'/>"
 									class="card-img-top" alt="...">
-								<div class="card-body">
+								
 									<h5 class="card-title">${products.name}</h5>
 									<p class="card-text">${products.company}</p>
 									<p class="card-text">NT$${products.price}</p>

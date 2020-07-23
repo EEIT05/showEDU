@@ -110,5 +110,6 @@ window.onload = function () {
     document.getElementById("buyCount").onchange = function(){checkstock();} 
   }
 </script>
+
 </body>
 </html>

@@ -91,6 +91,7 @@ public class ProcessOrderController {
 //			Initial();
 //			AioCheckOutALL obj = new AioCheckOutALL();
 			return "forward:" + "removeShoppingCart";
+			
 		} catch (RuntimeException e) {
 			String message = e.getMessage();
 			String shortMsg = "" ;   

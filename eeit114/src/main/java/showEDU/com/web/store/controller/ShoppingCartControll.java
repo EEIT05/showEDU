@@ -90,5 +90,7 @@ public class ShoppingCartControll {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
 		return "store/OrderConfirm";
+		//return "store/ThanksForOrdering";
+		//return "redirect: " + ctx.getContextPath() + "/store/ThanksForOrdering";
 	}
 }

@@ -130,7 +130,7 @@ img {
 }
 
 .product {
-	display: inline-flex;
+	display:inline-block;
 	margin: 30px;
 	height: 30px;
 	width: 180px;
@@ -152,7 +152,7 @@ img {
 
 .card {
 	border: 0ch;
-	
+	display:block;
 }
 
 .card-link a {
@@ -162,6 +162,10 @@ img {
 
 .card-img-top {
 	width: 80%;
+/* 	 position: relative; */
+}
+.card-body{
+	margin-bottom:50px;
 }
 
 span.error {
