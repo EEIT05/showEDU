@@ -244,7 +244,8 @@ width: 100%;
 							</c:if>
 							<a href="#" class="dropdown-item"></a>
 						</div></li>
-
+			<li class="nav-item"><a href="<c:url value='boards' />"
+						class="nav-link">討論區</a></li>
 					<div>
 
 						<li class="nav-item dropdown"><a
