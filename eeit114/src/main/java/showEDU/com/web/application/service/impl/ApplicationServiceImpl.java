@@ -136,4 +136,10 @@ public class ApplicationServiceImpl implements ApplicationService {
 		
 	}
 
+	@Override
+	public ApplicationBean getAplcBeanId(int aplcId) {
+		
+		return aplcDao.getAplcBeanId(aplcId);
+	}
+
 }

@@ -124,7 +124,7 @@ window.onload = function() {
 						}
 						
 						if(re.application[i].statusBean.statusId == 1){
-							failBtn="<a class='btn btn-default'"+
+							failBtn="<a class='btn btn-danger'"+
 								"href='failApplication/"+re.application[i].aplcId+"'>"+
 								"<em class='fa fa-trash'></em>&nbsp;拒絕</a>";
 						}else{
@@ -134,7 +134,7 @@ window.onload = function() {
 						if(re.application[i].statusBean.statusId == 2  ){
 							payBtn="<a class='btn btn-default'"+
 							"href='changePayStatus/"+re.application[i].aplcId+"'>"+
-							"<em class='fa fa-default'></em>&nbsp;已付款</a>";
+							"<em class='fa fa-check'></em>&nbsp;已付款</a>";
 								
 						}else{
 							payBtn="";
@@ -370,7 +370,7 @@ window.onload = function() {
 													test="${application.statusBean.statusId == 2 }">
 													<a id = "changePay" class="btn btn-default "
 														href="changePayStatus/${application.aplcId}"><em
-														class="fa fa-pencil"></em>&nbsp;已付款</a>
+														class="fa fa-check"></em>&nbsp;已付款</a>
 												</c:when>
 												<c:otherwise>
 													
@@ -443,7 +443,7 @@ function getpage(statusId,pageNo) {
 					}
 					
 					if(re.application[i].statusBean.statusId == 1){
-						failBtn="<a class='btn btn-default'"+
+						failBtn="<a class='btn btn-danger'"+
 							"href='failApplication/"+re.application[i].aplcId+"'>"+
 							"<em class='fa fa-trash'></em>&nbsp;拒絕</a>";
 					}else{
@@ -453,7 +453,7 @@ function getpage(statusId,pageNo) {
 					if(re.application[i].statusBean.statusId == 2  ){
 						payBtn="<a class='btn btn-default'"+
 						"href='changePayStatus/"+re.application[i].aplcId+"'>"+
-						"<em class='fa fa-default'></em>&nbsp;已付款</a>";
+						"<em class='fa fa-check'></em>&nbsp;已付款</a>";
 							
 					}else{
 						payBtn="";

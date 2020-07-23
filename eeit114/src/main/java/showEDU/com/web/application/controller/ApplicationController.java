@@ -221,8 +221,12 @@ public class ApplicationController {
 		ResponseEntity<Map<String,Object>> re = new ResponseEntity<>(map,HttpStatus.OK);
 		return re;
 	}
-	
-	
+	@GetMapping("/applicationDetail/{aplcId}")
+	public String getApplicationById(Model model,@PathVariable int aplcId) {
+		ApplicationBean bean = aplcService.getAplcBeanId(aplcId);
+		model.addAttribute("application", bean);
+		return "application/applicationDetail";
+	}
 	
 	
 
