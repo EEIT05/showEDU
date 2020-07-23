@@ -8,10 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +39,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.google.protobuf.Message;
 
 import showEDU.com.web.member.model.ForgetBean;
 import showEDU.com.web.member.model.LoginBean;
