@@ -1,30 +1,41 @@
-  insert Category (category,status) 
+ insert Category (category,status) 
   values('周邊商品類別','A') , ('食物商品類別','A')
   --食物商品類別
 insert FoodCategory (items,status,FK_category_Id)values('單點','A',2),('套餐','A',2)
 --周邊商品類別
 insert ProductCategory (items,status,FK_category_Id)values('海報','A',1),('杯子','A',1),('行李箱','A',1),('玩偶','A',1),('其他','A',1)
---周邊商品
-insert PeripheralProduct (FK_CategoryBean_Id,FK_ProductCategoryBean_Id,name,detail,company,stock,price,createdate,status)
-values
-      (1,2,'美國隊長人像馬克杯','detail','漫威影業',25,200,getdate(),'A'),
-	  (1,2,'驚奇隊長圖文馬克杯','detail','漫威影業',10,200,getdate(),'A'),
-	  (1,2,'鋼鐵人人像馬克杯','detail','漫威影業',18,250,getdate(),'A'),
-	  (1,2,'浩克人像馬克杯','detail','漫威影業',2,150,getdate(),'A'),
-	  (1,2,'索爾人像馬克杯','detail','漫威影業',20,250,getdate(),'A'),
-	  (1,2,'美國隊長變色玻璃杯','detail','漫威影業',20,250,getdate(),'A')
 
---周邊商品圖片
-insert ProductImage(FK_category_Id,FK_PeripheralProduct_Id,images)
-values
-	--(1,1,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_America_cup2-1.jpg', SINGLE_BLOB) as T1)),
-	--(1,1,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_America_cup2-2.jpg', SINGLE_BLOB) as T1)),
-	(1,2,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_Marvel_cup1.jpg', SINGLE_BLOB) as T2)),
-	(1,3,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Iron_Man_cup1-1.jpg', SINGLE_BLOB) as T3)),
-	(1,3,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Iron_Man_cup1-2.jpg', SINGLE_BLOB) as T3)),
-	(1,4,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\TheHulk_cup1-1.jpg', SINGLE_BLOB) as T4)),
-	(1,4,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\TheHulk_cup1-2.jpg', SINGLE_BLOB) as T4)),
-	(1,5,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Thor_cup1-1.jpg', SINGLE_BLOB) as T5)),
-	(1,5,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Thor_cup1-2.jpg', SINGLE_BLOB) as T5)),
-	(1,6,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_America_changecolor_cup1-1.jpg', SINGLE_BLOB) as T6)),
-	(1,6,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_America_changecolor_cup1-2.jpg', SINGLE_BLOB) as T6))
+insert into PeripheralProduct (company,createdate,detail,fileName,name,price,status,stock,FK_CategoryBean_Id,FK_ProductCategoryBean_Id
+,images)values
+('漫威影業',GETDATE(),'格魯特是一個出現在漫威漫畫出版的美國漫畫書中的超級英雄,是一個外星人和有知覺能力樹狀生物。','Funko.jpg','星際異攻隊2 格魯特 原木色'
+,590,'A',10,1,4,(SELECT * FROM OPENROWSET(BULK N'D:\EDU2\eeit114\data\image_product\Funko.jpg', SINGLE_BLOB) as T1))
+
+insert into PeripheralProduct (company,createdate,detail,fileName,name,price,status,stock,FK_CategoryBean_Id,FK_ProductCategoryBean_Id
+,images)values
+('漫威影業',GETDATE(),'美國隊長Funko盾牌夜間發光。','美國隊長夜光版.jpg','漫威遊戲 美國隊長 夜光版'
+,590,'A',9,1,4,(SELECT * FROM OPENROWSET(BULK N'D:\EDU2\eeit114\data\image_product\美國隊長夜光版.jpg', SINGLE_BLOB) as T1))
+
+insert into PeripheralProduct (company,createdate,detail,fileName,name,price,status,stock,FK_CategoryBean_Id,FK_ProductCategoryBean_Id
+,images)values
+('漫威影業',GETDATE(),'浩克Funko骷髏裝樣式。','漫威遊戲浩克骷髏裝.jpg','漫威遊戲 浩克 骷髏裝'
+,590,'A',9,1,4,(SELECT * FROM OPENROWSET(BULK N'D:\EDU2\eeit114\data\image_product\漫威遊戲浩克骷髏裝.jpg', SINGLE_BLOB) as T1))
+
+insert into PeripheralProduct (company,createdate,detail,fileName,name,price,status,stock,FK_CategoryBean_Id,FK_ProductCategoryBean_Id
+,images)values
+('漫威影業',GETDATE(),'1/10終局之戰 索爾 雕像。','終局之戰索爾.jpg','Iron Studio 1/10 復仇者聯盟：終局之戰 索爾 雕像'
+,3800,'A',3,1,4,(SELECT * FROM OPENROWSET(BULK N'D:\EDU2\eeit114\data\image_product\終局之戰索爾.jpg', SINGLE_BLOB) as T1))
+
+insert into PeripheralProduct (company,createdate,detail,fileName,name,price,status,stock,FK_CategoryBean_Id,FK_ProductCategoryBean_Id
+,images)values
+('漫威影業',GETDATE(),'蜘蛛人鑰匙圈。','鑰匙圈 蜘蛛人.jpg','POP鑰匙圈 蜘蛛人 珍珠色'
+,3800,'A',10,1,5,(SELECT * FROM OPENROWSET(BULK N'D:\EDU2\eeit114\data\image_product\鑰匙圈 蜘蛛人.jpg', SINGLE_BLOB) as T1))
+
+insert into PeripheralProduct (company,createdate,detail,fileName,name,price,status,stock,FK_CategoryBean_Id,FK_ProductCategoryBean_Id
+,images)values
+('漫威影業',GETDATE(),'戰爭機器鑰匙圈。','鑰匙圈戰爭機器.jpg','鑰匙圈 復仇者聯盟 終局之戰 戰爭機器 限定'
+,350,'A',10,1,5,(SELECT * FROM OPENROWSET(BULK N'D:\EDU2\eeit114\data\image_product\鑰匙圈戰爭機器.jpg', SINGLE_BLOB) as T1))
+
+insert into PeripheralProduct (company,createdate,detail,fileName,name,price,status,stock,FK_CategoryBean_Id,FK_ProductCategoryBean_Id
+,images)values
+('漫威影業',GETDATE(),'終局之戰細緻海報。','終局之戰.jpg','復仇者聯盟4:終局之戰'
+,400,'A',5,1,1,(SELECT * FROM OPENROWSET(BULK N'D:\EDU2\eeit114\data\image_product\終局之戰.jpg', SINGLE_BLOB) as T1))
