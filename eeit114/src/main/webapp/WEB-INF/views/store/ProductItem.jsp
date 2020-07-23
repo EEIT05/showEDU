@@ -94,10 +94,17 @@
 <script>
 
 function checkstock(){
-	var stock = document.getElementById("check").value;
+	var check = document.getElementById("check").value;
+	
+	checkInt = parseInt(check)
+	
     var buyCount = document.getElementById("buyCount").value;
-    console.log(buyCount)
-    if (stock < buyCount) {  	
+	
+	buyCountInt = parseInt(buyCount)
+	
+    console.log(buyCountInt)
+    console.log(checkInt)
+    if (checkInt < buyCountInt) {  	
       alert("庫存量小於購買量");
       parent.location.reload();
       //buyCount.fireEvent("onchange");

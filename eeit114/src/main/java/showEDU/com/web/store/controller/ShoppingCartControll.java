@@ -54,11 +54,13 @@ public class ShoppingCartControll {
 		int productId = Integer.parseInt(productIdStr.trim());
 		
 		String buyCountStr = request.getParameter("buyCount");
+		System.out.println(buyCountStr+"+++++++++++++");
 		Integer buyCount = 0;
 //		String productname = request.getParameter("name");
 		PeripheralProductBean bean = peripheralService.getProductById(productId);
 		try {
 			buyCount = Integer.parseInt(buyCountStr.trim());
+			System.out.println(buyCount+"===================");
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
@@ -80,7 +82,7 @@ public class ShoppingCartControll {
 		if(memberBean == null) {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
-		return "store/ShowCartContent";
+		return "store/ShowCartContent3";
 	}
 	
 	@GetMapping("checkout")

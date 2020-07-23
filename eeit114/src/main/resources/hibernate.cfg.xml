@@ -4,8 +4,8 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-		<property name="hibernate.connection.username">watcher</property>
-		<property name="hibernate.connection.password">y0921716348</property>
+		<property name="hibernate.connection.username">sa</property>
+		<property name="hibernate.connection.password">d129966659</property>
 		<property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=EEIT</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.SQLServer2012Dialect</property>
 
@@ -43,7 +43,6 @@
 		<mapping class="showEDU.com.web.ticket.model.MovieStatusBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.SeatsBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.TheaterBean"></mapping>
-		<mapping class="showEDU.com.web.ticket.model.DiscountBean"></mapping>
       <mapping class="showEDU.com.web.store.model.FoodProductBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.MovieOrderDetailBean"></mapping>
 		<mapping class="showEDU.com.web.ticket.model.MovieOrdersBean"></mapping>

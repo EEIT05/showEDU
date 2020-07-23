@@ -270,25 +270,25 @@ public class TicketBackEndDaoImpl implements TicketBackEndDao {
 	}
 	
 	//取得座位的排LIST
-	@Override
-	public List<String> getSeatsBeanlineLetters() {
-		String hql = "SELECT distinct lineLetters FROM SeatsBean order by lineLetters";
-		Session session = factory.getCurrentSession();
-		
-		List<String> Line = session.createQuery(hql).getResultList();
-		System.out.println(Line);
-		return Line;
-	}
+//	@Override
+//	public List<String> getSeatsBeanlineLetters() {
+//		String hql = "SELECT distinct lineLetters FROM SeatsBean order by lineLetters";
+//		Session session = factory.getCurrentSession();
+//		
+//		List<String> Line = session.createQuery(hql).getResultList();
+//		System.out.println(Line);
+//		return Line;
+//	}
 	//取得座位的列LIST
-	@Override
-	public List<String> getSeatsBeanlineLetters() {
-		String hql = "SELECT distinct rowNumber FROM SeatsBean order by rowNumber";
-		Session session = factory.getCurrentSession();
-		
-		List<String> row = session.createQuery(hql).getResultList();
-		System.out.println(row);
-		return row;
-	}
+//	@Override
+//	public List<String> getSeatsBeanlineLetters() {
+//		String hql = "SELECT distinct rowNumber FROM SeatsBean order by rowNumber";
+//		Session session = factory.getCurrentSession();
+//		
+//		List<String> row = session.createQuery(hql).getResultList();
+//		System.out.println(row);
+//		return row;
+//	}
 
 	
 
