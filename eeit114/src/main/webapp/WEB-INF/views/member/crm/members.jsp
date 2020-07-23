@@ -11,15 +11,20 @@
 	src='${pageContext.request.contextPath}/scripts/jquery-1.9.1.min.js'></script>
 <title>會員資料</title>
 <%-- <link rel='stylesheet' href='${pageContext.request.contextPath}/css/style.css'  type="text/css" /> --%>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
 <style>
 
 body, html {
-	height: 130%;
+	height: auto;
 	background-repeat: no-repeat;
 	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
 		rgb(25, 0, 71));
-	padding:5px;
+/* 	padding:2px; */
 }
 /* .container{ */
 /* margin:100px; */
@@ -86,19 +91,19 @@ used to vertically center elements, may need modification if you're not using de
 
 }
 
-
+.col-md-10{
+/* position: fixed; */
+/* margin-top:150px; */
+ margin-top:30px; 
+}
 </style>
-
 
 
 </head>
 <body>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+<%-- <jsp:include page="/fragment/top.jsp" /> --%>
+	     
 	     <div class="col-md-10 col-md-offset-1">
 
             <div class="panel panel-default panel-table">

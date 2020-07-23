@@ -129,14 +129,14 @@ used to vertically center elements, may need modification if you're not using de
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col col-xs-6">
-						<h2 class="panel-title">預約清單</h2>
+						<h2 class="panel-title">行事曆</h2>
 					</div>
 
 				</div>
 			</div>
 
 			<select id='SelectDate'>
-				<option value="-1" label="請選擇" />
+				<option value="-1" label="請選擇日期" />
 				<option value="2020/07" label='2020年7月' />
 				<option value="2020/08" label='2020年8月' />
 				<option value="2020/09" label='2020年9月' />

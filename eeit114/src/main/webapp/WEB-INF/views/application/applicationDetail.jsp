@@ -22,42 +22,51 @@
 		</div>
 	</section>
 	<section class="container">
-		<img width='150' height='200'
-			src="<c:url value='/getActPicture/${activity.actId}'/>" />
+
 		<div class="row">
 			<div class="col-md-5">
-				<h3>${activity.actTitle}</h3>
-				<p>開始日期${activity.startDate}</p>
-				<p>截止日期${activity.endDate}</p>
+				<h3>${application.aplcId}</h3>
+				<p>申請人：${application.memberBean.name}</p>
+				<p>類別：${application.actClassBean.name}</p>
+				<p>日期：${application.date}</p>
+				<p>時段：${application.time}</p>
+				<p>備註：${application.intro}</p>
+				<div>
+					<table>
+						<tr>
+							<td>${application.statusBean.descr}</td>
+							<td>
+							<c:choose>
+								<c:when test="${application.payStatus == 1}">
+	   													已付款
+												</c:when>
+								<c:otherwise>
+														未付款
+												</c:otherwise>
+							</c:choose>
+							</td>
+						</tr>
+					</table>
+				</div>
 
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${activity.descr}</p>
 
 				<p>
-					<strong>發佈日期: </strong> <span class='label label-warning'>
-						${activity.postDate} </span>
+					<strong>申請時間: </strong> <span class='label label-warning'>
+						${application.aplcTime} </span>
 				</p>
 				<p>
-					<a href="<spring:url value='/activities' />"
+					<a href="<spring:url value='/allApplication' />"
 						class="btn btn-default"> <span
 						class="glyphicon-hand-left glyphicon"></span>返回
 					</a>
-					<c:choose>
-						<c:when test="${memberBean.userType eq 'A'}">
-							<a href="<spring:url value='/activity/update/${activity.actId}' />"
-								class="btn btn-default"> 修改 </a>
-						</c:when>
-						<c:otherwise>
-
-						</c:otherwise>
-					</c:choose>
 
 
 				</p>
 			</div>
 		</div>
-	<div>
-			 <a href="<c:url value='/'/> ">首頁</a>
-	</div>
+		<div>
+			<a href="<c:url value='/'/> ">首頁</a>
+		</div>
 	</section>
 </body>
 </html>

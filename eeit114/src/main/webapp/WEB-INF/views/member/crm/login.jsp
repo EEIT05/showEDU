@@ -20,7 +20,8 @@
 <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery.cookie.js"></script>
 <script type="text/javascript"></script>
-
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
 
 <title>會員登入</title>
@@ -188,6 +189,11 @@ body, html {
 	{
 	color: rgb(132, 138, 148);
 }
+
+.checkbox1{
+margin-left:5px;
+}
+
 </style>
 <meta charset="UTF-8">
 <link
@@ -218,7 +224,7 @@ body, html {
 	</c:if>
 
 	<!-- 引入共同的頁首 -->
-	<%-- <jsp:include page="/fragment/topMVC.jsp" /> --%>
+	<%-- <jsp:include page="/fragment/top.jsp" /> --%>
 
 	<div class="container">
 		<div class="card card-container">
@@ -256,7 +262,7 @@ body, html {
 
 				<div id="remember1" class="checkbox1">
 
-					<form:checkbox path="rememberMe" />記住密碼
+					<form:checkbox path="rememberMe" />  記住密碼
 				</div>
 				<br>
 
@@ -268,15 +274,15 @@ body, html {
                 
 				<button class="btn btn-lg btn-primary btn-block btn-signin1"
 					type='submit'>登入</button>
-
-				<hr>
+                <br>
+<!-- 				<hr> -->
 
 				<button class="btn btn-lg btn-primary btn-block btn-signin"
 					type='submit'>使用Gmail登入</button><br>
 				<div>  
-            <input type="button" value="忘記密碼" onclick="location.href='forgetpwd'" style="width:100px;">
-			<input type="button" value="首頁" onclick="location.href='<c:url value='/'/>'" style="width:91px;">
-			<input type="button" value="註冊會員" onclick="location.href='mem'" style="width:100px;">
+            <input type="button"  class="btn btn-light" value="忘記密碼" onclick="location.href='forgetpwd'" style="width:100px;">
+			<input type="button"  class="btn btn-light" value="首頁" onclick="location.href='<c:url value='/'/>'" style="width:91px;">
+			<input type="button" class="btn btn-light" value="註冊會員" onclick="location.href='mem'" style="width:100px;">
 			</div>
 			</form:form>
 		
