@@ -14,13 +14,12 @@
 <style>
 
 body, html {
-	height: 100%;
+margin-top:150px; 
+	height: auto;
 	background-repeat: no-repeat;
 	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
 		rgb(25, 0, 71));
-	padding:5px;
-
-
+/* 	padding:2px; */
 }
 
 
@@ -102,6 +101,7 @@ used to vertically center elements, may need modification if you're not using de
 <!------ Include the above in your HEAD tag ---------->
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+	     <jsp:include page="/WEB-INF/views/top.jsp" />
 	     <div class="col-md-10 col-md-offset-1">
 
             <div class="panel panel-default panel-table">

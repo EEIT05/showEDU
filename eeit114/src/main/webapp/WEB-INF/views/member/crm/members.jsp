@@ -20,6 +20,7 @@
 <style>
 
 body, html {
+margin-top:100px; 
 	height: auto;
 	background-repeat: no-repeat;
 	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
@@ -102,7 +103,7 @@ used to vertically center elements, may need modification if you're not using de
 </head>
 <body>
 
-<%-- <jsp:include page="/fragment/top.jsp" /> --%>
+<jsp:include page="/WEB-INF/views/top.jsp" />
 	     
 	     <div class="col-md-10 col-md-offset-1">
 
@@ -165,7 +166,7 @@ used to vertically center elements, may need modification if you're not using de
 						</tr>
 					</c:forEach>
 					</tbody>
-				</table>
+				</table></div>
 			</c:otherwise>
 		</c:choose>
 		<hr>
@@ -173,7 +174,7 @@ used to vertically center elements, may need modification if you're not using de
 		<a href="<c:url value='/'/> ">首頁</a>
 		
 		
-	</div>
+	</div></div>
 
 
 	<script type='text/javascript'>

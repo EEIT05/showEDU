@@ -20,8 +20,8 @@
 <style type="text/css">
 
 #body-row {
-position: fixed;
- margin-top:100px;
+ position: fixed; 
+ margin-top:100px; 
     margin-left:0;
     margin-right:0;
 }
@@ -92,7 +92,7 @@ position: fixed;
 </head>
 <body>
 
-<jsp:include page="/fragment/top.jsp" />
+<jsp:include page="/WEB-INF/views/top-forback.jsp" />
 
 <!-- Bootstrap row -->
 <div class="row" id="body-row">
@@ -107,6 +107,15 @@ position: fixed;
             </li>
             <!-- /END Separator -->
             <!-- Menu with submenu -->
+           
+                       <a href="<c:url value='/'/>" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fa fa-tasks fa-fw mr-3"></span>
+                    <span class="menu-collapsed">首頁</span>
+                </div>
+            </a>
+           
+           
            
 
             <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">

@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +25,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,10 +44,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.protobuf.Message;
+
+import showEDU.com.web.member.model.ForgetBean;
 import showEDU.com.web.member.model.LoginBean;
 import showEDU.com.web.member.model.MemberBean;
-import showEDU.com.web.member.service.AdministratorService;
 import showEDU.com.web.member.service.MemberService;
+import showEDU.com.web.member.validators.ForgetPasswdvalidator;
 import showEDU.com.web.member.validators.LoginMemberValidator;
 import showEDU.com.web.member.validators.MemberValidator;
 
@@ -61,7 +69,8 @@ public class MemberController {
 
 	@Autowired
 	JavaMailSender javaMailSender;
-
+	
+	
 	// 顯示所有會員資料
 	@GetMapping("/showAllMembers")
 	public String list(Model model) {
@@ -412,6 +421,45 @@ System.out.println("============================================================
 		response.addCookie(cookieRememberMe);
 
 	}
+	
+	
+	public void sendgmail(String email) {
+	SimpleMailMessage message = new SimpleMailMessage();
+		
+			message.setFrom("lintest546@gmail.com");
+			message.setTo(email);
+			message.setSubject("忘記密碼.");
+			message.setText("忘記密碼, 您的密碼已預設成，，請登入後修改密碼");
+			javaMailSender.send(message);
+
+	}
+	
+	
+	@GetMapping("/forget")
+	public  String forgetpwd(Model model,HttpServletRequest request) {
+		ForgetBean fgbean = new ForgetBean();
+		model.addAttribute("forgot",fgbean);
+		return "forget";
+	}
+	@PostMapping("/forget")
+	public String forgotpwds(@ModelAttribute("forgot") ForgetBean fgb, Model model, BindingResult result
+			,HttpServletRequest request,HttpServletResponse response) {
+		List<String> list = memberService.serchMemberaccount();
+		ForgetPasswdvalidator validator = new ForgetPasswdvalidator();
+		validator.validate(memberService, result);
+
+		if (list.contains(fgb.getMemberEmail())) {
+			System.out.println("有");
+			sendgmail(fgb.getMemberEmail());
+			memberService.updatePasswd(fgb.getMemberEmail());
+			return "member/crm/login";
+		}
+		else {
+			result.rejectValue("invalidCredentials","","該帳號不存在");
+			return "forget";
+		}
+	}
+
 
 	/// 登出
 	@RequestMapping("/loginout")
@@ -423,48 +471,6 @@ System.out.println("============================================================
 	}
 
 
-	
-	
-//	public void changeAplcBeanStatusById(int aplcId, int status) {
-//	public void changeAplcBeanStatusById(MemberBean memberBean) {
-//		
-//		aplcDao.changeAplcBeanStatusById(aplcId, status);
-//		ApplicationBean applicationBean = aplcDao.getMemberById(aplcId);
-//		LoginMember loginMember=
-//		SimpleMailMessage message = new SimpleMailMessage();
-//		message.setFrom("eeit114showedu@gmail.com");
-//		message.setTo(applicationBean.getMemberBean().getAccount());
-//		message.setSubject("showEDU 場地租借申請審核通知");
-//	
-//		javaMailSender.send(message);
-//		
-//		
-//	}
 
-
-//	@GetMapping("/forgetpwd")
-//	public  String forgetpwd(Model model,HttpServletRequest request) {
-//		ForgetBean fgb = new ForgetBean();
-//		model.addAttribute("forgot",fgb);
-//		return "forget";
-//	}
-//	@PostMapping("/forgetpwd")
-//	public String forgotpwds(@ModelAttribute("forgot") ForgetBean fgb, Model model, BindingResult result
-//			,HttpServletRequest request,HttpServletResponse response) {
-//		List<String> list = service.seachMemberaccount();
-//		ForgetPasswd validator = new ForgetPasswd();
-//		validator.validate(mb, result);
-//
-//		if (list.contains(mb.getMemberEmail())) {
-//			System.out.println("有");
-//			Gmailsend(mb.getMemberEmail());
-//			service.updatePasswd(mb.getMemberEmail());
-//			return "redirect:/login";
-//		}
-//		else {
-//			result.rejectValue("invalidCredentials","","該帳號不存在");
-//			return "forget";
-//		}
-//	
 
 }

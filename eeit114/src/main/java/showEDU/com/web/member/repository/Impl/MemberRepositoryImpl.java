@@ -128,4 +128,34 @@ public class MemberRepositoryImpl implements MemberRepository {
 		// TODO Auto-generated method stub
 		return null;
 	}
-}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> serchMemberaccount() {
+		String hql = "FROM MemberBean";
+		Session session = factory.getCurrentSession();
+		List<String> list = session.createQuery(hql).getResultList();
+		return list;
+		
+	}
+
+	@Override
+	public MemberBean updatePasswd(String memberEmail) {
+		MemberBean member = null;
+		Session session = factory.getCurrentSession();
+		String hql = "From MemberBean m WHERE m.account = :acc";
+		System.out.println("dao");
+		try {
+			member = (MemberBean)session.createQuery(hql)
+									.setParameter("acc",memberEmail)
+									.getSingleResult();
+			System.out.println(member.getMemberId());
+			System.out.println("成功");
+		} catch (NoResultException e) {
+			System.out.println("失敗");
+		}
+		System.out.println(member);
+		return member;
+		}
+	}
+

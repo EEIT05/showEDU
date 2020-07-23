@@ -25,5 +25,9 @@ public interface MemberService {
 
 	MemberBean queryMember(String account);
 	MemberBean checkIdPassword(String userId, String password) ;
+
+	List<String> serchMemberaccount();
+
+	void updatePasswd(String memberEmail);
 	
 }

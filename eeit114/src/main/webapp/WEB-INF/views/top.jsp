@@ -140,9 +140,9 @@ width: 100%;
 <!-- 	<div> -->
 
 		<nav class="navbar  navbar-expand-lg navbar-dark fixed-top">
-			<img class="logo" src=images/LOGO.jpg width="100" height="100">
+			<img class="logo" src="<c:url value='/images/LOGO.jpg' />" width="100" height="100">
 			<a href="<c:url value='/'/> " class="navbar-brand">
-				<h4>SHOW EDU</h4>
+				<h3>SHOW EDU</h3>
 			</a>
 
 			<button class="navbar-toggler" type="button"
@@ -151,10 +151,9 @@ width: 100%;
 			</button>
 			<div class="collapse navbar-collapse">
 				<ul class="navbar-nav">
-					<!-- <li class="nav-item active"><a href="#" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true" ></i>首頁</a> -->
-					<!-- 					</li> -->
+
 					<li class="nav-item"><a href="#" class="nav-link">影城介紹</a></li>
-					<li class="nav-item"><a href="<c:url value='movieList' />"
+					<li class="nav-item"><a href="<c:url value='/movieList' />"
 						class="nav-link">電影介紹</a></li>
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
@@ -168,7 +167,7 @@ width: 100%;
 						role="button" data-toggle="dropdown" data-hover="dropdown">餐飲商品</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
 							<a href="#" class="dropdown-item">餐飲</a> <a href="showproduct"
-								class="dropdown-item">周邊商品</a> <a href="product/backSelect" class="dropdown-item">商品後台</a>
+								class="dropdown-item">周邊商品</a> <a href=<c:url value='/product/backSelect'/> class="dropdown-item">商品後台</a>
 							<!-- <a href="#" class="dropdown-item">Service3</a> -->
 						</div>
 <li class="nav-item dropdown"><a
@@ -199,7 +198,7 @@ width: 100%;
 						</div></li>
 
 
-					<li class="nav-item"><a href="<c:url value='boards' />"
+					<li class="nav-item"><a href="<c:url value='/boards' />"
 						class="nav-link">討論區</a></li>
 
 					<div>
@@ -209,18 +208,18 @@ width: 100%;
 							data-toggle="dropdown" data-hover="dropdown">會員系統</a>
 							<div class="dropdown-menu" aria-labelledby="navdrop">
 
-								<a href='member/crm/login' class="dropdown-item">會員登入</a>
+								<a href='login' class="dropdown-item">會員登入</a>
 
 								<c:if test="${ ! empty memberBean }">
-									<a href='member/crm/loginout' class="dropdown-item">會員登出</a>
+									<a href='loginout' class="dropdown-item">會員登出</a>
 								</c:if>
 
 								<c:if test="${  empty memberBean }">
-									<a href='member/crm/mem' class="dropdown-item"> 會員註冊</a>
+									<a href='mem' class="dropdown-item"> 會員註冊</a>
 								</c:if>
 
 								<c:if test="${ ! empty memberBean}">
-									<a href="<c:url value='member/crm/memb'/>"
+									<a href="memb"
 										class="dropdown-item">會員資料</a>
 								</c:if>
 
@@ -229,11 +228,11 @@ width: 100%;
 								</c:if>
 
 								<c:if test="${memberBean.userType eq 'A'}">
-									<a href="back" target="_blank" class="dropdown-item">後台管理</a>
+									<a href="../../back" target="_blank" class="dropdown-item">後台管理</a>
 								</c:if>
 
 								<c:if test="${memberBean.userType eq 'A'}">
-									<a href="<c:url value='member/crm/showAllMembers'/>"
+									<a href="showAllMembers"
 										class="dropdown-item">後台會員資料</a>
 								</c:if>
 
@@ -250,12 +249,13 @@ width: 100%;
 
 					<c:if test="${ ! empty memberBean }">
 						<li><img width='60' height='60'
-							src='member/crm/picture/${memberBean.memberId}' class='mmimg' /></li>
+							src="<c:url value='/member/crm/picture/${memberBean.memberId}' />" class='mmimg' /></li>
+				           	
 					</c:if>
 
 					<c:if test="${ empty memberBean }">
-						<li class="nav-item active"><a href="member/crm/login"
-							class="nav-link"><i class="fa fa-user fa-lg"
+						<li class="nav-item active"><a href="login"
+													class="nav-link"><i class="fa fa-user fa-lg"
 								aria-hidden="true"></i></a></li>
 					</c:if>
 				</ul>

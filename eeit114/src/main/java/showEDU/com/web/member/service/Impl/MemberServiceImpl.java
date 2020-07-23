@@ -79,6 +79,20 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 
+	@Override
+	public List<String> serchMemberaccount() {
+		
+		return memberDao.serchMemberaccount();
+	}
+
+	@Override
+	public void updatePasswd(String memberEmail) {
+		
+		 memberDao.updatePasswd(memberEmail);
+		
+		
+	}
+
 
 	
 

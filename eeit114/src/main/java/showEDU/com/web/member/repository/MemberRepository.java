@@ -26,4 +26,8 @@ boolean idExists(String account);
   public MemberBean checkIdPassword(String userId, String password);
 	public void setConnection(Connection con);
 	public MemberBean queryMember(String memberId);
+
+	List<String> serchMemberaccount();
+
+	MemberBean updatePasswd(String memberEmail);
 }
