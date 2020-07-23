@@ -42,7 +42,7 @@
 						class="glyphicon-hand-left glyphicon"></span>返回
 					</a>
 					<c:choose>
-						<c:when test="${loginMember.userType == 'A'}">
+						<c:when test="${memberBean.userType eq 'A'}">
 							<a href="<spring:url value='/activity/update/${activity.actId}' />"
 								class="btn btn-default"> 修改 </a>
 						</c:when>

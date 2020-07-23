@@ -228,7 +228,7 @@ width: 100%;
 									<a href="<c:url value='/allApplication'/>" class="dropdown-item">查看訂單</a>
 								</c:when>
 								<c:otherwise>
-								<a href="<c:url value='/yourApplication' />" class="dropdown-item">查看個人訂單</a>
+									<a href="<c:url value='/yourApplication' />" class="dropdown-item">查看個人訂單</a>
 								</c:otherwise>
 							</c:choose>
 							<a href="<c:url value='/showCalender' />" class="dropdown-item">查看行事曆</a>
