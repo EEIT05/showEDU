@@ -1,0 +1,30 @@
+  insert Category (category,status) 
+  values('周邊商品類別','A') , ('食物商品類別','A')
+  --食物商品類別
+insert FoodCategory (items,status,FK_category_Id)values('單點','A',2),('套餐','A',2)
+--周邊商品類別
+insert ProductCategory (items,status,FK_category_Id)values('海報','A',1),('杯子','A',1),('行李箱','A',1),('玩偶','A',1),('其他','A',1)
+--周邊商品
+insert PeripheralProduct (FK_CategoryBean_Id,FK_ProductCategoryBean_Id,name,detail,company,stock,price,createdate,status)
+values
+      (1,2,'美國隊長人像馬克杯','detail','漫威影業',25,200,getdate(),'A'),
+	  (1,2,'驚奇隊長圖文馬克杯','detail','漫威影業',10,200,getdate(),'A'),
+	  (1,2,'鋼鐵人人像馬克杯','detail','漫威影業',18,250,getdate(),'A'),
+	  (1,2,'浩克人像馬克杯','detail','漫威影業',2,150,getdate(),'A'),
+	  (1,2,'索爾人像馬克杯','detail','漫威影業',20,250,getdate(),'A'),
+	  (1,2,'美國隊長變色玻璃杯','detail','漫威影業',20,250,getdate(),'A')
+
+--周邊商品圖片
+insert ProductImage(FK_category_Id,FK_PeripheralProduct_Id,images)
+values
+	--(1,1,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_America_cup2-1.jpg', SINGLE_BLOB) as T1)),
+	--(1,1,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_America_cup2-2.jpg', SINGLE_BLOB) as T1)),
+	(1,2,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_Marvel_cup1.jpg', SINGLE_BLOB) as T2)),
+	(1,3,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Iron_Man_cup1-1.jpg', SINGLE_BLOB) as T3)),
+	(1,3,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Iron_Man_cup1-2.jpg', SINGLE_BLOB) as T3)),
+	(1,4,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\TheHulk_cup1-1.jpg', SINGLE_BLOB) as T4)),
+	(1,4,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\TheHulk_cup1-2.jpg', SINGLE_BLOB) as T4)),
+	(1,5,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Thor_cup1-1.jpg', SINGLE_BLOB) as T5)),
+	(1,5,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Thor_cup1-2.jpg', SINGLE_BLOB) as T5)),
+	(1,6,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_America_changecolor_cup1-1.jpg', SINGLE_BLOB) as T6)),
+	(1,6,(SELECT * FROM OPENROWSET(BULK N'E:\sts-3.9.13\_workspace\MovieExercise\data\MovieImages\Avengement\Cup\Captain_America_changecolor_cup1-2.jpg', SINGLE_BLOB) as T6))
