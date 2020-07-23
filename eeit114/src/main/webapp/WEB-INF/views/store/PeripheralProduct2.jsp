@@ -169,7 +169,7 @@
 									+ AllProduct[i].productId
 									+ "' />'"
 									+ "class='btn btn-outline-secondary btn-block mb'>"
-									+ "詳細資料" + "</a>" + "</div></div></div>"
+									+ "查看商品" + "</a>" + "</div></div></div>"
 
 						}
 						var allproduct = document.getElementById("allproduct");
@@ -212,7 +212,7 @@
 									+ AllProducts[i].productId
 									+ "' />'"
 									+ "class='btn btn-outline-secondary btn-block mb'>"
-									+ "詳細資料" + "</a>" + "</div></div></div>"
+									+ "查看商品" + "</a>" + "</div></div></div>"
 
 						}
 						allproduct.innerHTML = context;
@@ -290,7 +290,7 @@
 									+ AllProducts[i].productId
 									+ "' />'"
 									+ "class='btn btn-outline-secondary btn-block mb'>"
-									+ "詳細資料" + "</a>" + "</div></div></div>"
+									+ "查看商品" + "</a>" + "</div></div></div>"
 
 						}
 						allproduct.innerHTML = context;
