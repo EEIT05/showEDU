@@ -203,7 +203,7 @@ table.shoping-cart-table tr td:last-child {
                     </span>
                     <div class="m-t-sm">
                         <div class="btn-group">
-                        <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Checkout</a>
+                        <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> 訂單確認</a>
                         <a href="#" class="btn btn-white btn-sm"> Cancel</a>
                         </div>
                     </div>
