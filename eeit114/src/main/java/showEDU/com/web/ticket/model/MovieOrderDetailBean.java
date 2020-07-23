@@ -9,11 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import showEDU.com.web.store.model.FoodProductBean;
 // 本類別封裝單筆書籍資料
 @Entity
-@Table(name="movieOrderDetail")
+@Table(name="MovieOrderDetail")
 public class MovieOrderDetailBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -21,50 +19,38 @@ public class MovieOrderDetailBean implements Serializable {
 	Integer 	movieordersDetailId;
 	
 	@ManyToOne
-	@JoinColumn(name="FK_movieOrders_movieOrdersId")
+	@JoinColumn(name="movieOrdersId")
 	MovieOrdersBean  movieOrdersBean;
 	
 	@ManyToOne
-	@JoinColumn(name="FK_movie_movieId")
+	@JoinColumn(name="movieId")
 	MovieBean  movieBean;
 	
 	@ManyToOne
-	@JoinColumn(name="FK_movieShowtime_movieShowtimeId")
+	@JoinColumn(name="movieShowtimeId")
 	MovieShowtimeBean  movieShowtimeBean;
 	
 	@ManyToOne
-	@JoinColumn(name="FK_theater_theaterId")
+	@JoinColumn(name="theaterId")
 	TheaterBean  theaterBean;
 	
 	@ManyToOne
-	@JoinColumn(name="FK_seats_seatsId")
+	@JoinColumn(name="seatsId")
 	SeatsBean  seatsBean;
 	
 	@ManyToOne
-	@JoinColumn(name="FK_movieTicket_movieTicketId")
+	@JoinColumn(name="movieTicketId")
 	MovieTicketBean  movieTicketBean;
 	
-	@ManyToOne
-	@JoinColumn(name="FK_foodProduct_foodProductId")
-	FoodProductBean  foodProductBean;
-	
-	@ManyToOne
-	@JoinColumn(name="FK_discount_discountId")
-	DiscountBean  discountBean;
-	
-	String  	discountUsed;
 	String  	ticketStatus;
 	
 
 	public MovieOrderDetailBean() {
 	}
 
-
-
 	public MovieOrderDetailBean(Integer movieordersDetailId, MovieOrdersBean movieOrdersBean, MovieBean movieBean,
 			MovieShowtimeBean movieShowtimeBean, TheaterBean theaterBean, SeatsBean seatsBean,
-			MovieTicketBean movieTicketBean, FoodProductBean foodProductBean, DiscountBean discountBean,
-			String discountUsed, String ticketStatus) {
+			MovieTicketBean movieTicketBean, String ticketStatus) {
 		super();
 		this.movieordersDetailId = movieordersDetailId;
 		this.movieOrdersBean = movieOrdersBean;
@@ -73,13 +59,8 @@ public class MovieOrderDetailBean implements Serializable {
 		this.theaterBean = theaterBean;
 		this.seatsBean = seatsBean;
 		this.movieTicketBean = movieTicketBean;
-		this.foodProductBean = foodProductBean;
-		this.discountBean = discountBean;
-		this.discountUsed = discountUsed;
 		this.ticketStatus = ticketStatus;
 	}
-
-
 
 	public Integer getMovieordersDetailId() {
 		return movieordersDetailId;
@@ -135,44 +116,6 @@ public class MovieOrderDetailBean implements Serializable {
 
 	public void setMovieTicketBean(MovieTicketBean movieTicketBean) {
 		this.movieTicketBean = movieTicketBean;
-	}
-
-//	public FoodCategoryBean getFoodCategoryBean() {
-//		return foodCategoryBean;
-//	}
-//
-//	public void setFoodCategoryBean(FoodCategoryBean foodCategoryBean) {
-//		this.foodCategoryBean = foodCategoryBean;
-//	}
-	
-	
-
-	public DiscountBean getDiscountBean() {
-		return discountBean;
-	}
-
-	public FoodProductBean getFoodProductBean() {
-		return foodProductBean;
-	}
-
-
-
-	public void setFoodProductBean(FoodProductBean foodProductBean) {
-		this.foodProductBean = foodProductBean;
-	}
-
-
-
-	public void setDiscountBean(DiscountBean discountBean) {
-		this.discountBean = discountBean;
-	}
-
-	public String getDiscountUsed() {
-		return discountUsed;
-	}
-
-	public void setDiscountUsed(String discountUsed) {
-		this.discountUsed = discountUsed;
 	}
 
 	public String getTicketStatus() {

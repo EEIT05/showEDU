@@ -1,5 +1,6 @@
 package showEDU.com.web.ticket.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import showEDU.com.web.ticket.dao.TicketBackEndDao;
 import showEDU.com.web.ticket.model.MovieBean;
 import showEDU.com.web.ticket.model.MovieBeanWithImageData;
 import showEDU.com.web.ticket.model.MovieLevelBean;
+import showEDU.com.web.ticket.model.MovieShowtimeBean;
 import showEDU.com.web.ticket.model.MovieStatusBean;
+import showEDU.com.web.ticket.model.MovieTicketBean;
+import showEDU.com.web.ticket.model.SeatsBean;
 import showEDU.com.web.ticket.service.TicketBackEndService;
 
 @Service
@@ -93,6 +97,42 @@ public class TicketBackEndServiceImpl implements TicketBackEndService{
 	@Override
 	public List<MovieBeanWithImageData> getAllMoviesWithImageData() {
 		return ticketBackEndDao.getAllMoviesWithImageData();
+	}
+
+	@Transactional
+	@Override
+	public List<MovieShowtimeBean> getMovieShowTimeById(Integer movieId) {
+		return ticketBackEndDao.getMovieShowTimeById(movieId);
+	}
+
+	@Transactional
+	@Override
+	public List<Date> getMovieShowTimeDateByMovieID(Integer movieid) {
+		return ticketBackEndDao.getMovieShowTimeDateByMovieID(movieid);
+	}
+	@Transactional
+	@Override
+	public List<String> getMovieShowTimeTimeByMovieID(Integer movieid) {
+		return ticketBackEndDao.getMovieShowTimeTimeByMovieID(movieid);
+	}
+
+	@Transactional
+	@Override
+	public List<MovieTicketBean> getMovieTicketPrice() {
+		return ticketBackEndDao.getMovieTicketPrice();
+	}
+
+	@Transactional
+	@Override
+	public MovieTicketBean getTicketById(Integer movieTicketId) {
+		return ticketBackEndDao.getTicketById(movieTicketId);
+	}
+
+
+	@Transactional
+	@Override
+	public List<SeatsBean> getSeatsByOrderDetail(Integer movieId, Date date, String time) {
+		return ticketBackEndDao.getSeatsByOrderDetail( movieId,  date,  time);
 	}
 
 

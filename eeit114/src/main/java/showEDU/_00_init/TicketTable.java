@@ -21,10 +21,14 @@ import org.hibernate.Transaction;
 
 import showEDU._00_init.util.HibernateUtils;
 import showEDU._00_init.util.SystemUtils2018;
+import showEDU.com.web.member.model.MemberBean;
 import showEDU.com.web.ticket.model.MovieBean;
 import showEDU.com.web.ticket.model.MovieLevelBean;
+import showEDU.com.web.ticket.model.MovieOrderDetailBean;
+import showEDU.com.web.ticket.model.MovieOrdersBean;
 import showEDU.com.web.ticket.model.MovieShowtimeBean;
 import showEDU.com.web.ticket.model.MovieStatusBean;
+import showEDU.com.web.ticket.model.MovieTicketBean;
 import showEDU.com.web.ticket.model.SeatsBean;
 import showEDU.com.web.ticket.model.TheaterBean;
 
@@ -111,8 +115,39 @@ public class TicketTable {
 				session.flush();
 				System.out.println("theater資料新增成功");
 			}
+			
+			// 4. 由"data/ticket/movieticket.dat"逐筆讀入movieticket表格內的初始資料，然後依序新增
+						// 到movieticket表格中
+						try (FileInputStream fis = new FileInputStream("data/ticket/movieticket.dat");
+								InputStreamReader isr = new InputStreamReader(fis, "UTF8");
+								BufferedReader br = new BufferedReader(isr);) {
+							while ((line = br.readLine()) != null) {
+								System.out.println("line=" + line);
+								// 去除 UTF8_BOM: \uFEFF
+								if (line.startsWith(UTF8_BOM)) {
+									line = line.substring(1);
+								}
+								String[] token = line.split("\\|");
+								MovieTicketBean movieticket = new MovieTicketBean();
+								movieticket.setName(token[0]);
+								movieticket.setInfo(token[1]);
+								
+								// --------------處理Blob(圖片)欄位----------------
+								Blob sb = SystemUtils2018.fileToBlob(token[2]);
+								movieticket.setImage(sb);
+								String imageFileName = token[2].substring(token[2].lastIndexOf("\\") + 1);
+								movieticket.setImageName(imageFileName);
+								
+								movieticket.setPrice(Integer.parseInt(token[4].trim()));  // 將字串強轉為整數
+								session.save(movieticket);
+								System.out.println("新增一筆theater紀錄成功");
+							}
+							// 印出資料新增成功的訊息
+							session.flush();
+							System.out.println("theater資料新增成功");
+						}
 
-			// 4. 由"data/ticket/movie.dat"逐筆讀入movie表格內的初始資料，然後依序新增
+			// 5. 由"data/ticket/movie.dat"逐筆讀入movie表格內的初始資料，然後依序新增
 			// 到movie表格中
 			try (FileInputStream fis = new FileInputStream("data/ticket/movie.dat");
 					InputStreamReader isr = new InputStreamReader(fis, "UTF8");
@@ -177,7 +212,7 @@ public class TicketTable {
 				System.out.println("movie資料新增成功");
 			}
 
-			// 5. 由"data/ticket/seats.dat"逐筆讀入seats表格內的初始資料，然後依序新增
+			// 6. 由"data/ticket/seats.dat"逐筆讀入seats表格內的初始資料，然後依序新增
 			// 到seats表格中
 			try (FileInputStream fis = new FileInputStream("data/ticket/seats.dat");
 					InputStreamReader isr = new InputStreamReader(fis, "UTF8");
@@ -205,7 +240,7 @@ public class TicketTable {
 				System.out.println("movie資料新增成功");
 			}
 
-			// 6. 由"data/ticket/movieshowtime.dat"逐筆讀入movieshowtime表格內的初始資料，
+			// 7. 由"data/ticket/movieshowtime.dat"逐筆讀入movieshowtime表格內的初始資料，
 			// 然後依序新增到movieshowtime表格中
 			try (FileReader fr = new FileReader("data/ticket/movieshowtime.dat");
 					BufferedReader br = new BufferedReader(fr);) {
@@ -246,8 +281,94 @@ public class TicketTable {
 			}
 			session.flush();
 			System.out.println("MovieStatus 資料新增成功");
+			
+			// 8. 由"data/ticket/movieorder.dat"逐筆讀入movieorder表格內的初始資料，然後依序新增
+			// 到movieorder表格中
+			try (FileInputStream fis = new FileInputStream("data/ticket/movieorder.dat");
+					InputStreamReader isr = new InputStreamReader(fis, "UTF8");
+					BufferedReader br = new BufferedReader(isr);) {
+				while ((line = br.readLine()) != null) {
+					System.out.println("line=" + line);
+					// 去除 UTF8_BOM: \uFEFF
+					if (line.startsWith(UTF8_BOM)) {
+						line = line.substring(1);
+					}
+					String[] token = line.split("\\|");
+					MovieOrdersBean mob = new MovieOrdersBean();
+					// --------------處理ManytoOne欄位----------------
+					Integer memberId = Integer.parseInt(token[0].trim());
+					MemberBean msb = session.get(MemberBean.class, memberId);
+					mob.setShowMemberBean(msb);
+					
+					// --------------處理Date欄位----------------
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
+					java.util.Date d = null;
+					try {
+						d = sdf.parse(token[1]);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					java.sql.Date date = new java.sql.Date(d.getTime());
+					mob.setOrdersDate(date);
+					mob.setTotalAccount(Integer.parseInt(token[2].trim()));
+					session.save(mob);
+					System.out.println("新增一筆movie紀錄成功");
+				}
+				// 印出資料新增成功的訊息
+				session.flush();
+				System.out.println("movie資料新增成功");
+			}
+			
+			// 9. 由"data/ticket/movieorderdetail.dat"逐筆讀入movieorderdetail表格內的初始資料，然後依序新增
+						// 到movieorderdetail表格中
+						try (FileInputStream fis = new FileInputStream("data/ticket/movieorderdetail.dat");
+								InputStreamReader isr = new InputStreamReader(fis, "UTF8");
+								BufferedReader br = new BufferedReader(isr);) {
+							while ((line = br.readLine()) != null) {
+								System.out.println("line=" + line);
+								// 去除 UTF8_BOM: \uFEFF
+								if (line.startsWith(UTF8_BOM)) {
+									line = line.substring(1);
+								}
+								String[] token = line.split("\\|");
+								MovieOrderDetailBean modb = new MovieOrderDetailBean();
+								// --------------處理ManytoOne欄位----------------
+								Integer movieOrdersId = Integer.parseInt(token[0].trim());
+								MovieOrdersBean msb = session.get(MovieOrdersBean.class, movieOrdersId);
+								modb.setMovieOrdersBean(msb);
+								// --------------處理ManytoOne欄位----------------
+								Integer movieId = Integer.parseInt(token[1].trim());
+								MovieBean mb = session.get(MovieBean.class, movieId);
+								modb.setMovieBean(mb);
+								// --------------處理ManytoOne欄位----------------
+								Integer movieShowtimeId = Integer.parseInt(token[2].trim());
+								MovieShowtimeBean mstb = session.get(MovieShowtimeBean.class, movieShowtimeId);
+								modb.setMovieShowtimeBean(mstb);
+								// --------------處理ManytoOne欄位----------------
+								Integer theaterId = Integer.parseInt(token[3].trim());
+								TheaterBean tb = session.get(TheaterBean.class, theaterId);
+								modb.setTheaterBean(tb);
+								// --------------處理ManytoOne欄位----------------
+								Integer seatsId = Integer.parseInt(token[4].trim());
+								SeatsBean sb = session.get(SeatsBean.class, seatsId);
+								modb.setSeatsBean(sb);
+								// --------------處理ManytoOne欄位----------------
+								Integer movieTicketId = Integer.parseInt(token[5].trim());
+								MovieTicketBean mtb = session.get(MovieTicketBean.class, movieTicketId);
+								modb.setMovieTicketBean(mtb);
+								
+								modb.setTicketStatus(token[6]);
+								session.save(modb);
+								System.out.println("新增一筆movie紀錄成功");
+							}
+							// 印出資料新增成功的訊息
+							session.flush();
+							System.out.println("movie資料新增成功");
+						}
+			
 			// =======================送出commit 關閉sesstion factory=================
+
 			tx.commit();
 		} catch (Exception e) {
 			System.err.println("新建表格時發生例外: " + e.getMessage());

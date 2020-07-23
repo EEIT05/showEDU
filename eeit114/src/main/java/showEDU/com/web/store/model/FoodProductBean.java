@@ -46,8 +46,6 @@ public class FoodProductBean implements Serializable{
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "foodProductBean")
 //	Set<FoodImageBean>FoodImageBean = new HashSet<>();
-	@OneToMany(mappedBy = "foodProductBean")
-	 Set<MovieOrderDetailBean>movieOrderDetail = new HashSet<>();
 	
 
 	
@@ -63,55 +61,6 @@ public class FoodProductBean implements Serializable{
 
 
 
-
-
-
-
-
-
-
-	public FoodProductBean(Integer productId, String name, String detail, Integer price, Date createdate, String status,
-			Set<MovieOrderDetailBean> movieOrderDetail) {
-		super();
-		this.productId = productId;
-		this.name = name;
-		this.detail = detail;
-		this.price = price;
-		this.createdate = createdate;
-		this.status = status;
-		this.movieOrderDetail = movieOrderDetail;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-//	public Set<FoodImageBean> getFoodImageBean() {
-//		return FoodImageBean;
-//	}
-
-
-
-
-
-//
-//	public void setFoodImageBean(Set<FoodImageBean> foodImageBean) {
-//		FoodImageBean = foodImageBean;
-//	}
-
-
-
-
-
-
 	public Integer getProductId() {
 		return productId;
 	}
@@ -119,33 +68,11 @@ public class FoodProductBean implements Serializable{
 
 
 
+
+
 	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
-
-
-
-
-//	public CategoryBean getCategoryBean() {
-//		return categoryBean;
-//	}
-
-
-
-
-//	public void setCategoryBean(CategoryBean categoryBean) {
-//		this.categoryBean = categoryBean;
-//	}
-
-
-
-
-//	public FoodCategoryBean getFoodCategoryBean() {
-//		return foodCategoryBean;
-//	}
-
-
-
 
 
 
@@ -159,9 +86,13 @@ public class FoodProductBean implements Serializable{
 
 
 
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
 
 
 
@@ -173,9 +104,13 @@ public class FoodProductBean implements Serializable{
 
 
 
+
+
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+
+
 
 
 
@@ -187,9 +122,13 @@ public class FoodProductBean implements Serializable{
 
 
 
+
+
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
+
+
 
 
 
@@ -201,9 +140,13 @@ public class FoodProductBean implements Serializable{
 
 
 
+
+
 	public void setCreatedate(Date createdate) {
 		this.createdate = createdate;
 	}
+
+
 
 
 
@@ -215,9 +158,37 @@ public class FoodProductBean implements Serializable{
 
 
 
+
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+
+
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+
+
+
+	public FoodProductBean(Integer productId, String name, String detail, Integer price, Date createdate,
+			String status) {
+		super();
+		this.productId = productId;
+		this.name = name;
+		this.detail = detail;
+		this.price = price;
+		this.createdate = createdate;
+		this.status = status;
+	}
+
 
 
 

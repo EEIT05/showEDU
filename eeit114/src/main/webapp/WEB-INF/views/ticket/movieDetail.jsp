@@ -33,69 +33,69 @@
 	<br>
 	<!-- ===============電影下拉快選================ -->
 	<div id='content'>
-	<section>
-		<div>
-			<form:form method='POST' modelAttribute="movie"
-				class='form-horizontal'>
-
-
-				<div style='text-align: right' class="form-group">
-					<label class='control-label col-lg-2 col-lg-2' for="movieId">
-					</label>
-					<div class='col-lg-10'>
-						<form:select id='selectmovie' path="movieId" name="movielist"
-							onchange="changemovie(this.value);">
-							<form:options items="${movieList}" />
-						</form:select>
+		<section>
+			<div>
+				<form:form method='POST' modelAttribute="movie"
+					class='form-horizontal'>
+					<div style='text-align: right' class="form-group">
+						<label for="movieId"> </label>
+						<div class='col-lg-10'>
+							<form:select id='selectmovie' path="movieId" name="movielist"
+								onchange="changeMovie(this.value);">
+								<form:options items="${movieList}" />
+							</form:select>
+						</div>
 					</div>
-				</div>
-			</form:form>
+				</form:form>
+			</div>
+		</section>
+		<div>
+			<button  type="button" onclick='booking(${movie.movieId})'>立即訂票</button>
 		</div>
-	</section>
-	<!-- ==================詳細資料================= -->
-	<div style="text-align: center">
-		<table style="width: 820; text-align: center;">
-			<tr>
-			<tr>
-				<td><img style="margin: auto" width='250' height='340'
-					alt='${movie.chName}' title='${movie.chName}'
-					src="<c:url value='/getMovieImg/${movie.movieId}' />" /></td>
-				<td>
-					<table style="width: 400;">
-						<tr>
-							<td><h3>${movie.chName}</h3>
-						</tr>
-						<tr>
-							<td><p style='font: 15px saddlebrown;'>${movie.enName}</p></td>
-						</tr>
-						<tr>
-							<td><p style='font-size: 13px;'>上映日期：${movie.premierDate}</p></td>
-						</tr>
-						<tr>
-							<td><img style="text-align: center" width='50' height='60'
-								alt='${movie.movieLevelBean.level}'
-								title='${movie.movieLevelBean.level}'
-								src="<c:url value='/getMovieLevelImg/${movie.movieLevelBean.movieLevelId}' />" /></td>
-						</tr>
-						<tr>
-							<td><hr></td>
-						</tr>
-						<tr>
-							<td><p>導演：${movie.director}</p></td>
-						</tr>
-						<tr>
-							<td><p>演員：${movie.actors}</p></td>
-						</tr>
-						<tr>
-							<td><p>片長：${movie.length}分</p></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
+		<!-- ==================詳細資料================= -->
+		<div style="text-align: center">
+			<table style="width: 820; text-align: center;">
+				<tr>
+				<tr>
+					<td><img style="margin: auto" width='250' height='340'
+						alt='${movie.chName}' title='${movie.chName}'
+						src="<c:url value='/getMovieImg/${movie.movieId}' />" /></td>
+					<td>
+						<table style="width: 400;">
+							<tr>
+								<td><h3>${movie.chName}</h3>
+							</tr>
+							<tr>
+								<td><p style='font: 15px saddlebrown;'>${movie.enName}</p></td>
+							</tr>
+							<tr>
+								<td><p style='font-size: 13px;'>上映日期：${movie.premierDate}</p></td>
+							</tr>
+							<tr>
+								<td><img style="text-align: center" width='50' height='60'
+									alt='${movie.movieLevelBean.level}'
+									title='${movie.movieLevelBean.level}'
+									src="<c:url value='/getMovieLevelImg/${movie.movieLevelBean.movieLevelId}' />" /></td>
+							</tr>
+							<tr>
+								<td><hr></td>
+							</tr>
+							<tr>
+								<td><p>導演：${movie.director}</p></td>
+							</tr>
+							<tr>
+								<td><p>演員：${movie.actors}</p></td>
+							</tr>
+							<tr>
+								<td><p>片長：${movie.length}分</p></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
-</div>
-<br>
+	<br>
 	<!-- =============================預告============================= -->
 	<div style='text-align: center; background-color: lightgray'>
 		<!-- 預告位置 -->
@@ -104,6 +104,8 @@
 			allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 			allowfullscreen></iframe>
 	</div>
+	<br>
+	<br>
 	<!-- =============================劇情============================= -->
 	<div id='content'>
 		<table style="width: 820;">
@@ -115,11 +117,18 @@
 			</tr>
 		</table>
 	</div>
-
+	<br>
+	<br>
+	<br>
 	<script src="../js/jquery-3.5.1.min.js"></script>
 	<script language="Javascript">
-		function changemovie(movieId) {
+		function changeMovie(movieId) { // 電影介紹選擇
 			window.location.href = "<spring:url value='/movieDetail?movieId="
+
+			+ movieId + "' />"
+		}
+		function booking(movieId) { // 電影介紹選擇
+			window.location.href = "<spring:url value='/movieShowTime?movieId="
 					+ movieId + "' />"
 		}
 	</script>

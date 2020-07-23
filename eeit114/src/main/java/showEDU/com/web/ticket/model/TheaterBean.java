@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,19 +21,27 @@ public class TheaterBean implements Serializable {
 	String  	name;
 	Integer  	totalSeats;
 	
-	@OneToMany(mappedBy = "theaterBean",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "theaterBean")
 	 Set<MovieOrderDetailBean> movieOrderDetail = new HashSet<>();
 	
+	@OneToMany(mappedBy = "theaterBean")
+	 Set<MovieShowtimeBean> movieShowtime = new HashSet<>();
+	
+	@OneToMany(mappedBy = "theaterBean")
+	 Set<SeatsBean> Seats = new HashSet<>();
 
 	public TheaterBean() {
 	}
 
-	public TheaterBean(Integer theaterId, String name, Integer totalSeats, Set<MovieOrderDetailBean> movieOrderDetail) {
+	public TheaterBean(Integer theaterId, String name, Integer totalSeats, Set<MovieOrderDetailBean> movieOrderDetail,
+			Set<MovieShowtimeBean> movieShowtime, Set<SeatsBean> seats) {
 		super();
 		this.theaterId = theaterId;
 		this.name = name;
 		this.totalSeats = totalSeats;
 		this.movieOrderDetail = movieOrderDetail;
+		this.movieShowtime = movieShowtime;
+		Seats = seats;
 	}
 
 	public Integer getTheaterId() {
@@ -67,6 +74,22 @@ public class TheaterBean implements Serializable {
 
 	public void setMovieOrderDetail(Set<MovieOrderDetailBean> movieOrderDetail) {
 		this.movieOrderDetail = movieOrderDetail;
+	}
+
+	public Set<MovieShowtimeBean> getMovieShowtime() {
+		return movieShowtime;
+	}
+
+	public void setMovieShowtime(Set<MovieShowtimeBean> movieShowtime) {
+		this.movieShowtime = movieShowtime;
+	}
+
+	public Set<SeatsBean> getSeats() {
+		return Seats;
+	}
+
+	public void setSeats(Set<SeatsBean> seats) {
+		Seats = seats;
 	}
 
 	public static long getSerialversionuid() {

@@ -1,7 +1,7 @@
 package showEDU.com.web.ticket.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +26,7 @@ public class MovieOrdersBean implements Serializable {
 	Integer 	movieOrdersId;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="FK_show_Member_memberId")
+	@JoinColumn(name="memberId")
 	MemberBean  memberBean;
 	
 	Date  		ordersDate;

@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -64,7 +63,7 @@ public class MovieBean implements Serializable {
 	@Transient
 	Integer		movieStatusId;
 	
-	@JsonIgnore //
+//	@JsonIgnore //
 	@OneToMany(mappedBy = "movieBean")
 	 Set<MovieOrderDetailBean> movieOrderDetail = new HashSet<>();
 
