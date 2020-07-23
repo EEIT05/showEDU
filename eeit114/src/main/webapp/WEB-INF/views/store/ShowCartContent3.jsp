@@ -3,6 +3,7 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
   <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"  %>
+  <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,6 +106,9 @@ table.shoping-cart-table tr td:last-child {
   background: #ffffff;
   padding: 10px 15px;
 }
+.table td, .table th{
+	padding: .2rem;
+}
 </style>
 </head>
 <body>
@@ -132,12 +136,13 @@ table.shoping-cart-table tr td:last-child {
                             <tbody>
                             <tr>
                                 <td width="90">
-                                    <div class="cart-product-imitation">
+                                    <div>
+                                    <img class="img-responsive" src="<c:url value='/getProductPicture/${anEntry.value.productId}'/>" width="90">
                                     </div>
                                 </td>
                                 <td class="desc">
                                     <h3>
-                                    <a href="#" class="text-navy">
+                                    <a href="<spring:url value='/Product?id=${anEntry.value.productId}' />" class="text-navy">
                                         ${anEntry.value.peripheralProductBean.name}
                                     </a>
                                     </h3>
@@ -157,11 +162,12 @@ table.shoping-cart-table tr td:last-child {
 
                      
                                 <td width="65">
+                                   
                                     <input type="text" class="form-control" value="${anEntry.value.buyCount}">
                                 </td>
                                 <td>
                                     <h5>
-                                        <fmt:formatNumber value="${anEntry.value.peripheralProductBean.price}" pattern="#,###,###" />元
+                                        <fmt:formatNumber value="${anEntry.value.peripheralProductBean.price * anEntry.value.buyCount}" pattern="#,###,###" />元
                                     </h5>
                                 </td>
                             </tr>
@@ -174,7 +180,9 @@ table.shoping-cart-table tr td:last-child {
 
                 <div class="ibox-content">
                 	<form>
-                    <button class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> 確認訂單</button>
+<!--                     <button class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> 確認訂單</button> -->
+                    <a class="btn btn-primary pull-right" href="<c:url value='checkout' />" onClick="return Checkout(${buyTotal});">
+                    <i class="fa fa fa-shopping-cart"></i>確認訂單</a>
 					<a class="btn btn-white" href='showproduct'><i class="fa fa-arrow-left"></i>繼續購買</a>
 					
 					<input type="hidden" name="finalDecision"  value="">
@@ -187,24 +195,20 @@ table.shoping-cart-table tr td:last-child {
         <div class="col-md-3">
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>Cart Summary</h5>
+                    <h5>購買總額</h5>
                 </div>
                 <div class="ibox-content">
                     <span>
-                        Total
+                        	Total
                     </span>
                     <h2 class="font-bold">
-                        ${buyTotal}
+                       NT$ ${buyTotal}
                     </h2>
 
                     <hr>
-                    <span class="text-muted small">
-                        *For United States, France and Germany applicable sales tax will be applied
-                    </span>
                     <div class="m-t-sm">
                         <div class="btn-group">
-                        <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> 訂單確認</a>
-                        <a href="#" class="btn btn-white btn-sm"> Cancel</a>
+                        <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> 確認訂單</a>
                         </div>
                     </div>
                 </div>
@@ -218,40 +222,41 @@ table.shoping-cart-table tr td:last-child {
                     <h3><i class="fa fa-phone"></i> +43 100 783 001</h3>
                     <span class="small">
                        		 如有任何疑問，請與我們聯繫。
+                       		 24小時免付費電話
                     </span>
                 </div>
             </div>
 
-            <div class="ibox">
-                <div class="ibox-content">
+<!--             <div class="ibox"> -->
+<!--                 <div class="ibox-content"> -->
 
-                    <p class="font-bold">
-                    Other products you may be interested
-                    </p>
-                    <hr>
-                    <div>
-                        <a href="#" class="product-name"> Product 1</a>
-                        <div class="small m-t-xs">
-                            Many desktop publishing packages and web page editors now.
-                        </div>
-                        <div class="m-t text-righ">
+<!--                     <p class="font-bold"> -->
+<!--                     Other products you may be interested -->
+<!--                     </p> -->
+<!--                     <hr> -->
+<!--                     <div> -->
+<!--                         <a href="#" class="product-name"> Product 1</a> -->
+<!--                         <div class="small m-t-xs"> -->
+<!--                             Many desktop publishing packages and web page editors now. -->
+<!--                         </div> -->
+<!--                         <div class="m-t text-righ"> -->
 
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <a href="#" class="product-name"> Product 2</a>
-                        <div class="small m-t-xs">
-                            Many desktop publishing packages and web page editors now.
-                        </div>
-                        <div class="m-t text-righ">
+<!--                             <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <hr> -->
+<!--                     <div> -->
+<!--                         <a href="#" class="product-name"> Product 2</a> -->
+<!--                         <div class="small m-t-xs"> -->
+<!--                             Many desktop publishing packages and web page editors now. -->
+<!--                         </div> -->
+<!--                         <div class="m-t text-righ"> -->
 
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--                             <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </div> -->
         </div>
     </div>
 </div>

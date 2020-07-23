@@ -70,12 +70,12 @@
           <div>
             <h6 class="my-0">${anEntry.value.peripheralProductBean.name}</h6>
           </div>
-          <span class="text-muted"><fmt:formatNumber value="${anEntry.value.peripheralProductBean.price}" pattern="#,###,###" /> </span>
+          <span class="text-muted"><fmt:formatNumber value="${anEntry.value.peripheralProductBean.price * anEntry.value.buyCount}" pattern="#,###,###" /> </span>
         </li>
         </c:forEach>
         <li class="list-group-item d-flex justify-content-between ">
           <span>總金額</span>
-          <strong><fmt:formatNumber value="${buyTotal}" pattern="#,###,###" />元</strong>
+          <strong>NT$<fmt:formatNumber value="${buyTotal}" pattern="#,###,###" />元</strong>
         </li>
       </ul>
     </div>

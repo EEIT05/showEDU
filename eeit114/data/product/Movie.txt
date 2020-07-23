@@ -1,4 +1,4 @@
- insert Category (category,status) 
+ insert Category (category,status)  
   values('周邊商品類別','A') , ('食物商品類別','A')
   --食物商品類別
 insert FoodCategory (items,status,FK_category_Id)values('單點','A',2),('套餐','A',2)
