@@ -83,7 +83,7 @@ width: 100%;
 } */
 .carousel-item {
 	/* 	height: 75vh; */
-	height:75vh;
+	height: 75vh;
 	background: no-repeat center center scroll;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -104,7 +104,6 @@ width: 100%;
 .pp {
 	color: #ffffff;
 	margin-left: 50%;
-
 }
 
 .p2 {
@@ -200,7 +199,7 @@ width: 100%;
 				<ul class="navbar-nav">
 					<!-- <li class="nav-item active"><a href="#" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true" ></i>首頁</a> -->
 					<!-- 					</li> -->
-					<li class="nav-item"><a href="#" class="nav-link">影城介紹</a></li>
+<!-- 					<li class="nav-item"><a href="#" class="nav-link">影城介紹</a></li> -->
 					<li class="nav-item"><a href="<c:url value='movieList' />"
 						class="nav-link">電影介紹</a></li>
 					<li class="nav-item dropdown"><a
@@ -215,7 +214,8 @@ width: 100%;
 						role="button" data-toggle="dropdown" data-hover="dropdown">餐飲商品</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
 							<a href="#" class="dropdown-item">餐飲</a> <a href="showproduct"
-								class="dropdown-item">周邊商品</a> <a href="product/backSelect" class="dropdown-item">商品後台</a>
+								class="dropdown-item">周邊商品</a> <a href="product/backSelect"
+								class="dropdown-item">商品後台</a>
 							<!-- <a href="#" class="dropdown-item">Service3</a> -->
 						</div>
 					<li class="nav-item dropdown"><a
@@ -225,10 +225,12 @@ width: 100%;
 							<a href="<c:url value='/application/add'/>" class="dropdown-item">包場預約</a>
 							<c:choose>
 								<c:when test="${memberBean.userType eq 'A'}">
-									<a href="<c:url value='/allApplication'/>" class="dropdown-item">查看訂單</a>
+									<a href="<c:url value='/allApplication'/>"
+										class="dropdown-item">查看訂單</a>
 								</c:when>
 								<c:otherwise>
-									<a href="<c:url value='/yourApplication' />" class="dropdown-item">查看個人訂單</a>
+									<a href="<c:url value='/yourApplication' />"
+										class="dropdown-item">查看個人訂單</a>
 								</c:otherwise>
 							</c:choose>
 							<a href="<c:url value='/showCalender' />" class="dropdown-item">查看行事曆</a>
@@ -244,7 +246,7 @@ width: 100%;
 							</c:if>
 							<a href="#" class="dropdown-item"></a>
 						</div></li>
-			<li class="nav-item"><a href="<c:url value='boards' />"
+					<li class="nav-item"><a href="<c:url value='boards' />"
 						class="nav-link">討論區</a></li>
 					<div>
 
@@ -252,8 +254,9 @@ width: 100%;
 							class="nav-link dropdown-toggle" id="navdrop" role="button"
 							data-toggle="dropdown" data-hover="dropdown">會員系統</a>
 							<div class="dropdown-menu" aria-labelledby="navdrop">
-
-								<a href='member/crm/login' class="dropdown-item">會員登入</a>
+								<c:if test="${  empty memberBean }">
+									<a href='member/crm/login' class="dropdown-item">會員登入</a>
+								</c:if>
 
 								<c:if test="${ ! empty memberBean }">
 									<a href='member/crm/loginout' class="dropdown-item">會員登出</a>
@@ -289,8 +292,9 @@ width: 100%;
 
 
 					</div>
-					<li class="nav-item active"><a href="ShowCartContent" class="nav-link"><i
-							class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
+					<li class="nav-item active"><a href="ShowCartContent"
+						class="nav-link"><i class="fa fa-shopping-cart fa-lg"
+							aria-hidden="true"></i></a></li>
 
 					<c:if test="${ ! empty memberBean }">
 						<li><img width='60' height='60'
@@ -319,7 +323,7 @@ width: 100%;
 
 		<div class="carousel-inner" role="listbox">
 			<div class="text-box"></div>
-			<div class="carousel-item active" 
+			<div class="carousel-item active"
 				style="background-image: url('https://www.kukatko.cz/wp-content/uploads/2017/07/JL2.jpg')">
 				<div class="pp">
 					<br>
@@ -331,10 +335,8 @@ width: 100%;
 				style="background-image: url('https://img.linetv.tw/large/drama/10441-p.jpg')">
 				<div class="p2">
 					<br>
-					<h3 class="wow slideInRight" data-wow-duration="2s">
-						</h3>
-					<p class="wow slideInLeft" data-wow-duration="2s">
-						</p>
+					<h3 class="wow slideInRight" data-wow-duration="2s"></h3>
+					<p class="wow slideInLeft" data-wow-duration="2s"></p>
 				</div>
 			</div>
 			<div class="carousel-item "
@@ -356,13 +358,17 @@ width: 100%;
 			class="sr-only">Next</span>
 		</a>
 	</div>
-<!-- <iframe width="727" height="409" src="https://www.youtube.com/embed/SIFPsjcWC6g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+	<!-- <iframe width="727" height="409" src="https://www.youtube.com/embed/SIFPsjcWC6g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
 	<div>
-	
-    <iframe src="https://www.youtube.com/embed/SIFPsjcWC6g?autoplay=1&mute=1" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe></div>             
-<!--                  <iframe width="864" height="516" src="https://www.youtube.com/embed/cRxeLrV475w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-	
-	
+
+		<iframe
+			src="https://www.youtube.com/embed/SIFPsjcWC6g?autoplay=1&mute=1"
+			width="560" height="315" frameborder="0"
+			allowfullscreen="allowfullscreen"></iframe>
+	</div>
+	<!--                  <iframe width="864" height="516" src="https://www.youtube.com/embed/cRxeLrV475w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+
+
 	<div>
 		<ul class="list-unstyled">
 			<div class="vv">
