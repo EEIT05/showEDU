@@ -123,14 +123,11 @@ width: 100%;
 	margin-left: 80px;
 	width: 80%;
 }
-<<<<<<< HEAD
+
 .logo{
 	width:100px;
 	height:100px;
 }
-
-=======
->>>>>>> 9de32dbc9aed6c0fbced26241eccfa99d7fbc226
 </style>
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
