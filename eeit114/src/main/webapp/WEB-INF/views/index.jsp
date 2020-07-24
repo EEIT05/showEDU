@@ -167,6 +167,23 @@ width: 100%;
 	text-align: center;
 }
 </style>
+<script>
+window.onload = function(){
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "<c:url value='/showAplcBeanAtIndex'/>", true);
+		xhr.send();
+		xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var activities = JSON.parse(xhr.responseText);
+					console.log(JSON.parse(xhr.responseText));
+					for (var i = 0; i < activities.length; i++) {
+						document.getElementById("activityDate"+(i+1)).innerText = activities[i].startDate + "至" + activities[i].endDate;
+						document.getElementById("title"+(i+1)).innerText = activities[i].actTitle;
+					}
+				}
+	}
+}
+</script>
 </head>
 <body>
 	<%-- <h1>${loginMember.memberBean.memberId}</h1> --%>
@@ -222,7 +239,7 @@ width: 100%;
 						class="nav-link dropdown-toggle" href="#" id="navdrop"
 						role="button" data-toggle="dropdown" data-hover="dropdown">包場</a>
 						<div class="dropdown-menu" aria-labelledby="navdrop">
-							<a href="<c:url value='/application/add'/>" class="dropdown-item">包場預約</a>
+							<a href="<c:url value='/showRule'/>" class="dropdown-item">包場預約</a>
 							<c:choose>
 								<c:when test="${memberBean.userType eq 'A'}">
 									<a href="<c:url value='/allApplication'/>"
@@ -378,23 +395,23 @@ width: 100%;
 			<li class="media"><img src="images/LOGO.jpg" height="80px"
 				class="mr-3" alt="...">
 				<div class="media-body">
-					<h6 class="mt-0 mb-1">2020-7-26</h6>
-					<p>休館一天。</p>
+					<h6 id='activityDate1' class="mt-0 mb-1"></h6>
+					<p id='title1'></p>
 					<hr color="dimgray">
 				</div></li>
 			<li class="media"><img src="images/LOGO.jpg" height="80px"
 				class="mr-3" alt="...">
 				<div class="media-body">
-					<h6 class="mt-0 mb-1">2020-6-03</h6>
-					<p>維修設備，開始營業時間更改為下午3點。</p>
+					<h6 id='activityDate2' class="mt-0 mb-1"></h6>
+					<p id='title2'></p>
 					<hr color="dimgray">
 
 				</div>
 			<li class="media"><img src="images/LOGO.jpg" height="80px"
 				class="mr-3" alt="...">
 				<div class="media-body">
-					<h6 class="mt-0 mb-1">2020-3-18</h6>
-					<p>休館一天。</p>
+					<h6 id='activityDate3' class="mt-0 mb-1"></h6>
+					<p id='title3'></p>
 				</div></li>
 		</ul>
 	</div>

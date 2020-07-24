@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,7 +49,18 @@ public class ApplicationController {
 			return (listLength / 2) + 1;
 		}
 	}
-
+	@GetMapping("/showRule")
+	public String showRule(){
+		return "application/rule";
+	}
+	@GetMapping("/agreeRule")
+	public String agreeRule(Model model,@RequestParam("agreement")String agreement) {
+		if(agreement.equals("agree")) {
+			return "redirect:/application/add";			
+		}
+		return "redirect: " + ctx.getContextPath() + "/";
+	}
+	
 	// 申請租借，產生表單(客戶端)
 	@GetMapping("/application/add")
 	public String getAddNewApplicationForm(Model model) {
@@ -139,6 +151,7 @@ public class ApplicationController {
 		}
 		int memberId = memberBean.getMemberId();
 		List<ApplicationBean> beans = aplcService.getAllAplcBeanById(memberId);
+		Collections.reverse(beans);
 		model.addAttribute("yourApplication", beans);
 		return "application/showYourApplication";
 	}
@@ -150,6 +163,7 @@ public class ApplicationController {
 			return "redirect: " + ctx.getContextPath() + "/member/crm/login";
 		}
 		List<ApplicationBean> beans = aplcService.getAllAplcBean();
+		Collections.reverse(beans);
 		int totalPage = getTotalpage(beans.size());
 		model.addAttribute("totalPage", totalPage);
 		if (pageNo == null) {
@@ -206,6 +220,7 @@ public class ApplicationController {
 			beans = aplcService.getAllAplcBeanByStatus(statusId);
 			System.out.println(beans);
 		}
+		Collections.reverse(beans);
 		System.out.println(beans);
 		int totalPage = getTotalpage(beans.size());
 		if (pageNo == null) {
@@ -233,5 +248,6 @@ public class ApplicationController {
 		model.addAttribute("application", bean);
 		return "application/applicationDetail";
 	}
+
 
 }
