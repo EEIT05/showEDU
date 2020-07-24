@@ -14,8 +14,8 @@
 <style>
 
 body, html {
-margin-top:150px; 
-	height: auto;
+	margin-top:100px; 
+	height:100%;
 	background-repeat: no-repeat;
 	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
 		rgb(25, 0, 71));
