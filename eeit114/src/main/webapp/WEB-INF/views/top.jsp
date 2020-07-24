@@ -80,7 +80,7 @@ width: 100%;
 } */
 .carousel-item {
 	/* 	height: 75vh; */
-	height:75vh;
+	height: 75vh;
 	background: no-repeat center center scroll;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -101,7 +101,6 @@ width: 100%;
 .pp {
 	color: #ffffff;
 	margin-left: 50%;
-
 }
 
 .p2 {
@@ -115,7 +114,6 @@ width: 100%;
 	margin-bottom: 5px;
 }
 
-
 .vv {
 	margin-left: 100px;
 	color: #fec400;
@@ -125,151 +123,155 @@ width: 100%;
 	margin-left: 80px;
 	width: 80%;
 }
+<<<<<<< HEAD
 .logo{
 	width:100px;
 	height:100px;
 }
 
+=======
+>>>>>>> 9de32dbc9aed6c0fbced26241eccfa99d7fbc226
 </style>
 <link
-			href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-			rel="stylesheet" id="bootstrap-css">
-		<script
-			src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-		<script
-			src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
 
+	<nav class="navbar  navbar-expand-lg navbar-dark fixed-top">
+		<img class="logo" src="<c:url value='/images/LOGO.jpg' />" width="100"
+			height="100"> <a href="<c:url value='/'/> "
+			class="navbar-brand">
+			<h3>SHOW EDU</h3>
+		</a>
 
+		<button class="navbar-toggler" type="button" data-target="#navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse">
+			<ul class="navbar-nav">
 
-		<nav class="navbar  navbar-expand-lg navbar-dark fixed-top">
-			<img class="logo" src="<c:url value='/images/LOGO.jpg' />" >
-
-			<a href="<c:url value='/'/> " class="navbar-brand">
-				<h3>SHOW EDU</h3>
-			</a>
-
-			<button class="navbar-toggler" type="button"
-				data-target="#navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse">
-				<ul class="navbar-nav">
-
-					<li class="nav-item"><a href="#" class="nav-link">影城介紹</a></li>
-					<li class="nav-item"><a href="<c:url value='/movieList' />"
-						class="nav-link">電影介紹</a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navdrop"
-						role="button" data-toggle="dropdown" data-hover="dropdown">訂票</a>
-						<div class="dropdown-menu" aria-labelledby="navdrop">
-							<a href="#" class="dropdown-item">訂票</a> <a href="#"
-								class="dropdown-item">票種</a> <a href="#" class="dropdown-item"></a>
-						</div>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navdrop"
-						role="button" data-toggle="dropdown" data-hover="dropdown">餐飲商品</a>
-						<div class="dropdown-menu" aria-labelledby="navdrop">
-							<a href="#" class="dropdown-item">餐飲</a> <a href="showproduct"
-								class="dropdown-item">周邊商品</a> <a href=<c:url value='/product/backSelect'/> class="dropdown-item">商品後台</a>
-							<!-- <a href="#" class="dropdown-item">Service3</a> -->
-						</div>
-<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navdrop"
-						role="button" data-toggle="dropdown" data-hover="dropdown">包場</a>
-						<div class="dropdown-menu" aria-labelledby="navdrop">
-							<a href="<c:url value='/application/add'/>" class="dropdown-item">包場預約</a>
-							<c:choose>
-								<c:when test="${memberBean.userType eq 'A'}">
-									<a href="<c:url value='/allApplication'/>" class="dropdown-item">查看訂單</a>
-								</c:when>
-								<c:otherwise>
-									<a href="<c:url value='/yourApplication' />" class="dropdown-item">查看個人訂單</a>
-								</c:otherwise>
-							</c:choose>
-							<a href="<c:url value='/showCalender' />" class="dropdown-item">查看行事曆</a>
-						</div></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navdrop"
-						role="button" data-toggle="dropdown" data-hover="dropdown">活動</a>
-						<div class="dropdown-menu" aria-labelledby="navdrop">
-							<a href="<c:url value='/activities'/>" class="dropdown-item">活動公告</a>
-							<c:if test="${memberBean.userType eq 'A'}">
-								<a href="<c:url value='/activitiesDate'/>" class="dropdown-item">活動公告查詢</a>
-								<a href="<c:url value='/activities/add'/>" class="dropdown-item">新增活動</a>
-							</c:if>
-							<a href="#" class="dropdown-item"></a>
-						</div></li>
-
-
-					<li class="nav-item"><a href="<c:url value='/boards' />"
-						class="nav-link">討論區</a></li>
-
-					<div>
-
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" id="navdrop" role="button"
-							data-toggle="dropdown" data-hover="dropdown">會員系統</a>
-							<div class="dropdown-menu" aria-labelledby="navdrop">
-
-								<a href='login' class="dropdown-item">會員登入</a>
-
-								<c:if test="${ ! empty memberBean }">
-									<a href='loginout' class="dropdown-item">會員登出</a>
-								</c:if>
-
-								<c:if test="${  empty memberBean }">
-									<a href='mem' class="dropdown-item"> 會員註冊</a>
-								</c:if>
-
-								<c:if test="${ ! empty memberBean}">
-									<a href="memb"
-										class="dropdown-item">會員資料</a>
-								</c:if>
-
-								<c:if test="${memberBean.userType eq 'M'}">
-									<a href="orderList" class="dropdown-item">我的訂單</a>
-								</c:if>
-
-								<c:if test="${memberBean.userType eq 'A'}">
-									<a href="../../back" target="_blank" class="dropdown-item">後台管理</a>
-								</c:if>
-
-								<c:if test="${memberBean.userType eq 'A'}">
-									<a href="showAllMembers"
-										class="dropdown-item">後台會員資料</a>
-								</c:if>
-
-
-
-
-
-							</div></li>
-
-
+				<!-- 					<li class="nav-item"><a href="#" class="nav-link">影城介紹</a></li> -->
+				<li class="nav-item"><a href="<c:url value='/movieList' />"
+					class="nav-link">電影介紹</a></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navdrop"
+					role="button" data-toggle="dropdown" data-hover="dropdown">訂票</a>
+					<div class="dropdown-menu" aria-labelledby="navdrop">
+						<a href="#" class="dropdown-item">訂票</a> <a href="#"
+							class="dropdown-item">票種</a> <a href="#" class="dropdown-item"></a>
 					</div>
-					<li class="nav-item active"><a href="ShowCartContent" class="nav-link"><i
-							class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navdrop"
+					role="button" data-toggle="dropdown" data-hover="dropdown">餐飲商品</a>
+					<div class="dropdown-menu" aria-labelledby="navdrop">
+						<a href="#" class="dropdown-item">餐飲</a> <a href="showproduct"
+							class="dropdown-item">周邊商品</a> <a
+							href=<c:url value='/product/backSelect'/> class="dropdown-item">商品後台</a>
+						<!-- <a href="#" class="dropdown-item">Service3</a> -->
+					</div>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navdrop"
+					role="button" data-toggle="dropdown" data-hover="dropdown">包場</a>
+					<div class="dropdown-menu" aria-labelledby="navdrop">
+						<a href="<c:url value='/application/add'/>" class="dropdown-item">包場預約</a>
+						<c:choose>
+							<c:when test="${memberBean.userType eq 'A'}">
+								<a href="<c:url value='/allApplication'/>" class="dropdown-item">查看訂單</a>
+							</c:when>
+							<c:otherwise>
+								<a href="<c:url value='/yourApplication' />"
+									class="dropdown-item">查看個人訂單</a>
+							</c:otherwise>
+						</c:choose>
+						<a href="<c:url value='/showCalender' />" class="dropdown-item">查看行事曆</a>
+					</div></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navdrop"
+					role="button" data-toggle="dropdown" data-hover="dropdown">活動</a>
+					<div class="dropdown-menu" aria-labelledby="navdrop">
+						<a href="<c:url value='/activities'/>" class="dropdown-item">活動公告</a>
+						<c:if test="${memberBean.userType eq 'A'}">
+							<a href="<c:url value='/activitiesDate'/>" class="dropdown-item">活動公告查詢</a>
+							<a href="<c:url value='/activities/add'/>" class="dropdown-item">新增活動</a>
+						</c:if>
+						<a href="#" class="dropdown-item"></a>
+					</div></li>
 
-					<c:if test="${ ! empty memberBean }">
-						<li><img width='60' height='60'
-							src="<c:url value='/member/crm/picture/${memberBean.memberId}' />" class='mmimg' /></li>
-				           	
-					</c:if>
 
-					<c:if test="${ empty memberBean }">
-						<li class="nav-item active"><a href="login"
-													class="nav-link"><i class="fa fa-user fa-lg"
-								aria-hidden="true"></i></a></li>
-					</c:if>
-				</ul>
-			</div>
-	</div>
+				<li class="nav-item"><a href="<c:url value='/boards' />"
+					class="nav-link">討論區</a></li>
+
+				<div>
+>>>>>>> 9de32dbc9aed6c0fbced26241eccfa99d7fbc226
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" id="navdrop" role="button"
+						data-toggle="dropdown" data-hover="dropdown">會員系統</a>
+						<div class="dropdown-menu" aria-labelledby="navdrop">
+
+							<c:if test="${  empty memberBean }">
+								<a href='login' class="dropdown-item">會員登入</a>
+							</c:if>
+
+							<c:if test="${ ! empty memberBean }">
+								<a href='loginout' class="dropdown-item">會員登出</a>
+							</c:if>
+
+							<c:if test="${  empty memberBean }">
+								<a href='mem' class="dropdown-item"> 會員註冊</a>
+							</c:if>
+
+							<c:if test="${ ! empty memberBean}">
+								<a href="memb" class="dropdown-item">會員資料</a>
+							</c:if>
+
+							<c:if test="${memberBean.userType eq 'M'}">
+								<a href="orderList" class="dropdown-item">我的訂單</a>
+							</c:if>
+
+							<c:if test="${memberBean.userType eq 'A'}">
+								<a href="../../back" target="_blank" class="dropdown-item">後台管理</a>
+							</c:if>
+
+							<c:if test="${memberBean.userType eq 'A'}">
+								<a href="showAllMembers" class="dropdown-item">後台會員資料</a>
+							</c:if>
+
+
+
+
+
+						</div></li>
+
+
+				</div>
+				<li class="nav-item active"><a href="ShowCartContent"
+					class="nav-link"><i class="fa fa-shopping-cart fa-lg"
+						aria-hidden="true"></i></a></li>
+
+				<c:if test="${ ! empty memberBean }">
+					<li><img width='60' height='60'
+						src="<c:url value='/member/crm/picture/${memberBean.memberId}' />"
+						class='mmimg' /></li>
+
+				</c:if>
+
+				<c:if test="${ empty memberBean }">
+					<li class="nav-item active"><a href="login" class="nav-link"><i
+							class="fa fa-user fa-lg" aria-hidden="true"></i></a></li>
+				</c:if>
+			</ul>
+		</div>
+		</div>
 	</nav>
 
-	
 
-	
+
+
 </body>
 
