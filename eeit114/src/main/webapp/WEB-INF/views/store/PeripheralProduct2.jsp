@@ -32,9 +32,10 @@
 
 </head>
 <body>
-	<a href="/eeit114">回首頁</a>
-	<%-- 	<header><jsp:include page="/fragment/top.jsp" /></header> --%>
-	<nav>
+<jsp:include page="/WEB-INF/views/top.jsp" />
+<!-- 	<a href="/eeit114">回首頁</a> -->
+<div >
+	<nav class="all">
 		<div class="wrapper" id="pic">
 			<ul class="slides">
 				<li><img src="${pageContext.request.contextPath}/images/下載.jpg"
@@ -115,7 +116,7 @@
 			</article>
 		</div>
 	</div>
-
+</div>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/scripts/Peripheral.js"></script>
 

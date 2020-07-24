@@ -126,8 +126,8 @@ table.shoping-cart-table tr td:last-child {
         <div class="col-md-9">
             <div class="ibox">
                 <div class="ibox-title">
-                    <span class="pull-right">(<strong>5</strong>) items</span>
-                    <h5>購物商品</h5>
+                    <span id='items' class="pull-right">(<strong></strong>) items</span>
+                    <h5>購買清單</h5>
                 </div>
                  <c:forEach varStatus='vs' var='anEntry' items='${ShoppingCart.content}'>
                 <div class="ibox-content">
@@ -142,7 +142,7 @@ table.shoping-cart-table tr td:last-child {
                                 </td>
                                 <td class="desc">
                                     <h3>
-                                    <a href="<spring:url value='/Product?id=${anEntry.value.productId}' />" class="text-navy">
+                                    <a name='name' href="<spring:url value='/Product?id=${anEntry.value.productId}' />" class="text-navy">
                                         ${anEntry.value.peripheralProductBean.name}
                                     </a>
                                     </h3>
@@ -261,6 +261,12 @@ table.shoping-cart-table tr td:last-child {
     </div>
 </div>
 </div>
+<script>
+  
+  var item = document.getElementsByName("name").length;
+  var items = document.getElementById("items");
+  items.innerHTML = "<span><strong>"+"商品數: "+item+"</strong></span>"
+</script>
 <script>
 function cancelOrder() {
 	if (confirm("確定取消此份訂單 ? ") ) {
