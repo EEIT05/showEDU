@@ -34,6 +34,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/views/top.jsp" />
 	<form>
 		<input type="hidden" name="a" />
 	</form>
@@ -44,30 +45,32 @@
 
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">SHOW EDU</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarResponsive" aria-controls="navbarResponsive"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a class="nav-link" href="#">討論區
-							<span class="sr-only">(current)</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">電影訂票</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">購物車</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">包廂系統</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">會員管理</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+<!-- 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"> -->
+<!-- 		<div class="container"> -->
+<%-- 			<a href="<c:url value='/'/> " class="navbar-brand"> --%>
+<!-- 				<h4>SHOW EDU</h4> -->
+<!-- 			</a> -->
+<!-- 			<button class="navbar-toggler" type="button" data-toggle="collapse" -->
+<!-- 				data-target="#navbarResponsive" aria-controls="navbarResponsive" -->
+<!-- 				aria-expanded="false" aria-label="Toggle navigation"> -->
+<!-- 				<span class="navbar-toggler-icon"></span> -->
+<!-- 			</button> -->
+<!-- 			<div class="collapse navbar-collapse" id="navbarResponsive"> -->
+<!-- 				<ul class="navbar-nav ml-auto"> -->
+<!-- 					<li class="nav-item active"><a class="nav-link" href="#">討論區 -->
+<!-- 							<span class="sr-only">(current)</span> -->
+<!-- 					</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#">電影訂票</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#">購物車</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#">包廂系統</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#">會員管理</a></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</nav> -->
 
 	<!-- Page Content -->
-	<div class="container">
+	<div class="container" style="margin-top:100px;">
 
 		<div class="row">
 
@@ -79,7 +82,7 @@
 				<h1 class="mt-4">[${articleBean.artTypeBean.type}]&emsp;&emsp;&emsp;${articleBean.title}</h1>
 
 				<!-- Author -->
-				<img class="d-flex mr-3 rounded-circle"
+				<img class="d-flex mr-3 rounded-circle" width='50' height='50'
 					src="<c:url value='/getPictureComment/${articleBean.memberBean.memberId}' />"
 					alt="${articleBean.memberBean.memberId}">
 				<p class="lead">By: ${articleBean.memberBean.name}</p>
@@ -117,10 +120,8 @@
 					<p class="card-header">
 						<button id="comment" type="submit" class="btn btn-primary"
 							onclick="Comment(${articleBean.artId} ,${memberBean.memberId})">留言</button>
-						<button type="submit" class="btn btn-primary">收藏</button>
 						<textarea id="inputComment" style="margin-top: 7px; height: 100px"
 							type="text" class="form-control" placeholder=""></textarea>
-
 					</p>
 
 
@@ -129,7 +130,7 @@
 				<!-- Comment with nested comments -->
 				<c:forEach var='commentBean' items='${commentBeans}'>
 					<div class="media mb-4">
-						<img class="d-flex mr-3 rounded-circle"
+						<img class="d-flex mr-3 rounded-circle" width='50' height='50'
 							src="<c:url value='/getPictureComment/${commentBean.memberBean.memberId}' />"
 							alt="${commentBean.memberBean.memberId}">
 						<div class="media-body">
@@ -140,7 +141,6 @@
 								<i class="fa fa-thumbs-up myMOUSE" aria-hidden="true"
 									id="ComThumlike${commentBean.commentId}"
 									onclick="thumbUp(${commentBean.commentId}, ${memberBean.memberId})">
-
 									<c:if test="${commentBean.likeCount != 0}">
 									${commentBean.likeCount}
 									</c:if>
@@ -159,6 +159,15 @@
 									onclick="SecSubmit(${commentBean.commentId}, ${memberBean.memberId})"
 									style="margin: 3px; padding: 3px 2px 3px 2px;"
 									class="btn btn-outline-secondary" type="button">送出</button>
+								<c:if test="${ ! empty memberBean}">
+									<c:if
+										test="${memberBean.memberId != commentBean.memberBean.memberId}">
+										<div style="float: right; font-size: 15px; color: red;"
+											class="myMOUSE"
+											onclick="report(
+									${commentBean.commentId}, ${memberBean.memberId})">檢舉</div>
+									</c:if>
+								</c:if>
 								<input id="inputSecComment${commentBean.commentId}" type="text"
 									class="form-control" placeholder="" aria-label=""
 									aria-describedby="basic-addon1" style="display: none">
@@ -178,7 +187,7 @@
 								<c:if
 									test="${commentBean.commentId == commentSecBean.commentBean.commentId}">
 									<div class="media mt-4">
-										<img class="d-flex mr-3 rounded-circle"
+										<img class="d-flex mr-3 rounded-circle" width='50' height='50'
 											src="<c:url value='/getPictureComment/${commentSecBean.memberBean.memberId}' />"
 											alt="${commentSecBean.memberBean.memberId}">
 										<div class="media-body">
@@ -209,6 +218,15 @@
 															onclick="deleteSecComment(${commentSecBean.commentSecId}, ${articleBean.artId})">
 															刪除</button>
 
+													</c:if>
+												</c:if>
+												<c:if test="${ ! empty memberBean}">
+													<c:if
+														test="${memberBean.memberId != commentSecBean.memberBean.memberId}">
+														<div style="float: right; font-size: 15px; color: red;"
+															class="myMOUSE"
+															onclick="reportSec(
+															${commentSecBean.commentSecId}, ${memberBean.memberId})">檢舉</div>
 													</c:if>
 												</c:if>
 											</div>
@@ -244,9 +262,7 @@
 										<h4 style="align-content: center;">標題&emsp;&emsp;</h4>
 									</div>
 
-									<div class="div2">
-										&emsp;內容
-									</div>
+									<div class="div2">&emsp;內容</div>
 								</div>
 								<div class="card-footer text-muted" style="text-align: right;">
 									<i class="fa fa-user" aria-hidden="true" style="float: left;">&ensp;王小明</i>
@@ -391,6 +407,30 @@
 		  window.addEventListener('onclick', Comment, false);
 		  window.addEventListener('onclick', deleteComment, false);
 		  
+		  // 送出回覆檢舉
+		  function reportSec(commentSecId, memberId) {
+			  if (memberId == null) {
+				  document.location.href="<c:url value='/member/crm/login' />";
+			  }else if (confirm('確定檢舉此回覆?')) {
+				  document.forms[0].action="<c:url value='/reportSecComment?commentSecId=" + commentSecId + "' />";
+	     		  document.forms[0].method="POST";
+	     		  document.forms[0].submit();
+			  }
+			  return false;
+		  }
+		  // 送出留言檢舉
+		  function report(commentId, memberId) {
+			  if (memberId == null) {
+				  document.location.href="<c:url value='/member/crm/login' />";
+			  }else if (confirm('確定檢舉此留言?')) {
+				  document.forms[0].action="<c:url value='/reportComment?commentId=" + commentId + "' />";
+	     		  document.forms[0].method="POST";
+	     		  document.forms[0].submit();
+			  }
+			  return false;
+			  
+		  }
+		  
 		  // 刪除第一層留言
 		  function deleteComment(commentId) {
 			  if (confirm('確定刪除此留言?')){
@@ -429,6 +469,7 @@
 				  
 			  }
 		  }
+		  
 	      // 將留言的地方顯示出來
           function SecComment(commentId, memberId) {
         	  if (memberId == null) {
@@ -460,22 +501,33 @@
         	  }
         	  
           }
+//           var thumbArray = [];
+//           var thumbArray = ${thumbsUpBeans};
+//           var thumbsize = ${thumbsize};
+//           for (var i = 0; i < thumbsize; i++) {
+//         	  if ()
+//           }
+			          
           // 第一層按讚的function
           function thumbUp(commentId, memberId) {
         	  console.log("會員名稱為:" + memberId);
-        	  var x = "ComThumlike" + commentId;
+        	  var x = "ComThumlike" + commentId; 
         	  var thumbLikeCount = document.getElementById(x);
-        	  var count = thumbLikeCount.innerHTML;
+        	  var count = thumbLikeCount.innerHTML; // 取得按讚數
+        	  var y = "ComThumDislike" + commentId; 
+        	  var thumbDisLikeCount = document.getElementById(y);
+        	  var discount = thumbDisLikeCount.innerHTML; // 取得按爛數
         	  console.log("按讚數= " + count);
         	  if (memberId == null) {
         		  document.location.href="<c:url value='/member/crm/login' />";
          	  } 
         	  else {
         		  thumbLikeCount.innerHTML = "";
+        		  thumbDisLikeCount.innerHTML = "";
         		  var xhr = new XMLHttpRequest();
         		  xhr.open("POST", "<c:url value='/thumbUpCalculate' />", true);
         		  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        		  xhr.send("commentId=" + commentId + "&memberId=" + memberId + "&count=" + count);
+        		  xhr.send("commentId=" + commentId + "&memberId=" + memberId + "&count=" + count + "&discount=" + discount);
         		  xhr.onreadystatechange = function() {
         			  if (xhr.readyState == 4 && xhr.status == 200) {
         				  var CommentBean = JSON.parse(xhr.responseText);
@@ -485,6 +537,11 @@
         				  } else {
         				  thumbLikeCount.innerHTML = CommentBean.likeCount;
         				  }
+        				  if (CommentBean.dislikeCount == 0) {
+        					  ;
+        				  } else {
+        				  thumbDisLikeCount.innerHTML = CommentBean.dislikeCount;
+        				  }
         				 	
         			  }
         		  }
@@ -493,48 +550,62 @@
        // 第一層按爛的function
           function thumbDown(commentId, memberId) {
         	  console.log("會員名稱為:" + memberId);
-        	  var x = "ComThumDislike" + commentId;
-        	  var thumbDisLikeCount = document.getElementById(x);
-        	  var count = thumbDisLikeCount.innerHTML;
+        	  var x = "ComThumlike" + commentId;
+        	  var thumbLikeCount = document.getElementById(x);
+        	  var count = thumbLikeCount.innerHTML; // 取得按讚數
+        	  var y = "ComThumDislike" + commentId;
+        	  var thumbDisLikeCount = document.getElementById(y);
+        	  var discount = thumbDisLikeCount.innerHTML; // 取得按爛數
         	  console.log("按爛數= " + count);
         	  if (memberId == null) {
         		  document.location.href="<c:url value='/member/crm/login' />";
          	  } 
         	  else {
         		  thumbDisLikeCount.innerHTML = "";
+        		  thumbLikeCount.innerHTML = "";
         		  var xhr = new XMLHttpRequest();
         		  xhr.open("POST", "<c:url value='/thumbDownCalculate' />", true);
         		  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        		  xhr.send("commentId=" + commentId + "&memberId=" + memberId + "&count=" + count);
+        		  xhr.send("commentId=" + commentId + "&memberId=" + memberId + "&count=" + count + "&discount=" + discount);
         		  xhr.onreadystatechange = function() {
         			  if (xhr.readyState == 4 && xhr.status == 200) {
         				  var CommentBean = JSON.parse(xhr.responseText);
         				  console.log("按爛數= " + CommentBean.dislikeCount);
+        				  console.log("按讚數=" + CommentBean.likeCount);
         				  if (CommentBean.dislikeCount == 0) {
         					  ;
         				  } else {
         					  thumbDisLikeCount.innerHTML = CommentBean.dislikeCount;
         				  }
+        				  if (CommentBean.likeCount == 0) {
+        					  ;
+        				  } else {
+        					  thumbLikeCount.innerHTML = CommentBean.likeCount;
+        				  }
         			  }
         		  }
           	  }
           }
-          
+          // 第二層按讚的function
           function SecThumbUp(commentSecId, memberId) {
         	  console.log("會員名稱為:" + memberId);
         	  var x = "SecComThumlike" + commentSecId;
         	  var thumbLikeCount = document.getElementById(x);
         	  var count = thumbLikeCount.innerHTML;
+        	  var y = "SecComThumDislike" + commentSecId;
+        	  var thumbDisLikeCount = document.getElementById(y);
+        	  var discount = thumbDisLikeCount.innerHTML;
         	  console.log("按讚數= " + count);
         	  if (memberId == null) {
         		  document.location.href="<c:url value='/member/crm/login' />";
          	  } 
         	  else {
         		  thumbLikeCount.innerHTML = "";
+        		  thumbDisLikeCount.innerHTML = "";
         		  var xhr = new XMLHttpRequest();
         		  xhr.open("POST", "<c:url value='/SecThumbUpCalculate' />", true);
         		  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        		  xhr.send("commentSecId=" + commentSecId + "&memberId=" + memberId + "&count=" + count);
+        		  xhr.send("commentSecId=" + commentSecId + "&memberId=" + memberId + "&count=" + count + "&discount=" + discount);
         		  xhr.onreadystatechange = function() {
         			  if (xhr.readyState == 4 && xhr.status == 200) {
         				  var CommentSecBean = JSON.parse(xhr.responseText);
@@ -544,6 +615,11 @@
         				  } else {
         				  thumbLikeCount.innerHTML = CommentSecBean.likeCount;
         				  }
+        				  if (CommentSecBean.dislikeCount == 0) {
+        					  ;
+        				  } else {
+        				  thumbDisLikeCount.innerHTML = CommentSecBean.dislikeCount;
+        				  }
         				 	
         			  }
         		  }
@@ -552,19 +628,23 @@
           
           function SecThumbDown(commentSecId, memberId) {
         	  console.log("會員名稱為:" + memberId);
-        	  var x = "SecComThumDislike" + commentSecId;
-        	  var thumbDisLikeCount = document.getElementById(x);
-        	  var count = thumbDisLikeCount.innerHTML;
+        	  var x = "SecComThumlike" + commentSecId;
+        	  var thumbLikeCount = document.getElementById(x);
+        	  var count = thumbLikeCount.innerHTML;
+        	  var y = "SecComThumDislike" + commentSecId;
+        	  var thumbDisLikeCount = document.getElementById(y);
+        	  var discount = thumbDisLikeCount.innerHTML;
         	  console.log("按讚數= " + count);
         	  if (memberId == null) {
         		  document.location.href="<c:url value='/member/crm/login' />";
          	  } 
         	  else {
         		  thumbDisLikeCount.innerHTML = "";
+        		  thumbLikeCount.innerHTML = "";
         		  var xhr = new XMLHttpRequest();
         		  xhr.open("POST", "<c:url value='/SecThumbDownCalculate' />", true);
         		  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        		  xhr.send("commentSecId=" + commentSecId + "&memberId=" + memberId + "&count=" + count);
+        		  xhr.send("commentSecId=" + commentSecId + "&memberId=" + memberId + "&count=" + count + "&discount=" + discount);
         		  xhr.onreadystatechange = function() {
         			  if (xhr.readyState == 4 && xhr.status == 200) {
         				  var CommentSecBean = JSON.parse(xhr.responseText);
@@ -574,11 +654,17 @@
         				  } else {
         					  thumbDisLikeCount.innerHTML = CommentSecBean.dislikeCount;
         				  }
+        				  if (CommentSecBean.likeCount == 0) {
+        					  ;
+        				  } else {
+        					  thumbLikeCount.innerHTML = CommentSecBean.likeCount;
+        				  }
         				 	
         			  }
         		  }
         	  }
           }
+          
           
 
 			</script>

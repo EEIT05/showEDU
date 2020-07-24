@@ -39,6 +39,14 @@ public class ArticleDaoImpl implements ArticleDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<ArticleBean> getSortedArticles(int boardId) {
+		String hql = "From ArticleBean a Where a.discussionBoardBean.boardId = :bid Order By cast(a.viewCount as integer) DESC ";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql).setParameter("bid", boardId).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<ArticleBean> getArticlesByBoardId(int boardId) { // 傳入討論版ID的值   找到對應討論版ID內所有的文章
 		String hql = "From ArticleBean a Where a.discussionBoardBean.boardId = :bid"; 
 		Session session = factory.getCurrentSession();
@@ -154,6 +162,25 @@ public class ArticleDaoImpl implements ArticleDao {
 		return abwid;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ArticleBean> getArticlesByName(String name) {
+		Session session = factory.getCurrentSession();
+		List<ArticleBean> articleBeans = null;
+		if( name == null) {
+			;
+		}else {
+			String hql = "From ArticleBean a where a.title like :title";
+			articleBeans =  session.createQuery(hql).setParameter("title", "%"+name+"%").getResultList();
+		}
+		return articleBeans;
+	}
+
+
+
+	
+
+	
 	
 
 	

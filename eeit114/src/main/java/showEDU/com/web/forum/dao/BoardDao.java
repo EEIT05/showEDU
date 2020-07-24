@@ -21,4 +21,11 @@ public interface BoardDao {
 	void addBoard(DiscussionBoardBean board);
 	
 	void deleteBoard(int boardId);
+	
+	// ------------分頁-------------
+	public List<DiscussionBoardBean> getPageBoardsFrom(Integer pageNo);
+	
+	public int getTotalPages();
+		
+	public List<DiscussionBoardBean> getPageBoards(int pageNo);
 }

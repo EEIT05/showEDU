@@ -170,7 +170,7 @@ public class BoardController {
 		return re;
 	}
 	
-	private void putInfoIntoDiscussionBoard(List<DiscussionBoardBean> boards, List<DiscussionBoardBean> sortedBoards) {
+	public void putInfoIntoDiscussionBoard(List<DiscussionBoardBean> boards, List<DiscussionBoardBean> sortedBoards) {
 		for (DiscussionBoardBean boardBean : boards) {
 			boardBean.setRegisterTime(commentService.getMaxTimeRegisterByBoardId(boardBean.getBoardId()).toString().substring(0, 19));
 		}

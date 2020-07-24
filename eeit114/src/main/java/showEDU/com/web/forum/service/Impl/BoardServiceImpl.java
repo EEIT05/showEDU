@@ -13,54 +13,56 @@ import showEDU.com.web.forum.dao.BoardDao;
 import showEDU.com.web.forum.model.DiscussionBoardBean;
 import showEDU.com.web.forum.model.ForumMovieBean;
 import showEDU.com.web.forum.service.BoardService;
-
+@Transactional
 @Service
 public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	BoardDao boardDao;
 	
-	@Transactional
 	@Override
 	public List<DiscussionBoardBean> getAllBoards() {
 		return boardDao.getAllBoards();
 	}
-	@Transactional
 	@Override
 	public ForumMovieBean getMovieBeanByFKMovieId(int movieId) {
 		return boardDao.getMovieBeanByFKMovieId(movieId);
 	}
 	
-	@Transactional
 	@Override
 	public DiscussionBoardBean getBoardBeanByBoardId(int boardId) {
 		return boardDao.getBoardBeanByBoardId(boardId);
 	}
 	
-	@Transactional
 	@Override
 	public List<ForumMovieBean> getMovieBeanList() {
 		return boardDao.getMovieBeanList();
 	}
-	@Transactional
 	@Override
 	public List<DiscussionBoardBean> getSortedBoards() {
 		return boardDao.getSortedBoards();
 	}
-	@Transactional
 	@Override
 	public List<Integer> getMovieIdsByBoardBean() {
 		return boardDao.getMovieIdsByBoardBean();
 	}
-	@Transactional
 	@Override
 	public void addBoard(DiscussionBoardBean board) {
 		boardDao.addBoard(board);
 	}
-	@Transactional
 	@Override
 	public void deleteBoard(int boardId) {
 		boardDao.deleteBoard(boardId);
+	}
+	
+	// ------------分頁----------------
+	@Override
+	public int getTotalPages() {
+		return boardDao.getTotalPages();
+	}
+	@Override
+	public List<DiscussionBoardBean> getPageBoards(int pageNo) {
+		return boardDao.getPageBoards(pageNo);
 	}
 	
 	

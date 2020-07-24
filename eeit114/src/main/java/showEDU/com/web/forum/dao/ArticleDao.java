@@ -5,10 +5,11 @@ import java.util.List;
 import showEDU.com.web.forum.model.ArtTypeBean;
 import showEDU.com.web.forum.model.ArticleBean;
 import showEDU.com.web.forum.model.ArticleBeanWithImageData;
-import showEDU.com.web.forum.model.DiscussionBoardBean;
 
 public interface ArticleDao {
 	List<ArticleBean> getAllArticle();
+	
+	List<ArticleBean> getSortedArticles(int boardId);
 	
 	List<ArticleBean> getArticlesByBoardId(int boardId);
 	
@@ -27,4 +28,7 @@ public interface ArticleDao {
 	void addArticle(ArticleBean articleBean, int boardId, int memberId);
 	
 	void deleteArticle(int artId);
+	
+	//查詢
+	List<ArticleBean> getArticlesByName(String name);
 }

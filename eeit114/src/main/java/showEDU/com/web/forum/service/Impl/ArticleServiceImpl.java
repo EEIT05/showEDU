@@ -25,6 +25,11 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 	@Transactional
 	@Override
+	public List<ArticleBean> getSortedArticles(int boardId) {
+		return articleDao.getSortedArticles(boardId);
+	}
+	@Transactional
+	@Override
 	public List<ArticleBean> getArticlesByBoardId(int boardId) {
 		return articleDao.getArticlesByBoardId(boardId);
 	}
@@ -71,6 +76,12 @@ public class ArticleServiceImpl implements ArticleService {
 	public void deleteArticle(int artId) {
 		articleDao.deleteArticle(artId);
 	}
+	@Transactional
+	@Override
+	public List<ArticleBean> getArticlesByName(String name) {
+		return articleDao.getArticlesByName(name);
+	}
+	
 	
 	
 	

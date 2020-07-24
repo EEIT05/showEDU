@@ -40,6 +40,8 @@ public class CommentBean {
 	@OneToMany(mappedBy = "commentBean", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
 	@JsonIgnore
 	Set<CommentSecBean> commentSecBeans = new HashSet<>();
+	
+	Integer reportStatus;
 	@Transient
 	String time;
 	@Transient
@@ -54,8 +56,8 @@ public class CommentBean {
 	}
 
 	public CommentBean(Integer commentId, String content, Timestamp registerTime, ArticleBean articleBean,
-			MemberBean memberBean, DiscussionBoardBean boardBean, Set<CommentSecBean> commentSecBeans, String time,
-			Integer likeCount, Integer dislikeCount, Boolean status) {
+			MemberBean memberBean, DiscussionBoardBean boardBean, Set<CommentSecBean> commentSecBeans,
+			Integer reportStatus, String time, Integer likeCount, Integer dislikeCount, Boolean status) {
 		super();
 		this.commentId = commentId;
 		this.content = content;
@@ -64,6 +66,7 @@ public class CommentBean {
 		this.memberBean = memberBean;
 		this.boardBean = boardBean;
 		this.commentSecBeans = commentSecBeans;
+		this.reportStatus = reportStatus;
 		this.time = time;
 		this.likeCount = likeCount;
 		this.dislikeCount = dislikeCount;
@@ -124,6 +127,14 @@ public class CommentBean {
 
 	public void setCommentSecBeans(Set<CommentSecBean> commentSecBeans) {
 		this.commentSecBeans = commentSecBeans;
+	}
+
+	public Integer getReportStatus() {
+		return reportStatus;
+	}
+
+	public void setReportStatus(Integer reportStatus) {
+		this.reportStatus = reportStatus;
 	}
 
 	public String getTime() {

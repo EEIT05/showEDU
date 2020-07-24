@@ -38,6 +38,7 @@ public interface CommentService {
 	
 	
 	// -----------------------------CRUD---------------------------------------
+	
 	void deleteCommentBeanByCommentId(int commentId);
 	
 	void deleteCommentSecBeanByCommentSecId(int commentSecId);
@@ -67,7 +68,12 @@ public interface CommentService {
 	void addNewThumbUp(int commentId, int memberId, ThumbsUpBean thumbsUpBean);
 	// 新增按讚(2)
 	void addNewSecThumbUp(int commentSecId, int memberId, ThumbsUpBean thumbsUpBean);
+	
+	List<ThumbsUpBean> getAllThumbsBean();
 
 	ArticleBean getArticleBeanByCommentId(int commentId);
 
+	void addNewReport(int commentId);
+	
+	void addNewReportSec(int commentSecId);
 }

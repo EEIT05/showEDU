@@ -29,6 +29,8 @@ public class CommentSecBean {
 	@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
 	@JoinColumn(name = "FK_memberId")
 	MemberBean memberBean;
+	Integer reportStatus;
+	
 	@Transient
 	String time;
 	@Transient
@@ -39,13 +41,14 @@ public class CommentSecBean {
 		super();
 	}
 	public CommentSecBean(Integer commentSecId, String content, Timestamp registerTime, CommentBean commentBean,
-			MemberBean memberBean, String time, Integer likeCount, Integer dislikeCount) {
+			MemberBean memberBean, Integer reportStatus, String time, Integer likeCount, Integer dislikeCount) {
 		super();
 		this.commentSecId = commentSecId;
 		this.content = content;
 		this.registerTime = registerTime;
 		this.commentBean = commentBean;
 		this.memberBean = memberBean;
+		this.reportStatus = reportStatus;
 		this.time = time;
 		this.likeCount = likeCount;
 		this.dislikeCount = dislikeCount;
@@ -80,6 +83,12 @@ public class CommentSecBean {
 	public void setMemberBean(MemberBean memberBean) {
 		this.memberBean = memberBean;
 	}
+	public Integer getReportStatus() {
+		return reportStatus;
+	}
+	public void setReportStatus(Integer reportStatus) {
+		this.reportStatus = reportStatus;
+	}
 	public String getTime() {
 		return time;
 	}
@@ -98,7 +107,6 @@ public class CommentSecBean {
 	public void setDislikeCount(Integer dislikeCount) {
 		this.dislikeCount = dislikeCount;
 	}
-	
 	
 	
 }

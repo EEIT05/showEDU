@@ -27,6 +27,12 @@ public interface BoardService {
 	void addBoard(DiscussionBoardBean board);
 	
 	void deleteBoard(int boardId);
+	
+	// ------------分頁---------------
+	
+	public int getTotalPages();
+		
+	public List<DiscussionBoardBean> getPageBoards(int pageNo);
 
 	
 	//---------------------------------(以下為重構)------------------------------------------------

@@ -29,6 +29,7 @@
 </head>
 
 <body>
+ <jsp:include page="/WEB-INF/views/top.jsp" />
 	<script>
 		window.onload = function() {
 			var a0 = document.getElementById('a0');
@@ -58,7 +59,7 @@
 									+ "<div style='display: inline;'><div style='float: right;'><h3>"
 									+ allArticleBean[i].title
 									+ "&emsp;&emsp;&emsp;</h3></div></div>"
-									+ "<div class='card mb-2' style='display: inline; ' ><div style='float: left;'><img class='img1'src='<c:url value='/getPictureType/"
+									+ "<div class='card mb-2' style='display: inline;'><div style='float: left;'><img class='img1'src='<c:url value='/getPictureType/"
 	                        		+ allArticleBean[i].artTypeBean.typeId + "' />' alt='"
 									+ allArticleBean[i].artTypeBean.typeId
 									+ "' /></div><div class='div1'>&emsp;&emsp;"
@@ -66,7 +67,7 @@
 									+ "</div></div>"
 									+ "<div class='card-footer text-muted' style='text-align: right;'><i class='fa fa-user' aria-hidden='true' style='float: left;'>&ensp;發文者:"
 									+ allArticleBean[i].memberBean.name
-									+ "</i><i class='fa fa-comments' aria-hidden='true'>&ensp;回覆數:"
+									+ "</i><i class='fa fa-eye' aria-hidden='true'>瀏覽數:" + allArticleBean[i].viewCount + "</i><i class='fa fa-comments' aria-hidden='true'>&ensp;回覆數:"
 									+ allArticleBean[i].replyCount
 									+ "&ensp;</i><i class='fa fa-clock-o' aria-hidden='true'>&ensp;更新時間:"
 									+ allArticleBean[i].registerTime + "</i></div></div></a>";
@@ -101,7 +102,7 @@
 										+ "</div></div>"
 										+ "<div class='card-footer text-muted' style='text-align: right;'><i class='fa fa-user' aria-hidden='true' style='float: left;'>&ensp;發文者:"
 										+ articleBeans[i].articleBean.memberBean.name
-										+ "</i><i class='fa fa-comments' aria-hidden='true'>&ensp;回覆數:"
+										+ "</i><i class='fa fa-eye' aria-hidden='true'>瀏覽數:"+ articleBeans[i].articleBean.viewCount +"</i><i class='fa fa-comments' aria-hidden='true'>&ensp;回覆數:"
 										+ articleBeans[i].articleBean.replyCount
 										+ "&ensp;</i><i class='fa fa-clock-o' aria-hidden='true'>&ensp;更新時間:"
 										+ articleBeans[i].articleBean.registerTime + "</i></div></div></a>";
@@ -137,30 +138,32 @@
 	</script>
 	<!-- Navigation -->
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">SHOW EDU</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarResponsive" aria-controls="navbarResponsive"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a class="nav-link" href="#">討論區
-							<span class="sr-only">(current)</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">電影訂票</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">購物車</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">包廂系統</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">會員管理</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+<!-- 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"> -->
+<!-- 		<div class="container" > -->
+<%-- 			<a href="<c:url value='/'/> " class="navbar-brand"> --%>
+<!-- 				<h4>SHOW EDU</h4> -->
+<!-- 			</a> -->
+<!-- 			<button class="navbar-toggler" type="button" data-toggle="collapse" -->
+<!-- 				data-target="#navbarResponsive" aria-controls="navbarResponsive" -->
+<!-- 				aria-expanded="false" aria-label="Toggle navigation"> -->
+<!-- 				<span class="navbar-toggler-icon"></span> -->
+<!-- 			</button> -->
+<!-- 			<div class="collapse navbar-collapse" id="navbarResponsive"> -->
+<!-- 				<ul class="navbar-nav ml-auto"> -->
+<!-- 					<li class="nav-item active"><a class="nav-link" href="#">討論區 -->
+<!-- 							<span class="sr-only">(current)</span> -->
+<!-- 					</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#">電影訂票</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#">購物車</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#">包廂系統</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#">會員管理</a></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</nav> -->
 
 	<!-- Page Content -->
-	<div class="container">
+	<div class="container" style="margin-top:100px;">
 
 		<div class="row">
 
@@ -253,10 +256,10 @@
 					<h5 class="card-header">搜尋文章</h5>
 					<div class="card-body">
 						<div class="input-group">
-							<input type="text" class="form-control"
+							<input type="text" class="form-control" id="selectArticle"
 								placeholder="Search for..."> <span
 								class="input-group-append">
-								<button class="btn btn-secondary" type="button">Go</button>
+								<button class="btn btn-secondary" type="button" id="send">Go</button>
 							</span>
 						</div>
 					</div>
@@ -269,8 +272,8 @@
 
 
 						<!-- Article 1-->
-						<c:forEach var='article' items='${articles}'>
-							<a class="a10" href="#" style="text-decoration: none">
+						<c:forEach var='article' items='${sortedArticles}'>
+							<a class="a10" href="<c:url value='/comment/${article.artId}' />" style="text-decoration: none">
 								<div class="card mb-4">
 
 									<div class="card mb-2" style="display: inline;">
@@ -288,12 +291,14 @@
 									</div>
 									<div class="card-footer text-muted" style="text-align: right;">
 										<div>
-										<i class="fa fa-user" aria-hidden="true" style="float: left; font-size: 18px">&ensp;發文者:${article.memberBean.name}</i>
-										<i class="fa fa-eye" aria-hidden="true">&ensp;瀏覽數:${article.viewCount}</i>
-										<i class="fa fa-comments" aria-hidden="true">&ensp;回覆數:${article.replyCount}&ensp;</i>
+											<i class="fa fa-user" aria-hidden="true"
+												style="float: left; font-size: 18px">&ensp;發文者:${article.memberBean.name}</i>
+												<i class="fa fa-eye" aria-hidden="true">瀏覽數:${article.viewCount}</i>
+											<i class="fa fa-comments" aria-hidden="true">&ensp;回覆數:${article.replyCount}&ensp;</i>
 										</div>
 										<div>
-										<i class="fa fa-clock-o" aria-hidden="true" style="font-size: 18px">&ensp;更新時間:${article.registerTime}</i>
+											<i class="fa fa-clock-o" aria-hidden="true"
+												style="font-size: 18px">&ensp;更新時間:${article.registerTime}</i>
 										</div>
 									</div>
 								</div>
@@ -325,6 +330,45 @@
 			<!-- Bootstrap core JavaScript -->
 			<script src="vendor/jquery/jquery.min.js"></script>
 			<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+			<script>
+				send.onclick = function() {
+					var xhr = new XMLHttpRequest;
+					var selectArticle = document.getElementById("selectArticle").value;
+					var send = document.getElementById("send");
+					xhr.open("GET", "<c:url value='/selectChar?selectArticle=" + selectArticle +"' />", true);
+					xhr.send();
+					console.log(selectArticle);
+					xhr.onreadystatechange = function(){
+						if (xhr.readyState == 4 && xhr.status == 200) {
+							var articles = JSON.parse(xhr.responseText);
+							var anytype = document.getElementById("anytype");
+							anytype.innerHTML = "";
+							var content = "";
+							for (var i = 0; i < articles.length; i++) {
+								content += "<a class='a10' href='<c:url value='/comment/" + articles[i].artId +"' />'>"
+								+ "<div class='card mb-4'>"
+								+ "<div style='display: inline;'><div style='float: right;'><h3>"
+								+ articles[i].title
+								+ "&emsp;&emsp;&emsp;</h3></div></div>"
+								+ "<div class='card mb-2' style='display: inline;' ><div style='float: left;'><img class='img1'src='<c:url value='/getPictureType/"
+                        		+ articles[i].artTypeBean.typeId + "' />' alt='"
+								+ articles[i].artTypeBean.typeId
+								+ "' /></div><div class='div1'>&emsp;&emsp;"
+								+ articles[i].content
+								+ "</div></div>"
+								+ "<div class='card-footer text-muted' style='text-align: right;'><i class='fa fa-user' aria-hidden='true' style='float: left;'>&ensp;發文者:"
+								+ articles[i].memberBean.name
+								+ "</i><i class='fa fa-eye' aria-hidden='true'>瀏覽數:"+ articles[i].viewCount +"</i><i class='fa fa-comments' aria-hidden='true'>&ensp;回覆數:"
+								+ articles[i].replyCount
+								+ "&ensp;</i><i class='fa fa-clock-o' aria-hidden='true'>&ensp;更新時間:"
+								+ articles[i].registerTime + "</i></div></div></a>";
+								anytype.innerHTML = content;
+							}
+ 						}
+					}
+				}
+				
+			</script>
 </body>
 
 </html>

@@ -14,144 +14,124 @@ import showEDU.com.web.forum.model.CommentSecBean;
 import showEDU.com.web.forum.model.ThumbsUpBean;
 import showEDU.com.web.forum.service.CommentService;
 import showEDU.com.web.member.model.MemberBean;
-
+@Transactional
 @Service
 public class CommentServiceImpl implements CommentService {
 	@Autowired
 	CommentDao commentDao;
 
-	@Transactional
 	@Override
 	public List<CommentBean> getAllCommentsByArtId(int artId) {
 		return commentDao.getAllCommentsByArtId(artId);
 	}
 
-	@Transactional
 	@Override
 	public Timestamp getMaxTimeRegisterByArtId(int artId) {
 		return commentDao.getMaxTimeRegisterByArtId(artId);
 	}
-	@Transactional
 	@Override
 	public Timestamp getMaxTimeRegisterByBoardId(int boardId) {
 		return commentDao.getMaxTimeRegisterByBoardId(boardId);
 	}
 
-	@Transactional
 	@Override
 	public List<CommentSecBean> getCommentSecBeansByCommentId(int commentId) {
 		return commentDao.getCommentSecBeansByCommentId(commentId);
 	}
-	@Transactional
 	@Override
 	public MemberBean getMemberBeanByMemberId(int memberId) {
 		return commentDao.getMemberBeanByMemberId(memberId);
 	}
-	@Transactional
 	@Override
 	public Timestamp getRegisterTimeByCommentId(int commentId) {
 		return commentDao.getRegisterTimeByCommentId(commentId);
 	}
-	@Transactional
 	@Override
 	public Timestamp getRegisterTimeByCommentSecId(int commentSecId) {
 		return commentDao.getRegisterTimeByCommentSecId(commentSecId);
 	}
-	@Transactional
 	@Override
 	public CommentBean getCommentBeanByCommentId(int commentId) {
 		return commentDao.getCommentBeanByCommentId(commentId);
 	}
-	@Transactional
 	@Override
 	public CommentSecBean getCommentSecBeanByCommentSecId(int commentSecId) {
 		return commentDao.getCommentSecBeanByCommentSecId(commentSecId);
 	}
 	
-	@Transactional
 	@Override
 	public List<ThumbsUpBean> getAllthumbsByCommentId(int commentId) {
 		return commentDao.getAllthumbsByCommentId(commentId);
 	}
-	@Transactional
 	@Override
 	public List<ThumbsUpBean> getAllthumbsByCommentSecId(int commentSecId) {
 		return commentDao.getAllthumbsByCommentSecId(commentSecId);
 	}
 
 	// ---------------------------------CRUD---------------------------------
-	@Transactional
+	
 	@Override
 	public void deleteCommentBeanByCommentId(int commentId) {
 		commentDao.deleteCommentBeanByCommentId(commentId);
 	}
-	@Transactional
 	@Override
 	public void deleteCommentSecBeanByCommentSecId(int commentSecId) {
 		commentDao.deleteCommentSecBeanByCommentSecId(commentSecId);
 	}
 	
-	@Transactional
 	@Override
 	public void deleteCommentSecBeanByCommentId(int commentId) {
 		commentDao.deleteCommentSecBeanByCommentId(commentId);
 	}
-	@Transactional
 	@Override
 	public void deleteAllThumbsByCommentId(int commentId) {
 		commentDao.deleteAllThumbsByCommentId(commentId);
 	}
-	@Transactional
 	@Override
 	public void deleteAllThumbsByCommentSecId(int commentSecId) {
 		commentDao.deleteAllThumbsByCommentSecId(commentSecId);
 	}
 
 	
-	@Transactional
 	@Override
 	public void addNewComment(int artId, int boardId, int memberId, String content, CommentBean commentBean) {
 		commentDao.addNewComment(artId, boardId, memberId, content, commentBean);
 	}
 	
-	@Transactional
 	@Override
 	public void addNewSecComment(int commentId, int memberId, String content, CommentSecBean commentSecBean) {
 		commentDao.addNewSecComment(commentId, memberId, content, commentSecBean);
 	}
 	
-	@Transactional  // 刪除按讚(1)
 	@Override 
 	public void deleteThumbUpByCommentId(int commentId, int memberId) {
 		commentDao.deleteThumbUpByCommentId(commentId, memberId);
 	}
-	@Transactional  // 刪除按爛(1)
 	@Override
 	public void deleteThumbDownByCommentId(int commentId, int memberId) {
 		commentDao.deleteThumbDownByCommentId(commentId, memberId);
 	}
-	@Transactional
 	@Override       // 刪除按讚(2)
 	public void deleteThumbUpByCommentSecId(int commentSecId, int memberId) {
 		commentDao.deleteThumbUpByCommentSecId(commentSecId, memberId);
 	}
-	@Transactional
 	@Override       // 刪除按爛(2)
 	public void deleteThumbDownByCommentSecId(int commentSecId, int memberId) {
 		commentDao.deleteThumbDownByCommentSecId(commentSecId, memberId);
 	}
 	
-	@Transactional
 	@Override
 	public void addNewThumbUp(int commentId, int memberId, ThumbsUpBean thumbsUpBean) {
 		commentDao.addNewThumbUp(commentId, memberId, thumbsUpBean);
 	}
-	@Transactional
 	@Override
 	public void addNewSecThumbUp(int commentSecId, int memberId, ThumbsUpBean thumbsUpBean) {
 		commentDao.addNewSecThumbUp(commentSecId, memberId, thumbsUpBean);
 	}
-	@Transactional
+	@Override
+	public List<ThumbsUpBean> getAllThumbsBean() {
+		return commentDao.getAllThumbsBean();
+	}
 	@Override
 	public ArticleBean getArticleBeanByCommentId(int commentId) {
 		return commentDao.getArticleBeanByCommentId(commentId);
@@ -197,6 +177,20 @@ public class CommentServiceImpl implements CommentService {
 			}
 		}
 	}
+
+	@Override
+	public void addNewReport(int commentId) {
+		commentDao.addNewReport(commentId);
+	}
+	
+	@Override
+	public void addNewReportSec(int commentSecId) {
+		commentDao.addNewReportSec(commentSecId);
+	}
+
+	
+
+	
 
 	
 

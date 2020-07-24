@@ -124,6 +124,8 @@ public class CommentDaoImpl implements CommentDao {
 	}
 
 	// -------------------------------CRUD---------------------------
+	
+	
 	@Override
 	public void deleteCommentBeanByCommentId(int commentId) {
 		String hql = "Delete From CommentBean c Where c.commentId = :cid";
@@ -234,6 +236,14 @@ public class CommentDaoImpl implements CommentDao {
 		Session session = factory.getCurrentSession();
 		session.save(thumbsUpBean);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ThumbsUpBean> getAllThumbsBean() {
+		String hql = "From ThumbsUpBean";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql).getResultList();
+	}
 
 
 	@Override
@@ -242,6 +252,26 @@ public class CommentDaoImpl implements CommentDao {
 		Session session = factory.getCurrentSession();
 		return (ArticleBean) session.createQuery(hql).setParameter("cid", commentId).getSingleResult();
 	}
+
+	@Override
+	public void addNewReport(int commentId) {
+		Session session = factory.getCurrentSession();
+		CommentBean commentBean = session.get(CommentBean.class, commentId);
+		commentBean.setReportStatus(0);
+		session.save(commentBean);
+	}
+	
+	@Override
+	public void addNewReportSec(int commentSecId) {
+		Session session = factory.getCurrentSession();
+		CommentSecBean commentSecBean = session.get(CommentSecBean.class, commentSecId);
+		commentSecBean.setReportStatus(0);
+		session.save(commentSecBean);
+	}
+
+	
+
+	
 
 	
 

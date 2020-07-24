@@ -36,6 +36,7 @@ public interface CommentDao {
 	
 	
 	// -------------------------------CRUD------------------------------
+	
 	void deleteCommentBeanByCommentId(int commentId);
 	
 	void deleteCommentSecBeanByCommentSecId(int commentSecId);
@@ -64,9 +65,15 @@ public interface CommentDao {
 	// 刪除按爛(2)
 	void deleteThumbDownByCommentSecId(int commentSecId, int memberId);
 	
+	List<ThumbsUpBean> getAllThumbsBean();
+	
 	void addNewThumbUp(int commentId, int memberId, ThumbsUpBean thumbsUpBean);
 	
 	void addNewSecThumbUp(int commentSecId, int memberId, ThumbsUpBean thumbsUpBean);
 	
 	ArticleBean getArticleBeanByCommentId(int commentId);
+	//新增檢舉
+	void addNewReport(int commentId);
+	//新增檢舉
+	void addNewReportSec(int commentSecId);
 }

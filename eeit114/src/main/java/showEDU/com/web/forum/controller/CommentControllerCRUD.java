@@ -32,6 +32,7 @@ public class CommentControllerCRUD {
 	ArticleService articleService;
 	@Autowired
 	ServletContext ctx;
+
 	// 刪除第一層留言
 	@PostMapping("/deleteComment")
 	public void deleteComment(@RequestParam Integer commentId, HttpServletResponse response) {
@@ -48,7 +49,7 @@ public class CommentControllerCRUD {
 		try {
 			response.setContentType("text/html;charset=utf-8");
 			writer = response.getWriter();
-			String msg = "alert('留言删除成功!!!');history.go(-1)"; 
+			String msg = "alert('留言删除成功!!!');history.go(-1)";
 			writer.print("<script type='text/javascript'>" + msg + "</script>");
 			writer.flush();
 			writer.close();
@@ -56,6 +57,7 @@ public class CommentControllerCRUD {
 			e.printStackTrace();
 		}
 	}
+
 	// 刪除第二層留言
 	@PostMapping("/deleteSecComment")
 	public void deleteSecComment(@RequestParam Integer commentSecId, Integer artId, HttpServletResponse response) {
@@ -65,7 +67,7 @@ public class CommentControllerCRUD {
 		try {
 			response.setContentType("text/html;charset=utf-8");
 			writer = response.getWriter();
-			String msg = "alert('回覆删除成功!!!');history.go(-1)"; 
+			String msg = "alert('回覆删除成功!!!');history.go(-1)";
 			writer.print("<script type='text/javascript'>" + msg + "</script>");
 			writer.flush();
 			writer.close();
@@ -73,8 +75,7 @@ public class CommentControllerCRUD {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	// 新增第一層留言
 	@PostMapping("/addComment")
 	public String addComment(@RequestParam Integer artId, Integer memberId, String content) {
@@ -88,7 +89,7 @@ public class CommentControllerCRUD {
 		System.out.println("新增一筆Comment資料========================================");
 		return "redirect:/comment/" + artId;
 	}
-	
+
 	// 新增第二層留言
 	@PostMapping("/addSecComment")
 	public String addSecComment(@RequestParam Integer commentId, Integer memberId, String SecContent) {
@@ -102,14 +103,16 @@ public class CommentControllerCRUD {
 		System.out.println("新增一筆SecComment資料=====================================");
 		return "redirect:/comment/" + artId;
 	}
-	
-	
-	
+
 	// 第一層按讚
 	@PostMapping(value = "/thumbUpCalculate", produces = { "application/json" })
-	public ResponseEntity<CommentBean> updateThumbUp(@RequestParam Integer commentId, Integer memberId, Integer count) {
+	public ResponseEntity<CommentBean> updateThumbUp(@RequestParam Integer commentId, Integer memberId, Integer count,
+			Integer discount) {
 		if (count == null) {
 			count = 0;
+		}
+		if (discount == null) {
+			discount = 0;
 		}
 		Integer sum = count;
 		ResponseEntity<CommentBean> re = null;
@@ -123,6 +126,7 @@ public class CommentControllerCRUD {
 					count--;
 					CommentBean commentBean1 = commentService.getCommentBeanByCommentId(commentId);
 					commentBean1.setLikeCount(count);
+					commentBean1.setDislikeCount(discount);
 					re = new ResponseEntity<>(commentBean1, HttpStatus.OK);
 					System.out.println("按讚資料刪除=========================================================");
 					System.out.println("按讚數為:" + count);
@@ -131,6 +135,16 @@ public class CommentControllerCRUD {
 			}
 		}
 		if (sum == count) {
+			// 如果會員沒按過讚 但按過爛的話, 刪除按爛的再新增按讚的
+			for (ThumbsUpBean thumbsUpBean : allthumbsByCommentId) {
+				if ((thumbsUpBean.getMemberBean().getMemberId() == memberId)
+						&& (thumbsUpBean.getCommentBean().getCommentId() == commentId)) {
+					if (thumbsUpBean.getStatus() == 0) {
+						commentService.deleteThumbDownByCommentId(commentId, memberId); // 將按爛刪除
+						discount--;
+					}
+				}
+			}
 			// 新增一比按讚數
 			ThumbsUpBean thumbsUpBean2 = new ThumbsUpBean();
 			thumbsUpBean2.setStatus(1);
@@ -138,6 +152,7 @@ public class CommentControllerCRUD {
 			count++;
 			CommentBean commentBean2 = commentService.getCommentBeanByCommentId(commentId);
 			commentBean2.setLikeCount(count);
+			commentBean2.setDislikeCount(discount);
 			re = new ResponseEntity<>(commentBean2, HttpStatus.OK);
 			System.out.println("新增一筆按讚資料=================================================================");
 			System.out.println("按讚數為:" + count);
@@ -146,14 +161,18 @@ public class CommentControllerCRUD {
 			return re;
 		}
 	}
+
 	// 第一層按爛
 	@PostMapping(value = "/thumbDownCalculate", produces = { "application/json" })
-	public ResponseEntity<CommentBean> updateThumbDown(@RequestParam Integer commentId, Integer memberId,
-			Integer count) {
+	public ResponseEntity<CommentBean> updateThumbDown(@RequestParam Integer commentId, Integer memberId, Integer count,
+			Integer discount) {
+		if (discount == null) {
+			discount = 0;
+		}
 		if (count == null) {
 			count = 0;
 		}
-		Integer sum = count;
+		Integer sum = discount;
 		ResponseEntity<CommentBean> re = null;
 		List<ThumbsUpBean> allthumbsByCommentId = commentService.getAllthumbsByCommentId(commentId);
 		for (ThumbsUpBean thumbsUpBean : allthumbsByCommentId) {
@@ -162,38 +181,54 @@ public class CommentControllerCRUD {
 					&& (thumbsUpBean.getCommentBean().getCommentId() == commentId)) {
 				if (thumbsUpBean.getStatus() == 0) {
 					commentService.deleteThumbDownByCommentId(commentId, memberId); // 將此筆按讚刪除
-					count--;
+					discount--;
 					CommentBean commentBean1 = commentService.getCommentBeanByCommentId(commentId);
-					commentBean1.setDislikeCount(count);
+					commentBean1.setLikeCount(count);
+					commentBean1.setDislikeCount(discount);
 					re = new ResponseEntity<>(commentBean1, HttpStatus.OK);
 					System.out.println("按爛資料刪除=========================================================");
-					System.out.println("按爛數為:" + count);
+					System.out.println("按爛數為:" + discount);
 					break;
 				}
 			}
 		}
-		if (sum == count) {
+		if (sum == discount) {
+			// 如果會員沒按過爛 但按過讚的話, 刪除按讚的再新增按爛的
+			for (ThumbsUpBean thumbsUpBean : allthumbsByCommentId) {
+				if ((thumbsUpBean.getMemberBean().getMemberId() == memberId)
+						&& (thumbsUpBean.getCommentBean().getCommentId() == commentId)) {
+					if (thumbsUpBean.getStatus() == 1) {
+						commentService.deleteThumbUpByCommentId(commentId, memberId); // 將按讚刪除
+						count--;
+					}
+				}
+			}
 			// 新增一比按爛數
 			ThumbsUpBean thumbsUpBean2 = new ThumbsUpBean();
 			thumbsUpBean2.setStatus(0);
 			commentService.addNewThumbUp(commentId, memberId, thumbsUpBean2);
-			count++;
+			discount++;
 			CommentBean commentBean2 = commentService.getCommentBeanByCommentId(commentId);
-			commentBean2.setDislikeCount(count);
+			commentBean2.setDislikeCount(discount);
+			commentBean2.setLikeCount(count);
 			re = new ResponseEntity<>(commentBean2, HttpStatus.OK);
 			System.out.println("新增一筆按爛資料=================================================================");
-			System.out.println("按爛數為:" + count);
+			System.out.println("按爛數為:" + discount);
 			return re;
 		} else {
 			return re;
 		}
 	}
+
 	// 第二層按讚
 	@PostMapping(value = "/SecThumbUpCalculate", produces = { "application/json" })
 	public ResponseEntity<CommentSecBean> updateSecThumbUp(@RequestParam Integer commentSecId, Integer memberId,
-			Integer count) {
+			Integer count, Integer discount) {
 		if (count == null) {
 			count = 0;
+		}
+		if (discount == null) {
+			discount = 0;
 		}
 		Integer sum = count;
 		ResponseEntity<CommentSecBean> re = null;
@@ -206,6 +241,7 @@ public class CommentControllerCRUD {
 					commentService.deleteThumbUpByCommentSecId(commentSecId, memberId);// 將此筆按讚刪除
 					count--;
 					CommentSecBean commentSecBean1 = commentService.getCommentSecBeanByCommentSecId(commentSecId);
+					commentSecBean1.setDislikeCount(discount);
 					commentSecBean1.setLikeCount(count);
 					re = new ResponseEntity<>(commentSecBean1, HttpStatus.OK);
 					System.out.println("Sec按讚資料刪除=========================================================");
@@ -215,12 +251,23 @@ public class CommentControllerCRUD {
 			}
 		}
 		if (sum == count) {
+			// 如果會員沒按過讚 但按過爛的話, 刪除按爛的再新增按讚的
+			for (ThumbsUpBean thumbsUpBean : allthumbsByCommentSecId) {
+				if ((thumbsUpBean.getMemberBean().getMemberId() == memberId)
+						&& (thumbsUpBean.getCommentSecBean().getCommentSecId() == commentSecId)) {
+					if (thumbsUpBean.getStatus() == 0) {
+						commentService.deleteThumbDownByCommentSecId(commentSecId, memberId);
+						discount--;
+					}
+				}
+			}
 			// 新增一比按讚數
 			ThumbsUpBean thumbsUpBean2 = new ThumbsUpBean();
 			thumbsUpBean2.setStatus(1);
 			commentService.addNewSecThumbUp(commentSecId, memberId, thumbsUpBean2);
 			count++;
 			CommentSecBean commentSecBean2 = commentService.getCommentSecBeanByCommentSecId(commentSecId);
+			commentSecBean2.setDislikeCount(discount);
 			commentSecBean2.setLikeCount(count);
 			re = new ResponseEntity<>(commentSecBean2, HttpStatus.OK);
 			System.out.println("新增一筆Sec按讚資料=================================================================");
@@ -230,14 +277,18 @@ public class CommentControllerCRUD {
 			return re;
 		}
 	}
+
 	// 第二層按爛
 	@PostMapping(value = "/SecThumbDownCalculate", produces = { "application/json" })
 	public ResponseEntity<CommentSecBean> updateSecThumbDown(@RequestParam Integer commentSecId, Integer memberId,
-			Integer count) {
+			Integer count, Integer discount) {
+		if (discount == null) {
+			discount = 0;
+		}
 		if (count == null) {
 			count = 0;
 		}
-		Integer sum = count;
+		Integer sum = discount;
 		ResponseEntity<CommentSecBean> re = null;
 		List<ThumbsUpBean> allthumbsByCommentSecId = commentService.getAllthumbsByCommentSecId(commentSecId);
 		for (ThumbsUpBean thumbsUpBean : allthumbsByCommentSecId) {
@@ -246,32 +297,79 @@ public class CommentControllerCRUD {
 					&& (thumbsUpBean.getCommentSecBean().getCommentSecId() == commentSecId)) {
 				if (thumbsUpBean.getStatus() == 0) {
 					commentService.deleteThumbDownByCommentSecId(commentSecId, memberId);
-					count--;
+					discount--;
 					CommentSecBean commentSecBean1 = commentService.getCommentSecBeanByCommentSecId(commentSecId);
-					commentSecBean1.setDislikeCount(count);
+					commentSecBean1.setLikeCount(count);
+					commentSecBean1.setDislikeCount(discount);
 					re = new ResponseEntity<>(commentSecBean1, HttpStatus.OK);
 					System.out.println("Sec按爛資料刪除=========================================================");
-					System.out.println("Sec按爛數為:" + count);
+					System.out.println("Sec按爛數為:" + discount);
 					break;
 				}
 			}
 		}
-		if (sum == count) {
+		if (sum == discount) {
+			// 如果會員沒按過爛 但按過讚的話, 刪除按讚的再新增按爛的
+			for (ThumbsUpBean thumbsUpBean : allthumbsByCommentSecId) {
+				if ((thumbsUpBean.getMemberBean().getMemberId() == memberId)
+						&& (thumbsUpBean.getCommentSecBean().getCommentSecId() == commentSecId)) {
+					if (thumbsUpBean.getStatus() == 1) {
+						commentService.deleteThumbUpByCommentSecId(commentSecId, memberId);
+						count--;
+					}
+				}
+			}
 			// 新增一比按讚數
 			ThumbsUpBean thumbsUpBean2 = new ThumbsUpBean();
 			thumbsUpBean2.setStatus(0);
 			commentService.addNewSecThumbUp(commentSecId, memberId, thumbsUpBean2);
-			count++;
+			discount++;
 			CommentSecBean commentSecBean2 = commentService.getCommentSecBeanByCommentSecId(commentSecId);
-			commentSecBean2.setDislikeCount(count);
+			commentSecBean2.setLikeCount(count);
+			commentSecBean2.setDislikeCount(discount);
 			re = new ResponseEntity<>(commentSecBean2, HttpStatus.OK);
 			System.out.println("新增一筆Sec按讚資料=================================================================");
-			System.out.println("Sec按讚數為:" + count);
+			System.out.println("Sec按讚數為:" + discount);
 			return re;
 		} else {
 			return re;
 		}
 	}
 
+	// 新增留言檢舉
+	@PostMapping("/reportComment")
+	public void reportComment(@RequestParam Integer commentId, HttpServletResponse response) {
+		commentService.addNewReport(commentId);
+		System.out.println("新增一則檢舉------------------------------------");
+		PrintWriter writer;
+		try {
+			response.setContentType("text/html;charset=utf-8");
+			writer = response.getWriter();
+			String msg = "alert('檢舉成功!!!');history.go(-1)";
+			writer.print("<script type='text/javascript'>" + msg + "</script>");
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 新增回覆檢舉
+	@PostMapping("/reportSecComment")
+	public void reportSecComment(@RequestParam Integer commentSecId, HttpServletResponse response) {
+		commentService.addNewReportSec(commentSecId);
+		System.out.println("新增一則檢舉------------------------------------");
+		PrintWriter writer;
+		try {
+			response.setContentType("text/html;charset=utf-8");
+			writer = response.getWriter();
+			String msg = "alert('檢舉成功!!!');history.go(-1)";
+			writer.print("<script type='text/javascript'>" + msg + "</script>");
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

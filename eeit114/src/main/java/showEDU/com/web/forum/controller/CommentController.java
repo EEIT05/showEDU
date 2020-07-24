@@ -46,7 +46,7 @@ public class CommentController {
 	Date date = new Date();
 	
 	
-
+	// 進入文章內部 顯示文章內容與所有留言
 	@GetMapping("/comment/{artId}")
 	public String getAllCommentByArtId(@PathVariable Integer artId, Model model) {
 		List<CommentBean> commentBeans = commentService.getAllCommentsByArtId(artId);
@@ -71,6 +71,10 @@ public class CommentController {
 			}
 		}
 		int commentBeanslength = commentBeans.size();
+		List<ThumbsUpBean> thumbsUpBeans = commentService.getAllThumbsBean();
+		int thumbsize = thumbsUpBeans.size();
+		model.addAttribute("thumbsize", thumbsize);
+		model.addAttribute("thumbsUpBeans", thumbsUpBeans);
 		model.addAttribute("commentBeanslength", commentBeanslength);
 		model.addAttribute("commentSecList", commentSecList); // 一則留言裡的二層留言
 		model.addAttribute("commentBeans", commentBeans);
@@ -106,6 +110,7 @@ public class CommentController {
 	
 	
 	
+	// 取得會員圖片
 	private ResponseEntity<byte[]> calculatePicture(MemberBean memberBean) {
 		String noImagePath = "\\resources\\images\\noImage.gif";
 		ResponseEntity<byte[]> re = null;

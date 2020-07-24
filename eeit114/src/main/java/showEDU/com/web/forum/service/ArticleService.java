@@ -9,6 +9,8 @@ import showEDU.com.web.forum.model.ArticleBeanWithImageData;
 public interface ArticleService {
 	List<ArticleBean> getAllArticle();
 	
+	List<ArticleBean> getSortedArticles(int boardId);
+	
 	List<ArticleBean> getArticlesByBoardId(int boardId);
 	
 	Integer getMovieIdByBoardId(int boardId);
@@ -26,5 +28,7 @@ public interface ArticleService {
 	void addArticle(ArticleBean articleBean, int boardId, int memberId);
 	
 	void deleteArticle(int artId);
+	
+	List<ArticleBean> getArticlesByName(String name);
 
 }
