@@ -203,7 +203,7 @@ width: 100%;
 				<li class="nav-item"><a href="<c:url value='/boards' />"
 					class="nav-link">討論區</a></li>
 
-				<div>
+<!-- 				<div> -->
 
 
 					<li class="nav-item dropdown"><a
@@ -246,7 +246,7 @@ width: 100%;
 						</div></li>
 
 
-				</div>
+<!-- 				</div> -->
 				<li class="nav-item active"><a href="ShowCartContent"
 					class="nav-link"><i class="fa fa-shopping-cart fa-lg"
 						aria-hidden="true"></i></a></li>
