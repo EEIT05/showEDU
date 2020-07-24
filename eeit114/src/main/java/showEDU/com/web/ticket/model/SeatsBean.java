@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 // 本類別封裝單筆書籍資料
 @Entity
 @Table(name="Seats")
@@ -28,6 +29,8 @@ public class SeatsBean implements Serializable {
 	
 	String  	lineLetters;
 	Integer  	rowNumber;
+	@Transient
+	String		status;
 	
 	
 	@OneToMany(mappedBy = "seatsBean")
@@ -37,13 +40,14 @@ public class SeatsBean implements Serializable {
 	public SeatsBean() {
 	}
 
-	public SeatsBean(Integer seatsId, TheaterBean theaterBean, String lineLetters, Integer rowNumber,
+	public SeatsBean(Integer seatsId, TheaterBean theaterBean, String lineLetters, Integer rowNumber, String status,
 			Set<MovieOrderDetailBean> movieOrderDetail) {
 		super();
 		this.seatsId = seatsId;
 		this.theaterBean = theaterBean;
 		this.lineLetters = lineLetters;
 		this.rowNumber = rowNumber;
+		this.status = status;
 		this.movieOrderDetail = movieOrderDetail;
 	}
 
@@ -77,6 +81,14 @@ public class SeatsBean implements Serializable {
 
 	public void setRowNumber(Integer rowNumber) {
 		this.rowNumber = rowNumber;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Set<MovieOrderDetailBean> getMovieOrderDetail() {

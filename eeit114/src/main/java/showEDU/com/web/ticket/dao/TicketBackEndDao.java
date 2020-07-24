@@ -44,7 +44,13 @@ public interface TicketBackEndDao {
 
 	MovieTicketBean getTicketById(Integer movieTicketId);
 
-	List<SeatsBean> getSeatsByOrderDetail(Integer movieId, Date date, String time);
+	List<Integer> getSeatsByOrderDetail(Integer movieId, Date date, String time);
+
+	List<Integer> getSeatsBeanrowNumber();
+
+	List<String> getSeatsBeanlineLetters();
+
+	Integer getRemainingSeatsByUserSelected(Integer movieId, Date date, String time);
 
 
 

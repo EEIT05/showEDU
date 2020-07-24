@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 // 本類別封裝單筆書籍資料
 @Entity
 @Table(name="MovieOrderDetail")
@@ -42,6 +43,9 @@ public class MovieOrderDetailBean implements Serializable {
 	@JoinColumn(name="movieTicketId")
 	MovieTicketBean  movieTicketBean;
 	
+	@Transient
+	Integer 	ticketCount;
+	
 	String  	ticketStatus;
 	
 
@@ -50,7 +54,7 @@ public class MovieOrderDetailBean implements Serializable {
 
 	public MovieOrderDetailBean(Integer movieordersDetailId, MovieOrdersBean movieOrdersBean, MovieBean movieBean,
 			MovieShowtimeBean movieShowtimeBean, TheaterBean theaterBean, SeatsBean seatsBean,
-			MovieTicketBean movieTicketBean, String ticketStatus) {
+			MovieTicketBean movieTicketBean, Integer ticketCount, String ticketStatus) {
 		super();
 		this.movieordersDetailId = movieordersDetailId;
 		this.movieOrdersBean = movieOrdersBean;
@@ -59,6 +63,7 @@ public class MovieOrderDetailBean implements Serializable {
 		this.theaterBean = theaterBean;
 		this.seatsBean = seatsBean;
 		this.movieTicketBean = movieTicketBean;
+		this.ticketCount = ticketCount;
 		this.ticketStatus = ticketStatus;
 	}
 
@@ -116,6 +121,14 @@ public class MovieOrderDetailBean implements Serializable {
 
 	public void setMovieTicketBean(MovieTicketBean movieTicketBean) {
 		this.movieTicketBean = movieTicketBean;
+	}
+
+	public Integer getTicketCount() {
+		return ticketCount;
+	}
+
+	public void setTicketCount(Integer ticketCount) {
+		this.ticketCount = ticketCount;
 	}
 
 	public String getTicketStatus() {

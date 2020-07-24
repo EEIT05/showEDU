@@ -8,6 +8,7 @@ import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,13 +31,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import showEDU.com.web.ticket.model.BookingCart;
 //import showEDU.com.web.ticket.model.BookingCart;
 import showEDU.com.web.ticket.model.MovieBean;
 import showEDU.com.web.ticket.model.MovieLevelBean;
 import showEDU.com.web.ticket.model.MovieShowtimeBean;
 import showEDU.com.web.ticket.model.MovieStatusBean;
 import showEDU.com.web.ticket.model.MovieTicketBean;
-import showEDU.com.web.ticket.model.SeatsBean;
 import showEDU.com.web.ticket.service.TicketBackEndService;
 
 @Controller
@@ -63,30 +64,32 @@ public class TicketBookingController {
 		Map<Integer, String> time = getMovieShowTimeTimeByMovieID(movieId);
 		model.addAttribute("TimeList", time);
 
-//		// 取出存放在session物件內的BookingCart物件
-//		BookingCart cart = (BookingCart) model.getAttribute("BookingCart");
-//		// 如果找不到BookingCart物件
-//		if (cart == null) {
-//			// 就新建BookingCart物件
-//			cart = new BookingCart();
-//			// 並將此新建BookingCart的物件放到session物件內，成為它的屬性物件
-//			System.out.println("新建BookingCart...");
-//			model.addAttribute("BookingCart", cart);
-//
-//		}
 		return "ticket/booking";
 	}
 
+	// =========================座位圖▼=================================
+
 	// 連結取資料-選完電影、日期、時間、票券依照條件產生座位圖
 	@GetMapping("/seatmap")
-	public String getSeatMap(@RequestParam("movieId") String movieId
-			,@RequestParam("date") String date
-			,@RequestParam("time") String time
-			,Model model) {
-		
-		//===============處理Integer===============
+	public String getSeatMap(
+						@RequestParam("movieId") String movieId, 
+						@RequestParam("date") String date,
+						@RequestParam("time") String time, 
+						@RequestParam("bookingTicket") List<String> bookingTicket, 
+						Model model) {
+		// ===============處理Integer===============
 		Integer mm = Integer.parseInt(movieId);
-		//===============處理日期==================
+		// 使用者選取的總票數
+		List<Integer> ticketCount = new ArrayList<Integer>();
+		Integer totalTicket = 0;
+		for (int i = 0; i < bookingTicket.size(); i++) {
+			Integer num = (Integer.parseInt(bookingTicket.get(i)));
+			ticketCount.add(num);
+			totalTicket = totalTicket + num;
+		}
+		
+		
+		// ===============處理日期==================
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date d = null;
 		try {
@@ -96,22 +99,57 @@ public class TicketBookingController {
 		}
 		java.sql.Date premierDate = new java.sql.Date(d.getTime());
 		Date dd = premierDate;
+
+		// 依照使用者選取的資訊取得seatsBean存至model
+		List<Integer> sb = ticketBackEndService.getSeatsByOrderDetail(mm, dd, time);
+		if (sb == null) { // 判斷陣列是否為空
+			for (int i = 0; i < 200; i++) { // 空的就放入0代表未被購買
+				sb.add(0);
+			}
+		} else {
+			for (int i = 0; i < 200; i++) { // 不是空的就依照陣列放入
+				try {
+					if (sb.get(i) == null || sb.get(i) == 0) {
+						sb.add(0);
+					}
+				} catch (IndexOutOfBoundsException e) {
+					sb.add(0);
+				}
+			}
+		}
+
+//		// 取出存放在session物件內的BookingCart物件
+//		BookingCart cart = (BookingCart) model.getAttribute("BookingCart");
+//		// 如果找不到BookingCart物件
+//		if (cart == null) {
+//			// 就新建BookingCart物件
+//			cart = new BookingCart();
+//			// 並將此新建BookingCart的物件放到session物件內，成為它的屬性物件
+//			System.out.println("新建BookingCart...");
+//			model.addAttribute("BookingCart", cart);
+//		}
 		
-		System.out.println(mm);
-		System.out.println(dd);
-		System.out.println(time);
-		List<SeatsBean> sb =   ticketBackEndService.getSeatsByOrderDetail( mm,  dd,  time);
+		
+		
+
 		model.addAttribute("seats", sb);
+		// 依照使用者選取的資訊取得seatsline存至model
+		List<String> line = ticketBackEndService.getSeatsBeanlineLetters();
+		model.addAttribute("line", line);
+		// 依照使用者選取的資訊取得seatsrow存至model
+		List<Integer> row = ticketBackEndService.getSeatsBeanrowNumber();
+		model.addAttribute("row", row);
+		// 依照使用者選取的資訊取得剩餘座位數存至model
+		Integer reSeat = ticketBackEndService.getRemainingSeatsByUserSelected(mm, dd, time);
+		model.addAttribute("reSeat", reSeat);
+		// 依照使用者選取的資訊取得剩餘座位數存至model
+		model.addAttribute("totalTicket", totalTicket);
+		System.out.println("=============================");
+		System.out.println(totalTicket);
 		return "ticket/seats";
 	}
-	
-	@GetMapping("/test")
-	public String getTest() {
-		
-		return "ticket/seats";
-	}
-			
-	
+
+	// =========================座位圖▲=================================
 
 	// 方法-依照電影ID取得電影時刻"日期"列表
 	public Map<Integer, Date> getMovieShowTimeDateByMovieID(Integer movieId) {
@@ -180,9 +218,9 @@ public class TicketBookingController {
 
 	// 依照電影ID、日期、時間、影廳、訂票總數，取得座位table
 	@GetMapping("/getSeats/{movieTicketId}")
-	public List<SeatsBean> getSeatsByOrderDetail(Model model, Integer movieId, Date date, String time,
+	public List<Integer> getSeatsByOrderDetail(Model model, Integer movieId, Date date, String time,
 			Integer totalticket) {
-		List<SeatsBean> seatlist = ticketBackEndService.getSeatsByOrderDetail(movieId, date, time);
+		List<Integer> seatlist = ticketBackEndService.getSeatsByOrderDetail(movieId, date, time);
 		return seatlist;
 	}
 

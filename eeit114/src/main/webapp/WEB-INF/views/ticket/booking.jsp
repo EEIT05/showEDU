@@ -46,7 +46,7 @@
 	height: 60px;
 	text-align: center;
 	line-height: 50px;
-/* 	border: 1px solid; */
+	/* 	border: 1px solid; */
 }
 
 .item1 {
@@ -59,13 +59,13 @@
 	flex: 2 1 100px;
 	text-align: right;
 	width: 300px;
-}	
+}
 </style>
 </head>
 <body>
-<div>
-<h1 style="text-align: center;">訂票資訊</h1>
-</div>
+	<div>
+		<h1 style="text-align: center;">訂票資訊</h1>
+	</div>
 	<div style="text-align: center;">
 		<div class='flex'>
 			<!-- =============================電影資訊===================== -->
@@ -114,31 +114,31 @@
 
 			<!-- ==========================下拉選單================================ -->
 			<div class='item item2'>
-					<form:form method='POST' modelAttribute="movie"
-						class='form-horizontal'>
-						<div style='text-align: right'>
-							<label for="movieId"> </label>
-								<form:select id='selectMovie' path="movieId" name="movielist"
-									onchange="changeMovie(this.value);">
-									<form:options items="${bookingmovieList}" />
-								</form:select>
-							<br>
-								<form:select id='selectDate' path="movieId" name="movielist">
-									<option>請選擇日期</option>
-									<form:options value='${DateList.key}' items="${DateList}" />
-								</form:select>
-							<br>
-								<form:select id='selectTime' path="movieId" name="movielist">
-									<option>請選擇時間</option>
-									<form:options value='${TimeList.value}' items="${TimeList}" />
-								</form:select>
-						</div>
-					</form:form>
+				<form:form method='POST' modelAttribute="movie"
+					class='form-horizontal'>
+					<div style='text-align: right'>
+						<label for="movieId"> </label>
+						<form:select id='selectMovie' path="movieId" name="movielist"
+							onchange="changeMovie(this.value);">
+							<form:options items="${bookingmovieList}" />
+						</form:select>
+						<br>
+						<form:select id='selectDate' path="movieId" name="movielist">
+							<option>請選擇日期</option>
+							<form:options value='${DateList.key}' items="${DateList}" />
+						</form:select>
+						<br>
+						<form:select id='selectTime' path="movieId" name="movielist">
+							<option>請選擇時間</option>
+							<form:options value='${TimeList.value}' items="${TimeList}" />
+						</form:select>
+					</div>
+				</form:form>
 			</div>
 		</div>
 		<!-- ======================選擇電影票======================== -->
 		<div class='content'>
-			<form style='margin-left: 200px'action='movieShowTime' method='post'>
+			<form style='margin-left: 200px' action='movieShowTime' method='post'>
 				<c:forEach var='ticket' items='${tickets}'>
 					<table border='1px solid' style='text-align: center'>
 						<tr>
@@ -147,10 +147,10 @@
 								src="<c:url value='/getTicketImg/${ticket.movieTicketId}' />" />
 							</td>
 							<td style='text-align: left; width: 500px;'>${ticket.name}<br>${ticket.info}</td>
-								<div style='text-align: right'>
-							<td width='200'>價格:${ticket.price}
-									<select id='ticket${ticket.movieTicketId}' name='ticket'
-										onchange='checkTicketCount()'>
+							<div style='text-align: right'>
+								<td width='200'>價格:${ticket.price} <select
+									id='ticket${ticket.movieTicketId}' name='ticket'
+									onchange='checkTicketCount()'>
 										<option value="0">0</option>
 										<option value="1">1</option>
 										<option value="2">2</option>
@@ -162,9 +162,9 @@
 										<option value="8">8</option>
 										<option value="9">9</option>
 										<option value="10">10</option>
-									</select>
-							</td>
-								</div>
+								</select>
+								</td>
+							</div>
 						</tr>
 					</table>
 
@@ -176,7 +176,7 @@
 	<div style='text-align: center'>
 		<button type="button" onclick='send()'>下一步</button>
 	</div>
-	
+
 	<!-- 	<script src="../js/jquery-3.5.1.min.js"></script> -->
 	<script language="Javascript">
 		//============確認訂票張數==============
@@ -189,36 +189,40 @@
 			if (sum > 10) {
 				alert("單次線上訂票不可超過10張，請重新選擇數量");
 			}
-		}	
-		function test(){
+		}
+		function test() {
 			window.location.href = "<spring:url value='/test' />"
 		}
-		
-// 		訂票-電影選擇
+
+		// 		訂票-電影選擇
 		function changeMovie(movieId) {
 			window.location.href = "<spring:url value='/movieShowTime?movieId="
 					+ movieId + "' />"
 		}
-		
+
 		function send() {
 			var movieId = document.getElementById("selectMovie").value;
 			var d = document.getElementById("selectDate");
 			var t = document.getElementById("selectTime");
-			
+
 			var date = d.options[d.selectedIndex].text;
 			var time = t.options[t.selectedIndex].text;
-			if(date !="請選擇日期" && time != "請選擇時間" ){
-				window.location.href = "<spring:url value='/seatmap?movieId="
-					+ movieId + "&date=" + date +
-					"&time=" + time + "' />";
-			}else{
-				alert("請輸入日期 & 時間")
+			var bookingTicket = [];
+			//計算各票種張數
+			for (i = 1; i <= 3; i++) {
+				var count = parseInt(document.getElementById("ticket" + i).value);
+				bookingTicket[i-1] = count;
 			}
-
-// 			for (i = 1; i < 3; i++) {
-// 				var count = parseInt(document.getElementById("ticket" + i).value);
-// 				sum = sum + count;
-// 			}
+			var count1 = parseInt(document.getElementById("ticket1").value);
+			var count2 = parseInt(document.getElementById("ticket2").value);
+			var count3 = parseInt(document.getElementById("ticket3").value);
+			if (date != "請選擇日期" && time != "請選擇時間" && count1 != 0 || count2 != 0 || count3 != 0) {
+				window.location.href = "<spring:url value='/seatmap?movieId="
+						+ movieId + "&date=" + date + "&time=" + time
+						+ "&bookingTicket=" + bookingTicket + "' />";
+			} else {
+				alert("請輸入日期、時間與票券數")
+			}
 
 		}
 	</script>

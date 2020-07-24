@@ -4,7 +4,6 @@ import java.sql.Blob;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -130,7 +129,6 @@ public class TicketBackEndDaoImpl implements TicketBackEndDao {
 		String hql = "FROM MovieShowtimeBean mstb WHERE movieId = :id";
 		Session session = factory.getCurrentSession();
 		try {
-			System.out.println("===============================");
 			mstb = session.createQuery(hql).setParameter("id", movieId).getResultList();
 		} catch (NoResultException e) {
 			System.out.println("找不到資料");
@@ -211,7 +209,6 @@ public class TicketBackEndDaoImpl implements TicketBackEndDao {
 		Session session = factory.getCurrentSession();
 		List<Integer> list = session.createQuery(hql).getResultList();
 		Integer newId = list.size() + 1; // 取得既有的陣列個數 + 1 = 新增的圖片排序號碼
-
 		return newId;
 	}
 
@@ -225,73 +222,113 @@ public class TicketBackEndDaoImpl implements TicketBackEndDao {
 		return list;
 	}
 
+	//==========================座位圖▼==================================
 	// 取得座位table
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<SeatsBean> getSeatsByOrderDetail(Integer movieId, Date date, String time) {
-		//依使用者選擇的日期&時間取得movieshowtimeBean的 movieShowtimeId  & theaterId
+	public List<Integer> getSeatsByOrderDetail(Integer movieId, Date date, String time) {
+		// 依使用者選擇的日期&時間取得movieshowtimeBean的 movieShowtimeId & theaterId
 		String hql0 = "SELECT m.movieShowtimeId FROM MovieShowtimeBean m "
-				+ "WHERE m.movieBean.movieId = :movieId and m.date =:date and m.time = :time";
+				+ "WHERE m.movieBean.movieId = :movieId and "
+				+ "m.date =:date and m.time = :time";
 		Session session = factory.getCurrentSession();
-		Integer Dtest = (Integer) session.createQuery(hql0)
-				 .setParameter("movieId", movieId)
-				 .setParameter("date", date)
-				 .setParameter("time", time)
-				 .getSingleResult();
-//		for (Object[] objects : Dtest) {
-//			System.out.println(objects);
-//		}
 		Integer msId = (Integer) session.createQuery(hql0)
-								 .setParameter("movieId", movieId)
-								 .setParameter("date", date)
-								 .setParameter("time", time)
-								 .getSingleResult();
-		System.out.println(msId);
-		String hql1 = "SELECT m.movieShowtimeId FROM MovieShowtimeBean m "
-				+ "WHERE m.movieBean.movieId = :movieId and m.date =:date and m.time = :time";
-		Integer tId = (Integer) session.createQuery(hql1)
-				.setParameter("movieId", movieId)
-				 .setParameter("date", date)
-				 .setParameter("time", time)
-				.getSingleResult();
-
-		String hql = "SELECT m.seatsBean FROM MovieOrderDetailBean m WHERE "
-				+ "m.movieBean.movieId = :movieId and "
-				+ "m.movieShowtimeBean.movieShowtimeId = :msId and "
-				+ "m.theaterBean.theaterId = :tId";
-			List<SeatsBean> mb = session.createQuery(hql)
-					.setParameter("movieId", movieId)
-					.setParameter("msId", msId)
-					.setParameter("tId", tId)
-					.getResultList();
+										.setParameter("movieId", movieId)
+										.setParameter("date", date)
+										.setParameter("time", time)
+										.getSingleResult();
 		
-		System.out.println(mb.size());
+		String hql1 = "SELECT m.theaterBean.theaterId FROM MovieShowtimeBean m "
+				+ "WHERE m.movieBean.movieId = :movieId and "
+				+ "m.date =:date and "
+				+ "m.time = :time";
+		Integer tId = (Integer) session.createQuery(hql1)
+										.setParameter("movieId", movieId)
+										.setParameter("date", date)
+										.setParameter("time", time)
+										.getSingleResult();
+
+		
+		
+		// 依movieShowtimeId & theaterId取得seatsId
+		String hql = "SELECT m.seatsBean.seatsId FROM MovieOrderDetailBean m WHERE " 
+				+ "m.movieBean.movieId = :movieId and "
+				+ "m.movieShowtimeBean.movieShowtimeId = :msId and " 
+				+ "m.theaterBean.theaterId = :tId";
+		List<Integer> mb = (List<Integer>) session.createQuery(hql)
+									.setParameter("movieId", movieId)
+									.setParameter("msId", msId)
+									.setParameter("tId", tId)
+									.getResultList();
 		return mb;
 	}
-	
-	//取得座位的排LIST
-//	@Override
-//	public List<String> getSeatsBeanlineLetters() {
-//		String hql = "SELECT distinct lineLetters FROM SeatsBean order by lineLetters";
-//		Session session = factory.getCurrentSession();
-//		
-//		List<String> Line = session.createQuery(hql).getResultList();
-//		System.out.println(Line);
-//		return Line;
-//	}
-	//取得座位的列LIST
-//	@Override
-//	public List<String> getSeatsBeanlineLetters() {
-//		String hql = "SELECT distinct rowNumber FROM SeatsBean order by rowNumber";
-//		Session session = factory.getCurrentSession();
-//		
-//		List<String> row = session.createQuery(hql).getResultList();
-//		System.out.println(row);
-//		return row;
-//	}
 
-	
+	// 取得座位的排LIST
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getSeatsBeanlineLetters() {
+		String hql = "SELECT distinct lineLetters FROM SeatsBean order by lineLetters";
+		Session session = factory.getCurrentSession();
 
+		List<String> Line = session.createQuery(hql).getResultList();
+		return Line;
+	}
+
+	// 取得座位的列LIST
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Integer> getSeatsBeanrowNumber() {
+		String hql = "SELECT distinct rowNumber FROM SeatsBean order by rowNumber";
+		Session session = factory.getCurrentSession();
+
+		List<Integer> row = session.createQuery(hql).getResultList();
+		return row;
+	}
+	
+	@Override
+	//取得使用者選取的電影、日期、時段、影廳剩餘座位數
+	public Integer getRemainingSeatsByUserSelected(Integer movieId, Date date, String time) {
+		// 依使用者選擇的日期&時間取得movieshowtimeBean的 movieShowtimeId 
+		String hql0 = "SELECT m.movieShowtimeId FROM MovieShowtimeBean m "
+				+ "WHERE m.movieBean.movieId = :movieId and "
+				+ "m.date =:date and m.time = :time";
+		Session session = factory.getCurrentSession();
+		Integer msId = (Integer) session.createQuery(hql0)
+										.setParameter("movieId", movieId)
+										.setParameter("date", date)
+										.setParameter("time", time)
+										.getSingleResult();
+		
+		// 依使用者選擇的日期&時間取得movieshowtimeBean的  theaterId
+		String hql1 = "SELECT m.theaterBean.theaterId FROM MovieShowtimeBean m "
+				+ "WHERE m.movieBean.movieId = :movieId and "
+				+ "m.date =:date and "
+				+ "m.time = :time";
+		Integer tId = (Integer) session.createQuery(hql1)
+										.setParameter("movieId", movieId)
+										.setParameter("date", date)
+										.setParameter("time", time)
+										.getSingleResult();
+
+		
+		
+		// 依電影、日期、時段、影廳取得remainingSeats
+		String hql = "SELECT remainingSeats FROM MovieShowtimeBean m "
+				+ "WHERE m.movieBean.movieId = :movieId and "
+				+ "m.date =:date and "
+				+ "m.time = :time and "
+				+ "m.theaterBean.theaterId = :theaterId";
+		Integer reSeat = (Integer) session.createQuery(hql)
+							.setParameter("movieId", movieId)
+							.setParameter("date", date)
+							.setParameter("time", time)
+							.setParameter("theaterId", tId)
+							.getSingleResult();
+		
+		return reSeat;
+		
+	}
+	//==========================座位圖▲==================================
 	@Override
 	public MovieBean getMovieTextOnly(Integer movieId) {
 		return getMovieById(movieId);

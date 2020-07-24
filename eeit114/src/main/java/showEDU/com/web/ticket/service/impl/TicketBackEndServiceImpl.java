@@ -131,8 +131,26 @@ public class TicketBackEndServiceImpl implements TicketBackEndService{
 
 	@Transactional
 	@Override
-	public List<SeatsBean> getSeatsByOrderDetail(Integer movieId, Date date, String time) {
+	public List<Integer> getSeatsByOrderDetail(Integer movieId, Date date, String time) {
 		return ticketBackEndDao.getSeatsByOrderDetail( movieId,  date,  time);
+	}
+
+	@Transactional
+	@Override
+	public List<Integer> getSeatsBeanrowNumber() {
+		return ticketBackEndDao.getSeatsBeanrowNumber();
+	}
+
+	@Transactional
+	@Override
+	public List<String> getSeatsBeanlineLetters() {
+		return ticketBackEndDao.getSeatsBeanlineLetters();
+	}
+
+	@Transactional
+	@Override
+	public Integer getRemainingSeatsByUserSelected(Integer mm, Date dd, String time) {
+		return ticketBackEndDao.getRemainingSeatsByUserSelected( mm,  dd,  time);
 	}
 
 
