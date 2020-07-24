@@ -254,7 +254,7 @@ margin-left:5px;
 				<br>
 
 
-				<form:input path="password" placeholder="請輸入密碼" id="inputPassword"
+				<form:input type="password" path="password" placeholder="請輸入密碼" id="inputPassword"
 					class="form-control" />
 				<form:errors path='password' cssClass="error" />
 				<br>
