@@ -7,6 +7,7 @@ import java.sql.Blob;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -51,6 +52,7 @@ public class ActivityController2 {
 		}
 	}
 	
+	//將字串傳轉換成sql Date
 	public static Date changeStringToDate(String str) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 		java.util.Date d = null;
@@ -67,6 +69,7 @@ public class ActivityController2 {
 	@GetMapping("/activities")
 	public String actList(Model model) {
 		List<ActivityBean> beans = service.getAllActivities();
+		Collections.reverse(beans);
 		model.addAttribute("activities", beans);
 		return "application/activities";
 
@@ -85,6 +88,7 @@ public class ActivityController2 {
 	@GetMapping("/activitiesDate")
 	public String activitiesDate(Model model,@RequestParam(value ="pageNo",required = false)Integer pageNo) {
 		List<ActivityBean> beans = service.getAllActivities();
+		Collections.reverse(beans);
 		int totalPage = getTotalpage(beans.size());
 		model.addAttribute("totalPage", totalPage);
 		if(pageNo == null) {
@@ -129,7 +133,7 @@ public class ActivityController2 {
 //
 //	}
 	
-	//依日期條件取得活動頁面有做分業頁數(維護端)
+	//依日期條件取得活動頁面有做分頁(維護端)
 	@GetMapping("/activitiesByDatePerPage")
 	public String getAllActivitiesByDatePerPage(Model model, @RequestParam(value = "date",required = false) Date date
 			,@RequestParam(value ="pageNo",required = false)Integer pageNo) {
@@ -142,6 +146,7 @@ public class ActivityController2 {
 		}else {
 			bean = service.getAllActivitiesByDate(date);
 		}
+		Collections.reverse(bean);
 		int totalPage = getTotalpage(bean.size());
 		model.addAttribute("totalPage", totalPage);
 		if(pageNo == null) {
@@ -160,6 +165,7 @@ public class ActivityController2 {
 	@GetMapping("/activitiesByDateAll")
 	public String actListByDateAll(Model model) {
 		List<ActivityBean> beans = service.getAllActivities();
+		Collections.reverse(beans);
 		model.addAttribute("activities", beans);
 		return "application/activitiesDate";
 
@@ -281,6 +287,7 @@ public class ActivityController2 {
 		model.addAttribute("activityBean", ab);
 		return "application/updateActivity";
 	}
+	
 	//取得表單資料，用於修改活動(以PK為條件)(維護端)
 	@PostMapping("/activity/update/{actId}")
 	public String processUpdateNewActivityForm(@ModelAttribute("activityBean") ActivityBean ab, BindingResult result) {

@@ -6,14 +6,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 <title>Activities</title>
 </head>
+<style>
+	.container{
+		margin-top: 120px;
+	}
+	p{
+	 font-size: 14px;
+	}
+</style>
 <body>
+<jsp:include page="/WEB-INF/views/top.jsp" />
 	<section>
 		<div>
-			<div class="container" style="text-align: center">
+			<div  style="text-align: center">
 				<h1>活動公告</h1>
 			</div>
 		</div>

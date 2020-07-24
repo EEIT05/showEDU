@@ -43,7 +43,7 @@ span.error {
 	setInterval("redirect()", 1000);
 	function redirect() {
 		totalSecond.innerText = --second;
-		if (second < 0)
+		if (second <= 0)
 			location.href = '../yourApplication';
 	}
 </script>

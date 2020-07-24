@@ -52,7 +52,10 @@ public class indexController {
 	public ResponseEntity<List<ActivityBean>>showAplcBeanAtIndex(Model model){
 		List<ActivityBean> beans = activityService.getAllActivities();
 		Collections.reverse(beans);
-		List<ActivityBean> list =beans.subList(0, 3);
+		List<ActivityBean> list = null;
+		if(beans !=null) {
+			list =beans.subList(0, 3);
+		}
 		System.out.println(list);
 
 		ResponseEntity<List<ActivityBean>> re = new ResponseEntity<>(list, HttpStatus.OK);
