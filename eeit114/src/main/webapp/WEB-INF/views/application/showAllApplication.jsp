@@ -147,8 +147,8 @@ window.onload = function() {
 						"<td>"+re.application[i].time+"</td>"+
 						"<td>"+re.application[i].totalAmount+"</td>"+
 						"<td>"+re.application[i].aplcTime+"</td>"+
-						"<td>"+re.application[i].aplcTime+"</td>"+
 						"<td>"+re.application[i].statusBean.descr+"</td>"+
+						"<td>"+re.application[i].payStatus+"</td>"+
 						"<td>"+passBtn+"</td>"+
 						"<td>"+failBtn+"</td>"+
 						"<td>"+payBtn+"</td>"+

@@ -27,18 +27,35 @@ public class ApplicationServiceImpl implements ApplicationService {
 	JavaMailSender javaMailSender;
 
 	@Override
-	public void addApplication(int memberId,ApplicationBean aplcBean,Date selectDate,String selectTime) throws Exception {
-		List<ApplicationBean> beans  = aplcDao.getAllAplcBeanById(memberId);
-	
-			for(ApplicationBean bean:beans) {
-				Integer status = bean.getStatusBean().getStatusId();
-				Integer payStatus = bean.getPayStatus();
-					if(status == 2 && payStatus == 0) {
-						throw new Exception("您尚有未付款的影廳租借申請\n請至您的申請清單查看");
-					}
-				}
-				aplcDao.addApplication(aplcBean);
-				aplcDao.changeOrderableTimeStatus(selectDate, selectTime,1);
+	public void addApplication(int memberId, ApplicationBean aplcBean, Date selectDate, String selectTime)
+			throws Exception {
+		List<ApplicationBean> beans = aplcDao.getAllAplcBeanById(memberId);
+		List<ApplicationBean> beansInMonth = new ArrayList<>();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(selectDate);
+		int selectMonth = cal.get(Calendar.MONTH) + 1;
+
+		for (ApplicationBean bean : beans) {
+			Integer status = bean.getStatusBean().getStatusId();
+			Integer payStatus = bean.getPayStatus();
+			Calendar beanCal = Calendar.getInstance();
+			beanCal.setTime(bean.getDate());
+			int beanMonth = beanCal.get(Calendar.MONTH)+1;
+			System.out.println(beanMonth);
+			System.out.println(selectMonth);
+			if (status == 2 && payStatus == 0) {
+				throw new Exception("您尚有未付款的影廳租借申請\n請至您的申請清單查看");
+			}
+			if(beanMonth == selectMonth && (status!= 4)) {
+				beansInMonth.add(bean);
+			}
+		}
+		System.out.println(beansInMonth.size());
+		if(beansInMonth.size() > 5) {
+			throw new Exception("您本月的申請次數已達上限");
+		}
+		aplcDao.addApplication(aplcBean);
+		aplcDao.changeOrderableTimeStatus(selectDate, selectTime, 1);
 
 	}
 
@@ -103,21 +120,21 @@ public class ApplicationServiceImpl implements ApplicationService {
 		message.setSubject("showEDU 場地租借申請審核通知");
 		if (status == 2) {
 			message.setText(pass);
+			javaMailSender.send(message);
 		} else if (status == 3) {
 			message.setText(fail);
 			aplcDao.changeOrderableTimeStatus(applicationBean.getDate(), applicationBean.getTime(), 0);
+			javaMailSender.send(message);
 		} else if (status == 4) {
-			message.setText(cancle);
 			aplcDao.changeOrderableTimeStatus(applicationBean.getDate(), applicationBean.getTime(), 0);
 		}
 		;
-		javaMailSender.send(message);
 
 	}
 
 	String pass = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。" + "\n您的申請已通過，請在7天內完成繳費" + "\nshowEDU";
 	String fail = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。" + "\n很抱歉由於本館的安排當日無法利用租借服務" + "\n期待您的再次利用" + "\nshowEDU";
-	String cancle = "親愛的客戶您好，感謝您利用showEDU 場地租借系統。" + "\n您已取消預約" + "\n期待您的再次利用" + "\nshowEDU";
+	
 
 	@Override
 	public List<ApplicationBean> getAplcBeanByMonth(int month) {
@@ -133,12 +150,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 	@Override
 	public List<ApplicationBean> getAllAplcBeanByStatus(int statusId) {
 		return aplcDao.getAllAplcBeanByStatus(statusId);
-		
+
 	}
 
 	@Override
 	public ApplicationBean getAplcBeanId(int aplcId) {
-		
+
 		return aplcDao.getAplcBeanId(aplcId);
 	}
 
