@@ -280,7 +280,7 @@ margin-left:5px;
 				<button class="btn btn-lg btn-primary btn-block btn-signin"
 					type='submit'>使用Gmail登入</button><br>
 				<div>  
-            <input type="button"  class="btn btn-light" value="忘記密碼" onclick="location.href='forgetpwd'" style="width:100px;">
+            <input type="button"  class="btn btn-light" value="忘記密碼" onclick="location.href='forget'" style="width:100px;">
 			<input type="button"  class="btn btn-light" value="首頁" onclick="location.href='<c:url value='/'/>'" style="width:91px;">
 			<input type="button" class="btn btn-light" value="註冊會員" onclick="location.href='mem'" style="width:100px;">
 			</div>
@@ -300,7 +300,7 @@ margin-left:5px;
 		}
 		function verifyCaptcha() {
 			document.getElementById('g-recaptcha-error').innerHTML = '';
-		}
+		}}
 	</script>
 
 

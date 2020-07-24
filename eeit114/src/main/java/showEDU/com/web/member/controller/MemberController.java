@@ -432,11 +432,11 @@ System.out.println("============================================================
 	@GetMapping("/forget")
 	public  String forgetpwd(Model model,HttpServletRequest request) {
 		ForgetBean fgbean = new ForgetBean();
-		model.addAttribute("forgot",fgbean);
+		model.addAttribute("forget",fgbean);
 		return "member/crm/forget";
 	}
 	@PostMapping("/forget")
-	public String forgotpwds(@ModelAttribute("forgot") ForgetBean fgb, Model model, BindingResult result
+	public String forgotpwds(@ModelAttribute("forget") ForgetBean fgb, Model model, BindingResult result
 			,HttpServletRequest request,HttpServletResponse response) {
 		List<String> list = memberService.serchMemberaccount();
 		ForgetPasswdvalidator validator = new ForgetPasswdvalidator();

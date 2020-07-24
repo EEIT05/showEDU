@@ -32,14 +32,14 @@ span.error {
 }
 
 body, html {
-	height: 102%;
+margin-top:100px; 
+	height: auto;
 	background-repeat: no-repeat;
-	background-image: linear-gradient(rgb(186, 240, 255), rgb(51, 65, 156),
-		rgb(25, 0, 71));
+	background-image: url('https://i.imgur.com/w439mEw.jpg');
 }
 
 .card-container.card {
-	max-width: 370px;
+	max-width: 420px;
 	padding: 40px 40px;
 }
 
@@ -60,7 +60,7 @@ body, html {
 	/* just in case there no content*/
 	padding: 20px 25px 30px;
 	margin: 0 auto 25px;
-	margin-top: 20px;
+	margin-top: 40px;
 	/* shadows and rounded borders */
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
@@ -192,63 +192,48 @@ body, html {
 	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
+
+
 </head>
 <body>
+  <jsp:include page="/WEB-INF/views/top.jsp" />
 	<div class="container">
 		<div class="card card-container">
 			<!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
 			<img id="profile-img" class="profile-img-card"
 				src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+				
+				
 			<p id="profile-name" class="profile-name-card"></p>
-
+	<br>
 			<div align='center'>
 				<h3>忘記密碼</h3>
+				<br>
 			</div>
-			<form:form method="POST" modelAttribute="forgot"
+			<form:form method="POST" modelAttribute="forget"
 				enctype='multipart/form-data' class="form-signin">
-				<span id="reauth-email" class="reauth-email"></span>
+		
 
 
-				<form:input path='account' placeholder="請輸入Email@" id="inputEmail"
+				<form:input path='memberEmail' placeholder="請輸入信箱 Email@gmail.com" id="inputEmail"
 					class="form-control" />
 
-				<form:errors path="account" cssClass="error" id="inputEmail"
+				<form:errors path="memberEmail" cssClass="error" id="inputEmail"
 					class="form-control" />
+
+				<br><br>
+				<p>請輸入註冊使用的信箱，系統會寄送郵件。</p><p>並請您使用新密碼重新登入。</p>
 
 				<br>
-
-				<form:input path="pswd" placeholder="請輸入密碼" id="inputPassword"
-					class="form-control" />
-				<br>
-				<form:errors path='pswd' cssClass="error" />
-
-				<div id="remember1" class="checkbox1">
-					<label> <input type='checkbox' />記住我<br> </label></div>
-					
-					<div id="remember" class="checkbox">
-					<label><input type='checkbox' />我不是機器人<br>
-					</label>
-				</div>
-
-<button class="btn btn-lg btn-primary btn-block btn-signin1" type='submit'>登入
+             <button class="btn btn-lg btn-primary btn-block btn-signin1" type='submit'>送出
 				</button>
-			
-             <hr>
+			</div>
 
-				<button class="btn btn-lg btn-primary btn-block btn-signin" type='submit'>使用Gmail登入
-				</button>
+         
+
 
 			</form:form>
-			<div class="forgot-password">
-			<br>
-           <a href="forgetpwd" > 忘記密碼?</a>
-               
-            <br>
-            <a href='mem'>註冊會員</a>
-       <br> 
-			<a href="<c:url value='/'/> ">回首頁</a>
-			
-		</div></div></div>
+			</div></div>
 	
  		<script type='text/javascript'> 
 //  		$(document).ready(function() {
