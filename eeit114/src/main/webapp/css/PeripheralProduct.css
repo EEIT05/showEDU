@@ -1,3 +1,6 @@
+.all {	
+ margin-top:100px;
+}
 .card-header a, #collapseTwo a {
 	text-decoration: none;
 	color: black;
@@ -124,10 +127,11 @@ ul.slides li img {
 	margin-left: 30px;
 }
 
-img {
-	margin-left:30px;
+.card-img-top {
+/*  	margin-left:30px;  */
 	height: 200px;
-	width: 50px;
+	width: 100%;
+/* 	width: 50px; */
 }
 
 .product {
@@ -162,10 +166,7 @@ img {
 	text-decoration: none;
 }
 
-.card-img-top {
-	width: 80%;
-/* 	 position: relative; */
-}
+
 .card-body{
 	margin-bottom:50px;
 }
