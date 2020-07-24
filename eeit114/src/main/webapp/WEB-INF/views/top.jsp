@@ -125,6 +125,10 @@ width: 100%;
 	margin-left: 80px;
 	width: 80%;
 }
+.logo{
+	width:100px;
+	height:100px;
+}
 
 </style>
 <link
@@ -137,10 +141,11 @@ width: 100%;
 </head>
 <body>
 
-<!-- 	<div> -->
+
 
 		<nav class="navbar  navbar-expand-lg navbar-dark fixed-top">
-			<img class="logo" src="<c:url value='/images/LOGO.jpg' />" width="100" height="100">
+			<img class="logo" src="<c:url value='/images/LOGO.jpg' />" >
+
 			<a href="<c:url value='/'/> " class="navbar-brand">
 				<h3>SHOW EDU</h3>
 			</a>
