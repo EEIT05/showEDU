@@ -54,11 +54,11 @@ public class ApplicationController {
 		return "application/rule";
 	}
 	@GetMapping("/agreeRule")
-	public String agreeRule(Model model,@RequestParam("agreement")String agreement) {
-		if(agreement.equals("agree")) {
-			return "redirect:/application/add";			
+	public String agreeRule(Model model,@RequestParam(value="agreement" ,required=false)String agreement) {
+		if(agreement == null) {
+			return "redirect: " + ctx.getContextPath() + "/";
 		}
-		return "redirect: " + ctx.getContextPath() + "/";
+		return "redirect:/application/add";
 	}
 	
 	// 申請租借，產生表單(客戶端)
