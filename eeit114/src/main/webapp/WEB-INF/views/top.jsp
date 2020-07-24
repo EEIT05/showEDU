@@ -164,11 +164,11 @@ width: 100%;
 					</div>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navdrop"
-					role="button" data-toggle="dropdown" data-hover="dropdown">餐飲商品</a>
+					role="button" data-toggle="dropdown" data-hover="dropdown">周邊商品</a>
 					<div class="dropdown-menu" aria-labelledby="navdrop">
-						<a href="#" class="dropdown-item">餐飲</a> <a href="showproduct"
+						 <a href= "<c:url value='/showproduct'/>"     
 							class="dropdown-item">周邊商品</a> <a
-							href=<c:url value='/product/backSelect'/> class="dropdown-item">商品後台</a>
+							href="<c:url value='/product/backSelect'/>" class="dropdown-item">商品後台</a>
 						<!-- <a href="#" class="dropdown-item">Service3</a> -->
 					</div>
 				<li class="nav-item dropdown"><a
@@ -212,19 +212,19 @@ width: 100%;
 						<div class="dropdown-menu" aria-labelledby="navdrop">
 
 							<c:if test="${  empty memberBean }">
-								<a href='login' class="dropdown-item">會員登入</a>
+								<a href=<c:url value='login'/> class="dropdown-item">會員登入</a>
 							</c:if>
 
 							<c:if test="${ ! empty memberBean }">
-								<a href='loginout' class="dropdown-item">會員登出</a>
+								<a href=<c:url value='loginout'/> class="dropdown-item">會員登出</a>
 							</c:if>
 
 							<c:if test="${  empty memberBean }">
-								<a href='mem' class="dropdown-item"> 會員註冊</a>
+								<a href=<c:url value='mem'/> class="dropdown-item"> 會員註冊</a>
 							</c:if>
 
 							<c:if test="${ ! empty memberBean}">
-								<a href="memb" class="dropdown-item">會員資料</a>
+								<a href=<c:url value='memb'/> class="dropdown-item">會員資料</a>
 							</c:if>
 
 							<c:if test="${memberBean.userType eq 'M'}">
@@ -232,11 +232,11 @@ width: 100%;
 							</c:if>
 
 							<c:if test="${memberBean.userType eq 'A'}">
-								<a href="../../back" target="_blank" class="dropdown-item">後台管理</a>
+								<a href=<c:url value='../../back'/> target="_blank" class="dropdown-item">後台管理</a>
 							</c:if>
 
 							<c:if test="${memberBean.userType eq 'A'}">
-								<a href="showAllMembers" class="dropdown-item">後台會員資料</a>
+								<a href=<c:url value='showAllMembers'/> class="dropdown-item">後台會員資料</a>
 							</c:if>
 
 
