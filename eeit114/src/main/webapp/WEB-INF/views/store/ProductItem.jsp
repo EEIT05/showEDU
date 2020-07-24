@@ -5,10 +5,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/Js/jquery-3.3.1.slim.min.js"></script>
 <script type="text/javascript"
@@ -30,16 +30,24 @@
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/productitem.css">
+<!-- 	top.jsp bootstrap -->
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
+	
 </head>
 <body>
-	<header> </header>
-
+	<jsp:include page="/WEB-INF/views/top.jsp" />
 	<div class="container-fluid">
 		<div class="flex flex-300">
 		
 			<aside class="item item1">
 		
-				<img src="<c:url value='/getProductPicture/${product.productId}'/>">
+				<img class='picture' src="<c:url value='/getProductPicture/${product.productId}'/>">
 
 			</aside>
 			<article class="item item2">
@@ -91,6 +99,7 @@
 			
 		</div>
 	</div>
+	
 <script>
 
 function checkstock(){

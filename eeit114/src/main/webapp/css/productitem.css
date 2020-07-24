@@ -45,6 +45,7 @@ table {
 
 .container-fluid {
     width: 90%;
+    margin-top:100px;
 }
 
 
@@ -79,7 +80,7 @@ table {
     width: 550px;
     height: 450px;
 }
-img{
+.picture{
     width: 550px;
     height: 450px;
 }

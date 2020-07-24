@@ -12,6 +12,15 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- 	top.jsp bootstrap -->
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
+<jsp:include page="/WEB-INF/views/top.jsp" />
 <style>
 body{margin-top:20px;
     background:#eee;
@@ -109,9 +118,13 @@ table.shoping-cart-table tr td:last-child {
 .table td, .table th{
 	padding: .2rem;
 }
+.container{
+margin-top:100px;
+}
 </style>
 </head>
 <body>
+
 <c:choose>
 <c:when test="${ShoppingCart.buyTotal > 0}">
     <c:set var="buyTotal" value="${ShoppingCart.buyTotal}"/>
