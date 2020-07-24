@@ -33,9 +33,9 @@
 				$('#name').val("炭治郎");
 				$('#phone').val("0963158742");
 				$('#address').val("台中市美村路55號");
-				$('#account').val("example@gmail.com");
-				$('#password').val("ASdf688");
-				$('#confirm').val("ASdf688");
+				$('#account').val("betty87242@gmail.com");
+				$('#password').val("betty87242");
+				$('#confirm').val("betty87242");
 		});
 	
 		});
