@@ -433,7 +433,7 @@ System.out.println("============================================================
 	public  String forgetpwd(Model model,HttpServletRequest request) {
 		ForgetBean fgbean = new ForgetBean();
 		model.addAttribute("forgot",fgbean);
-		return "forget";
+		return "member/crm/forget";
 	}
 	@PostMapping("/forget")
 	public String forgotpwds(@ModelAttribute("forgot") ForgetBean fgb, Model model, BindingResult result
@@ -450,7 +450,7 @@ System.out.println("============================================================
 		}
 		else {
 			result.rejectValue("invalidCredentials","","該帳號不存在");
-			return "forget";
+			return "member/crm/forget";
 		}
 	}
 
